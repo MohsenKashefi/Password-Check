@@ -1,11 +1,14 @@
 name: password_check
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description: "A comprehensive Flutter package for password validation, strength checking, and security analysis."
+version: 1.0.0
+homepage: https://github.com/your-username/password_check
+repository: https://github.com/your-username/password_check
+issue_tracker: https://github.com/your-username/password_check/issues
+documentation: https://github.com/your-username/password_check#readme
 
 environment:
-  sdk: ^3.9.2
-  flutter: ">=1.17.0"
+  sdk: ^3.0.0
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
@@ -15,6 +18,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  test: ^1.24.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
