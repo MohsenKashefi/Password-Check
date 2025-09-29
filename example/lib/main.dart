@@ -68,7 +68,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         title: const Text('Password Check Demo'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,6 +164,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   Widget _buildValidationResult() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           children: [
@@ -224,6 +225,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   Widget _buildChecksList() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         const Text(
           'Validation Checks:',
@@ -253,6 +255,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   Widget _buildErrorsList() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         const Text(
           'Errors:',
@@ -278,6 +281,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   Widget _buildWarningsList() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         const Text(
           'Warnings:',
@@ -303,6 +307,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   Widget _buildRulesInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text('Min Length: ${_selectedRules.minLength}'),
         Text('Max Length: ${_selectedRules.maxLength}'),
