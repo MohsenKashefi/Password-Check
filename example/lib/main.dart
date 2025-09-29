@@ -30,13 +30,14 @@ class PasswordCheckDemo extends StatefulWidget {
 
 class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   final _passwordController = TextEditingController();
-  final _checker = PasswordChecker.strong();
+  late PasswordChecker _checker;
   PasswordValidationResult? _validationResult;
   ValidationRules _selectedRules = const ValidationRules.strong();
 
   @override
   void initState() {
     super.initState();
+    _checker = PasswordChecker.strong();
     _passwordController.addListener(_validatePassword);
   }
 
