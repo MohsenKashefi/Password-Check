@@ -1,31 +1,91 @@
 import 'password_validation_result.dart';
 import 'password_strength.dart';
 import 'validation_rules.dart';
+import 'i18n/password_messages.dart';
+import 'i18n/language_detector.dart';
+import 'i18n/custom_messages.dart';
 
 /// Main class for password validation and strength checking.
 class PasswordChecker {
   final ValidationRules _rules;
   final List<String> _commonPasswords;
+  final PasswordMessages _messages;
+  final String _language;
 
   /// Creates a PasswordChecker with custom validation rules.
-  PasswordChecker({ValidationRules? rules})
-      : _rules = rules ?? const ValidationRules(),
-        _commonPasswords = _getCommonPasswords();
+  PasswordChecker({
+    ValidationRules? rules,
+    String? language,
+    CustomMessages? customMessages,
+  }) : _rules = rules ?? const ValidationRules(),
+       _commonPasswords = _getCommonPasswords(),
+       _language = language ?? LanguageDetector.detectSystemLanguage(),
+       _messages = _getMessages(language, customMessages);
+
+  /// Creates a PasswordChecker with automatic language detection.
+  PasswordChecker.auto({
+    ValidationRules? rules,
+    CustomMessages? customMessages,
+  }) : _rules = rules ?? const ValidationRules(),
+       _commonPasswords = _getCommonPasswords(),
+       _language = LanguageDetector.detectSystemLanguage(),
+       _messages = _getMessages(null, customMessages);
+
+  /// Creates a PasswordChecker with specific language.
+  PasswordChecker.localized({
+    required String language,
+    ValidationRules? rules,
+    CustomMessages? customMessages,
+  }) : _rules = rules ?? const ValidationRules(),
+       _commonPasswords = _getCommonPasswords(),
+       _language = language,
+       _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with basic validation rules.
-  PasswordChecker.basic()
-      : _rules = const ValidationRules.basic(),
-        _commonPasswords = _getCommonPasswords();
+  PasswordChecker.basic({
+    String? language,
+    CustomMessages? customMessages,
+  }) : _rules = const ValidationRules.basic(),
+       _commonPasswords = _getCommonPasswords(),
+       _language = language ?? LanguageDetector.detectSystemLanguage(),
+       _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with strong validation rules.
-  PasswordChecker.strong()
-      : _rules = const ValidationRules.strong(),
-        _commonPasswords = _getCommonPasswords();
+  PasswordChecker.strong({
+    String? language,
+    CustomMessages? customMessages,
+  }) : _rules = const ValidationRules.strong(),
+       _commonPasswords = _getCommonPasswords(),
+       _language = language ?? LanguageDetector.detectSystemLanguage(),
+       _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with strict validation rules.
-  PasswordChecker.strict()
-      : _rules = const ValidationRules.strict(),
-        _commonPasswords = _getCommonPasswords();
+  PasswordChecker.strict({
+    String? language,
+    CustomMessages? customMessages,
+  }) : _rules = const ValidationRules.strict(),
+       _commonPasswords = _getCommonPasswords(),
+       _language = language ?? LanguageDetector.detectSystemLanguage(),
+       _messages = _getMessages(language, customMessages);
+
+  /// Gets the current language code.
+  String get language => _language;
+
+  /// Gets the current messages.
+  PasswordMessages get messages => _messages;
+
+  /// Helper method to get messages based on language and custom messages.
+  static PasswordMessages _getMessages(String? language, CustomMessages? customMessages) {
+    final baseMessages = language != null 
+        ? LanguageDetector.getMessagesForLanguage(language)
+        : LanguageDetector.getSystemMessages();
+    
+    if (customMessages != null) {
+      return customMessages.applyTo(baseMessages);
+    }
+    
+    return baseMessages;
+  }
 
   /// Validates a password according to the configured rules.
   PasswordValidationResult validate(String password) {
@@ -35,14 +95,14 @@ class PasswordChecker {
 
     // Length validation
     if (password.length < _rules.minLength) {
-      errors.add('Password must be at least ${_rules.minLength} characters long');
+      errors.add(_messages.getMessage('minLength', params: {'min': _rules.minLength}));
       checks['minLength'] = false;
     } else {
       checks['minLength'] = true;
     }
 
     if (password.length > _rules.maxLength) {
-      errors.add('Password must be no more than ${_rules.maxLength} characters long');
+      errors.add(_messages.getMessage('maxLength', params: {'max': _rules.maxLength}));
       checks['maxLength'] = false;
     } else {
       checks['maxLength'] = true;
@@ -50,28 +110,28 @@ class PasswordChecker {
 
     // Character type validation
     if (_rules.requireUppercase && !password.contains(RegExp(r'[A-Z]'))) {
-      errors.add('Password must contain at least one uppercase letter');
+      errors.add(_messages.requireUppercase);
       checks['uppercase'] = false;
     } else {
       checks['uppercase'] = true;
     }
 
     if (_rules.requireLowercase && !password.contains(RegExp(r'[a-z]'))) {
-      errors.add('Password must contain at least one lowercase letter');
+      errors.add(_messages.requireLowercase);
       checks['lowercase'] = false;
     } else {
       checks['lowercase'] = true;
     }
 
     if (_rules.requireNumbers && !password.contains(RegExp(r'[0-9]'))) {
-      errors.add('Password must contain at least one number');
+      errors.add(_messages.requireNumbers);
       checks['numbers'] = false;
     } else {
       checks['numbers'] = true;
     }
 
     if (_rules.requireSpecialChars && !password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      errors.add('Password must contain at least one special character');
+      errors.add(_messages.requireSpecialChars);
       checks['specialChars'] = false;
     } else {
       checks['specialChars'] = true;
@@ -79,7 +139,7 @@ class PasswordChecker {
 
     // Space validation
     if (!_rules.allowSpaces && password.contains(' ')) {
-      errors.add('Password cannot contain spaces');
+      errors.add(_messages.noSpaces);
       checks['noSpaces'] = false;
     } else {
       checks['noSpaces'] = true;
@@ -87,7 +147,7 @@ class PasswordChecker {
 
     // Common password check
     if (_rules.checkCommonPasswords && _isCommonPassword(password)) {
-      errors.add('Password is too common and easily guessable');
+      errors.add(_messages.notCommon);
       checks['notCommon'] = false;
     } else {
       checks['notCommon'] = true;
@@ -95,7 +155,7 @@ class PasswordChecker {
 
     // Repeated characters check
     if (_rules.checkRepeatedChars && _hasTooManyRepeatedChars(password)) {
-      errors.add('Password contains too many repeated characters');
+      errors.add(_messages.noRepeatedChars);
       checks['noRepeatedChars'] = false;
     } else {
       checks['noRepeatedChars'] = true;
@@ -103,7 +163,7 @@ class PasswordChecker {
 
     // Sequential characters check
     if (_rules.checkSequentialChars && _hasSequentialChars(password)) {
-      warnings.add('Password contains sequential characters');
+      warnings.add(_messages.noSequentialChars);
       checks['noSequentialChars'] = false;
     } else {
       checks['noSequentialChars'] = true;
