@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:password_check/password_check.dart';
 
 void main() {
-  runApp(const PasswordCheckExampleApp());
+  runApp(const PasswordCheckApp());
 }
 
-class PasswordCheckExampleApp extends StatelessWidget {
-  const PasswordCheckExampleApp({Key? key}) : super(key: key);
+class PasswordCheckApp extends StatelessWidget {
+  const PasswordCheckApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Password Check Example',
+      title: 'Password Check Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
@@ -22,7 +22,7 @@ class PasswordCheckExampleApp extends StatelessWidget {
 }
 
 class PasswordCheckDemo extends StatefulWidget {
-  const PasswordCheckDemo({Key? key}) : super(key: key);
+  const PasswordCheckDemo({super.key});
 
   @override
   State<PasswordCheckDemo> createState() => _PasswordCheckDemoState();
@@ -30,24 +30,15 @@ class PasswordCheckDemo extends StatefulWidget {
 
 class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   final _passwordController = TextEditingController();
-  late PasswordChecker _checker;
-  PasswordValidationResult? _validationResult;
-  ValidationRules _selectedRules = const ValidationRules.strong();
-  String _selectedLanguage = 'en';
-  bool _useCustomMessages = false;
+  final _checker = PasswordChecker.strong();
+  final _generator = PasswordGenerator.strong();
   
-  // Password generation state
-  late PasswordGenerator _generator;
-  GenerationRules _selectedGenerationRules = const GenerationRules.strong();
-  List<GenerationResult> _generatedPasswords = [];
+  PasswordValidationResult? _validationResult;
   String _generatedPassword = '';
-  bool _showGenerationHistory = false;
 
   @override
   void initState() {
     super.initState();
-    _checker = PasswordChecker.strong(language: _selectedLanguage);
-    _generator = PasswordGenerator.strong(language: _selectedLanguage);
     _passwordController.addListener(_validatePassword);
   }
 
@@ -63,102 +54,12 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     });
   }
 
-  void _changeValidationRules(ValidationRules rules) {
-    setState(() {
-      _selectedRules = rules;
-      _updateChecker();
-      _validatePassword();
-    });
-  }
-
-  void _changeLanguage(String language) {
-    setState(() {
-      _selectedLanguage = language;
-      _updateChecker();
-      _validatePassword();
-    });
-  }
-
-  void _toggleCustomMessages() {
-    setState(() {
-      _useCustomMessages = !_useCustomMessages;
-      _updateChecker();
-      _validatePassword();
-    });
-  }
-
-  void _updateChecker() {
-    if (_useCustomMessages) {
-      final customMessages = _getCustomMessages();
-      _checker = PasswordChecker(
-        rules: _selectedRules,
-        language: _selectedLanguage,
-        customMessages: customMessages,
-      );
-      _generator = PasswordGenerator(
-        rules: _selectedGenerationRules,
-        language: _selectedLanguage,
-        customMessages: customMessages,
-      );
-    } else {
-      _checker = PasswordChecker(
-        rules: _selectedRules,
-        language: _selectedLanguage,
-      );
-      _generator = PasswordGenerator(
-        rules: _selectedGenerationRules,
-        language: _selectedLanguage,
-      );
-    }
-  }
-
-  CustomMessages _getCustomMessages() {
-    return CustomMessages.fromMap({
-      'minLength': '🔒 Your password needs at least {min} characters',
-      'requireUppercase': '🔤 Add an uppercase letter',
-      'requireLowercase': '🔡 Add a lowercase letter',
-      'requireNumbers': '🔢 Include some numbers',
-      'requireSpecialChars': '✨ Add special characters',
-      'notCommon': '🚫 This password is too common',
-      'veryWeak': '😰 Very Weak',
-      'weak': '😟 Weak',
-      'fair': '😐 Fair',
-      'good': '😊 Good',
-      'strong': '💪 Strong',
-      'veryStrong': '🛡️ Very Strong',
-    });
-  }
-
   void _generatePassword() {
     setState(() {
       final result = _generator.generate();
       _generatedPassword = result.password;
-      _generatedPasswords.add(result);
-    });
-  }
-
-  void _generateMultiplePasswords() {
-    setState(() {
-      final results = _generator.generateMultiple(5);
-      _generatedPasswords.addAll(results);
-      if (results.isNotEmpty) {
-        _generatedPassword = results.first.password;
-      }
-    });
-  }
-
-  void _changeGenerationRules(GenerationRules rules) {
-    setState(() {
-      _selectedGenerationRules = rules;
-      _updateChecker();
-    });
-  }
-
-  void _clearGenerationHistory() {
-    setState(() {
-      _generatedPasswords.clear();
-      _generatedPassword = '';
-      _generator.clearHistory();
+      _passwordController.text = result.password;
+      _validatePassword();
     });
   }
 
@@ -174,154 +75,36 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Validation Rules',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      children: [
-                        _buildRuleChip('Basic', ValidationRules.basic()),
-                        _buildRuleChip('Strong', ValidationRules.strong()),
-                        _buildRuleChip('Strict', ValidationRules.strict()),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+            _buildPasswordInput(),
+            const SizedBox(height: 24),
+            _buildPasswordGeneration(),
+            const SizedBox(height: 24),
+            if (_validationResult != null) _buildValidationResult(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordInput() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Password Validation',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Language & Messages',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButton<String>(
-                            value: _selectedLanguage,
-                            isExpanded: true,
-                            items: [
-                              DropdownMenuItem(value: 'en', child: Text('🇺🇸 English')),
-                              DropdownMenuItem(value: 'es', child: Text('🇪🇸 Español')),
-                              DropdownMenuItem(value: 'fr', child: Text('🇫🇷 Français')),
-                              DropdownMenuItem(value: 'de', child: Text('🇩🇪 Deutsch')),
-                              DropdownMenuItem(value: 'pt', child: Text('🇵🇹 Português')),
-                              DropdownMenuItem(value: 'it', child: Text('🇮🇹 Italiano')),
-                              DropdownMenuItem(value: 'fa', child: Text('🇮🇷 فارسی')),
-                            ],
-                            onChanged: (value) {
-                              if (value != null) {
-                                _changeLanguage(value);
-                              }
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Switch(
-                          value: _useCustomMessages,
-                          onChanged: (value) => _toggleCustomMessages(),
-                        ),
-                        const SizedBox(width: 8),
-                        const Text('Custom Messages'),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Password Input',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Enter password',
-                        border: OutlineInputBorder(),
-                        hintText: 'Type your password here...',
-                      ),
-                    ),
-                    if (_validationResult != null) ...[
-                      const SizedBox(height: 16),
-                      _buildValidationResult(),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Language Demo',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    _buildLanguageDemo(),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Password Generation',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    _buildPasswordGeneration(),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Current Configuration',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    _buildConfigurationInfo(),
-                  ],
-                ),
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Enter password',
+                border: OutlineInputBorder(),
+                hintText: 'Type your password here...',
               ),
             ),
           ],
@@ -330,53 +113,88 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     );
   }
 
-  Widget _buildRuleChip(String label, ValidationRules rules) {
-    final isSelected = _selectedRules == rules;
-    return FilterChip(
-      label: Text(label),
-      selected: isSelected,
-      onSelected: (selected) {
-        if (selected) {
-          _changeValidationRules(rules);
-        }
-      },
+  Widget _buildPasswordGeneration() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Password Generation',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: _generatePassword,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Generate Strong Password'),
+            ),
+            if (_generatedPassword.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.grey[50],
+                ),
+                child: SelectableText(
+                  _generatedPassword,
+                  style: const TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildValidationResult() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              _validationResult!.isValid ? Icons.check_circle : Icons.cancel,
-              color: _validationResult!.isValid ? Colors.green : Colors.red,
+            const Text(
+              'Validation Result',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(width: 8),
-            Text(
-              _validationResult!.isValid ? 'Valid Password' : 'Invalid Password',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: _validationResult!.isValid ? Colors.green : Colors.red,
-              ),
-            ),
+            const SizedBox(height: 16),
+            _buildValidationStatus(),
+            const SizedBox(height: 16),
+            _buildStrengthIndicator(),
+            const SizedBox(height: 16),
+            _buildValidationChecks(),
           ],
         ),
-        const SizedBox(height: 12),
-        _buildStrengthIndicator(),
-        const SizedBox(height: 12),
-        _buildChecksList(),
-        if (_validationResult!.errors.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          _buildErrorsList(),
-        ],
-        if (_validationResult!.warnings.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          _buildWarningsList(),
-        ],
+      ),
+    );
+  }
+
+  Widget _buildValidationStatus() {
+    return Row(
+      children: [
+        Icon(
+          _validationResult!.isValid ? Icons.check_circle : Icons.cancel,
+          color: _validationResult!.isValid ? Colors.green : Colors.red,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          _validationResult!.isValid ? 'Valid Password' : 'Invalid Password',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: _validationResult!.isValid ? Colors.green : Colors.red,
+          ),
+        ),
       ],
     );
   }
@@ -388,11 +206,11 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Strength: ${_validationResult!.strengthLevel.getLocalizedDisplayName(_checker.messages)}'),
+            Text('Strength: ${_validationResult!.strengthLevel.displayName}'),
             Text('${_validationResult!.strengthScore}/100'),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         LinearProgressIndicator(
           value: _validationResult!.strengthScore / 100,
           backgroundColor: Colors.grey[300],
@@ -404,16 +222,15 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     );
   }
 
-  Widget _buildChecksList() {
+  Widget _buildValidationChecks() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
       children: [
         const Text(
           'Validation Checks:',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         ..._validationResult!.checks.entries.map((entry) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 2),
@@ -429,164 +246,49 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
               ],
             ),
           );
-        }).toList(),
-      ],
-    );
-  }
-
-  Widget _buildErrorsList() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text(
-          'Errors:',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
-        ),
-        const SizedBox(height: 4),
-        ..._validationResult!.errors.map((error) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2),
-            child: Row(
-              children: [
-                const Icon(Icons.error, size: 16, color: Colors.red),
-                const SizedBox(width: 8),
-                Expanded(child: Text(error)),
-              ],
-            ),
-          );
-        }).toList(),
-      ],
-    );
-  }
-
-  Widget _buildWarningsList() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text(
-          'Warnings:',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
-        ),
-        const SizedBox(height: 4),
-        ..._validationResult!.warnings.map((warning) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2),
-            child: Row(
-              children: [
-                const Icon(Icons.warning, size: 16, color: Colors.orange),
-                const SizedBox(width: 8),
-                Expanded(child: Text(warning)),
-              ],
-            ),
-          );
-        }).toList(),
-      ],
-    );
-  }
-
-  Widget _buildConfigurationInfo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text('Language: ${_getLanguageName(_selectedLanguage)}'),
-        Text('Custom Messages: ${_useCustomMessages ? "Enabled" : "Disabled"}'),
-        Text('Current Language Code: $_selectedLanguage'),
-        const SizedBox(height: 8),
-        const Text(
-          'Validation Rules:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text('Min Length: ${_selectedRules.minLength}'),
-        Text('Max Length: ${_selectedRules.maxLength}'),
-        Text('Require Uppercase: ${_selectedRules.requireUppercase}'),
-        Text('Require Lowercase: ${_selectedRules.requireLowercase}'),
-        Text('Require Numbers: ${_selectedRules.requireNumbers}'),
-        Text('Require Special Chars: ${_selectedRules.requireSpecialChars}'),
-        Text('Allow Spaces: ${_selectedRules.allowSpaces}'),
-        Text('Check Common Passwords: ${_selectedRules.checkCommonPasswords}'),
-        Text('Check Repeated Chars: ${_selectedRules.checkRepeatedChars}'),
-        Text('Max Repeated Chars: ${_selectedRules.maxRepeatedChars}'),
-        Text('Check Sequential Chars: ${_selectedRules.checkSequentialChars}'),
-        Text('Max Sequential Length: ${_selectedRules.maxSequentialLength}'),
-        const SizedBox(height: 8),
-        const Text(
-          'Generation Rules:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text('Length: ${_selectedGenerationRules.length}'),
-        Text('Include Uppercase: ${_selectedGenerationRules.includeUppercase}'),
-        Text('Include Lowercase: ${_selectedGenerationRules.includeLowercase}'),
-        Text('Include Numbers: ${_selectedGenerationRules.includeNumbers}'),
-        Text('Include Special Chars: ${_selectedGenerationRules.includeSpecialChars}'),
-        Text('Include Spaces: ${_selectedGenerationRules.includeSpaces}'),
-        Text('Avoid Similar Chars: ${_selectedGenerationRules.avoidSimilarChars}'),
-        Text('Avoid Ambiguous Chars: ${_selectedGenerationRules.avoidAmbiguousChars}'),
-        Text('Ensure Character Variety: ${_selectedGenerationRules.ensureCharacterVariety}'),
-        if (_selectedGenerationRules.customChars != null)
-          Text('Custom Chars: ${_selectedGenerationRules.customChars}'),
-      ],
-    );
-  }
-
-  Widget _buildLanguageDemo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text(
-          'Try these weak passwords to see different language messages:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-        _buildLanguageExample('en', 'short', 'English'),
-        _buildLanguageExample('es', 'corto', 'Spanish'),
-        _buildLanguageExample('fr', 'court', 'French'),
-        _buildLanguageExample('de', 'kurz', 'German'),
-        _buildLanguageExample('pt', 'curto', 'Portuguese'),
-        _buildLanguageExample('it', 'corto', 'Italian'),
-        _buildLanguageExample('fa', 'کوتاه', 'Persian'),
-      ],
-    );
-  }
-
-  Widget _buildLanguageExample(String languageCode, String password, String languageName) {
-    final demoChecker = PasswordChecker(language: languageCode);
-    final result = demoChecker.validate(password);
-    final firstError = result.errors.isNotEmpty ? result.errors.first : 'Valid';
-    
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        children: [
-          Text('$languageName: ', style: const TextStyle(fontWeight: FontWeight.bold)),
-          Expanded(
-            child: Text(
-              firstError,
-              style: TextStyle(
-                color: result.isValid ? Colors.green : Colors.red,
-                fontSize: 12,
-              ),
-            ),
+        }),
+        if (_validationResult!.errors.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          const Text(
+            'Errors:',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
           ),
+          const SizedBox(height: 4),
+          ..._validationResult!.errors.map((error) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Row(
+                children: [
+                  const Icon(Icons.error, size: 16, color: Colors.red),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(error)),
+                ],
+              ),
+            );
+          }),
         ],
-      ),
+        if (_validationResult!.warnings.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          const Text(
+            'Warnings:',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
+          ),
+          const SizedBox(height: 4),
+          ..._validationResult!.warnings.map((warning) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Row(
+                children: [
+                  const Icon(Icons.warning, size: 16, color: Colors.orange),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(warning)),
+                ],
+              ),
+            );
+          }),
+        ],
+      ],
     );
-  }
-
-  String _getLanguageName(String languageCode) {
-    switch (languageCode) {
-      case 'en': return '🇺🇸 English';
-      case 'es': return '🇪🇸 Español';
-      case 'fr': return '🇫🇷 Français';
-      case 'de': return '🇩🇪 Deutsch';
-      case 'pt': return '🇵🇹 Português';
-      case 'it': return '🇮🇹 Italiano';
-      case 'fa': return '🇮🇷 فارسی';
-      default: return '🇺🇸 English';
-    }
   }
 
   Color _getStrengthColor(PasswordStrengthLevel level) {
@@ -630,185 +332,5 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
       default:
         return check;
     }
-  }
-
-  Widget _buildPasswordGeneration() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Generation rules selection
-        const Text(
-          'Generation Rules:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          children: [
-            _buildGenerationRuleChip('Basic', GenerationRules.basic()),
-            _buildGenerationRuleChip('Strong', GenerationRules.strong()),
-            _buildGenerationRuleChip('Strict', GenerationRules.strict()),
-          ],
-        ),
-        const SizedBox(height: 16),
-        
-        // Generation buttons
-        Row(
-          children: [
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: _generatePassword,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Generate Password'),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: _generateMultiplePasswords,
-                icon: const Icon(Icons.batch_prediction),
-                label: const Text('Generate 5'),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        
-        // Generated password display
-        if (_generatedPassword.isNotEmpty) ...[
-          const Text(
-            'Generated Password:',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.grey[50],
-            ),
-            child: SelectableText(
-              _generatedPassword,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  // Copy to clipboard functionality would go here
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Password copied to clipboard!')),
-                  );
-                },
-                icon: const Icon(Icons.copy),
-                tooltip: 'Copy to clipboard',
-              ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _passwordController.text = _generatedPassword;
-                    _validatePassword();
-                  });
-                },
-                icon: const Icon(Icons.input),
-                tooltip: 'Use in validation',
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-        ],
-        
-        // Generation history
-        if (_generatedPasswords.isNotEmpty) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Generation History (${_generatedPasswords.length}):',
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _showGenerationHistory = !_showGenerationHistory;
-                      });
-                    },
-                    icon: Icon(_showGenerationHistory ? Icons.expand_less : Icons.expand_more),
-                    tooltip: _showGenerationHistory ? 'Hide history' : 'Show history',
-                  ),
-                  IconButton(
-                    onPressed: _clearGenerationHistory,
-                    icon: const Icon(Icons.clear_all),
-                    tooltip: 'Clear history',
-                  ),
-                ],
-              ),
-            ],
-          ),
-          if (_showGenerationHistory) ...[
-            const SizedBox(height: 8),
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[300]!),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: ListView.builder(
-                itemCount: _generatedPasswords.length,
-                itemBuilder: (context, index) {
-                  final result = _generatedPasswords[index];
-                  return ListTile(
-                    title: Text(
-                      '${result.password.substring(0, 1)}***${result.password.substring(result.password.length - 1)}',
-                      style: const TextStyle(fontFamily: 'monospace'),
-                    ),
-                    subtitle: Text(
-                      '${result.validation.strengthLevel.displayName} (${result.validation.strengthScore}/100)',
-                    ),
-                    trailing: Text(
-                      '${result.password.length} chars',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                      ),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        _generatedPassword = result.password;
-                        _passwordController.text = result.password;
-                        _validatePassword();
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ],
-      ],
-    );
-  }
-
-  Widget _buildGenerationRuleChip(String label, GenerationRules rules) {
-    final isSelected = _selectedGenerationRules == rules;
-    return FilterChip(
-      label: Text(label),
-      selected: isSelected,
-      onSelected: (selected) {
-        if (selected) {
-          _changeGenerationRules(rules);
-        }
-      },
-    );
   }
 }
