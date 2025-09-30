@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:password_check/password_check.dart';
 
@@ -334,3 +335,4 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     }
   }
 }
+
