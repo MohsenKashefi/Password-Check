@@ -30,8 +30,8 @@ class PasswordCheckDemo extends StatefulWidget {
 
 class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   final _passwordController = TextEditingController();
-  final _checker = PasswordChecker.strong();
-  final _generator = PasswordGenerator.strong();
+  final _checker = PasswordChecker.strong(language: 'fa');
+  final _generator = PasswordGenerator.strong(language: 'fa');
   
   PasswordValidationResult? _validationResult;
   String _generatedPassword = '';
@@ -50,7 +50,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
 
   void _validatePassword() {
     setState(() {
-      _validationResult = _checker.validate(_passwordController.text);
+      _validationResult = _checker.validate(_passwordController.text );
     });
   }
 
@@ -206,7 +206,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Strength: ${_validationResult!.strengthLevel.displayName}'),
+            Text('Strength: ${_validationResult!.strengthLevel.getLocalizedDisplayName(_checker.messages)}'),
             Text('${_validationResult!.strengthScore}/100'),
           ],
         ),
