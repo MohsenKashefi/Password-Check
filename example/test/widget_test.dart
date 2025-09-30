@@ -11,20 +11,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:password_check_example/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Password Check Demo smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const PasswordCheckApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the app loads with the expected widgets.
+    expect(find.text('Password Check Demo'), findsOneWidget);
+    expect(find.text('Password Validation'), findsOneWidget);
+    expect(find.text('Password Generation'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
+    expect(find.text('Generate Strong Password'), findsOneWidget);
   });
 }
