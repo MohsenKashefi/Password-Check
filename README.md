@@ -10,6 +10,8 @@ A comprehensive Flutter package for password validation, strength checking, and 
 - ✅ **Customizable Rules**: Basic, strong, strict, or custom validation rules
 - ✅ **Pattern Detection**: Sequential characters, keyboard patterns, repeated patterns
 - ✅ **Detailed Results**: Validation errors, warnings, and strength analysis
+- ✅ **Secure Password Generation**: Generate cryptographically secure passwords
+- ✅ **Generation History**: Track generated passwords with timestamps
 - ✅ **Flutter Ready**: Works seamlessly with Flutter and Dart applications
 
 ## Getting Started
@@ -126,6 +128,104 @@ const customRules = ValidationRules(
 final checker = PasswordChecker(rules: customRules);
 ```
 
+### Password Generation
+
+```dart
+import 'package:password_check/password_check.dart';
+
+void main() {
+  // Create a password generator with default rules
+  final generator = PasswordGenerator();
+  
+  // Generate a single password
+  final result = generator.generate();
+  
+  print('Generated password: ${result.password}');
+  print('Strength: ${result.strengthLevel.displayName}');
+  print('Score: ${result.strengthScore}/100');
+  print('Is valid: ${result.isValid}');
+  
+  // Generate multiple passwords
+  final results = generator.generateMultiple(5);
+  for (final result in results) {
+    print('Password: ${result.password}');
+  }
+  
+  // Generate with custom rules
+  final customGenerator = PasswordGenerator(
+    rules: const GenerationRules(
+      length: 20,
+      includeUppercase: true,
+      includeLowercase: true,
+      includeNumbers: true,
+      includeSpecialChars: true,
+      avoidSimilarChars: true,
+      ensureCharacterVariety: true,
+    ),
+  );
+  
+  final strongPassword = customGenerator.generate();
+  print('Strong password: ${strongPassword.password}');
+}
+```
+
+### Using Generation Presets
+
+```dart
+// Basic generation (8 chars, lowercase + numbers)
+final basicGenerator = PasswordGenerator.basic();
+final basicPassword = basicGenerator.generate();
+
+// Strong generation (16 chars, all character types)
+final strongGenerator = PasswordGenerator.strong();
+final strongPassword = strongGenerator.generate();
+
+// Strict generation (20 chars, all character types, avoid similar chars)
+final strictGenerator = PasswordGenerator.strict();
+final strictPassword = strictGenerator.generate();
+```
+
+### Generation History
+
+```dart
+final generator = PasswordGenerator();
+
+// Generate some passwords
+generator.generate();
+generator.generate();
+generator.generate();
+
+// Access generation history
+print('Generated ${generator.historyCount} passwords');
+print('Last password: ${generator.lastResult?.password}');
+
+// View all generated passwords
+for (final result in generator.history) {
+  print('${result.timestamp}: ${result.password} (${result.strengthLevel.displayName})');
+}
+
+// Clear history
+generator.clearHistory();
+```
+
+### Using with PasswordChecker Extension
+
+```dart
+final checker = PasswordChecker.strong();
+
+// Generate password using checker's validation rules
+final result = checker.generatePassword(
+  length: 16,
+  includeUppercase: true,
+  includeLowercase: true,
+  includeNumbers: true,
+  includeSpecialChars: true,
+);
+
+print('Generated: ${result.password}');
+print('Valid: ${result.isValid}');
+```
+
 ## API Reference
 
 ### PasswordChecker
@@ -185,6 +285,72 @@ Enum representing password strength levels:
 - `good` - Good password
 - `strong` - Strong password
 - `veryStrong` - Very strong password
+
+### PasswordGenerator
+
+Main class for generating secure passwords.
+
+#### Constructors
+
+- `PasswordGenerator({GenerationRules? rules, String? language, CustomMessages? customMessages})` - Creates with custom rules
+- `PasswordGenerator.basic()` - Creates with basic generation rules
+- `PasswordGenerator.strong()` - Creates with strong generation rules  
+- `PasswordGenerator.strict()` - Creates with strict generation rules
+- `PasswordGenerator.auto()` - Creates with automatic language detection
+- `PasswordGenerator.localized({required String language})` - Creates with specific language
+
+#### Methods
+
+- `GenerationResult generate()` - Generates a single password
+- `List<GenerationResult> generateMultiple(int count)` - Generates multiple passwords
+- `GenerationResult generateValid({ValidationRules? validationRules})` - Generates a password that meets validation rules
+- `void clearHistory()` - Clears generation history
+
+#### Properties
+
+- `List<GenerationResult> history` - List of generated passwords
+- `int historyCount` - Number of generated passwords
+- `GenerationResult? lastResult` - Most recent generation result
+- `String language` - Current language code
+- `PasswordMessages messages` - Current messages
+- `GenerationRules rules` - Current generation rules
+
+### GenerationRules
+
+Configuration class for password generation rules.
+
+#### Properties
+
+- `int length` - Length of generated password (default: 12)
+- `bool includeUppercase` - Include uppercase letters (default: true)
+- `bool includeLowercase` - Include lowercase letters (default: true)
+- `bool includeNumbers` - Include numbers (default: true)
+- `bool includeSpecialChars` - Include special characters (default: true)
+- `bool includeSpaces` - Include spaces (default: false)
+- `bool avoidSimilarChars` - Avoid similar characters like 0, O, l, 1 (default: true)
+- `bool avoidAmbiguousChars` - Avoid ambiguous characters (default: true)
+- `String? customChars` - Custom character set to include
+- `bool ensureCharacterVariety` - Ensure at least one character from each included set (default: true)
+
+#### Constructors
+
+- `GenerationRules()` - Default rules
+- `GenerationRules.basic()` - Basic rules (8 chars, lowercase + numbers)
+- `GenerationRules.strong()` - Strong rules (16 chars, all character types)
+- `GenerationRules.strict()` - Strict rules (20 chars, all character types, avoid similar chars)
+- `GenerationRules.custom()` - Custom rules with specified parameters
+
+### GenerationResult
+
+Result of password generation containing the password and metadata.
+
+#### Properties
+
+- `String password` - The generated password
+- `GenerationRules rules` - Generation rules used
+- `PasswordValidationResult validation` - Validation result of the generated password
+- `DateTime timestamp` - When the password was generated
+- `bool isValid` - Whether the password meets validation requirements
 
 ## Examples
 
