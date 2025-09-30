@@ -35,11 +35,19 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   ValidationRules _selectedRules = const ValidationRules.strong();
   String _selectedLanguage = 'en';
   bool _useCustomMessages = false;
+  
+  // Password generation state
+  late PasswordGenerator _generator;
+  GenerationRules _selectedGenerationRules = const GenerationRules.strong();
+  List<GenerationResult> _generatedPasswords = [];
+  String _generatedPassword = '';
+  bool _showGenerationHistory = false;
 
   @override
   void initState() {
     super.initState();
     _checker = PasswordChecker.strong(language: _selectedLanguage);
+    _generator = PasswordGenerator.strong(language: _selectedLanguage);
     _passwordController.addListener(_validatePassword);
   }
 
@@ -87,9 +95,18 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         language: _selectedLanguage,
         customMessages: customMessages,
       );
+      _generator = PasswordGenerator(
+        rules: _selectedGenerationRules,
+        language: _selectedLanguage,
+        customMessages: customMessages,
+      );
     } else {
       _checker = PasswordChecker(
         rules: _selectedRules,
+        language: _selectedLanguage,
+      );
+      _generator = PasswordGenerator(
+        rules: _selectedGenerationRules,
         language: _selectedLanguage,
       );
     }
@@ -109,6 +126,39 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
       'good': '😊 Good',
       'strong': '💪 Strong',
       'veryStrong': '🛡️ Very Strong',
+    });
+  }
+
+  void _generatePassword() {
+    setState(() {
+      final result = _generator.generate();
+      _generatedPassword = result.password;
+      _generatedPasswords.add(result);
+    });
+  }
+
+  void _generateMultiplePasswords() {
+    setState(() {
+      final results = _generator.generateMultiple(5);
+      _generatedPasswords.addAll(results);
+      if (results.isNotEmpty) {
+        _generatedPassword = results.first.password;
+      }
+    });
+  }
+
+  void _changeGenerationRules(GenerationRules rules) {
+    setState(() {
+      _selectedGenerationRules = rules;
+      _updateChecker();
+    });
+  }
+
+  void _clearGenerationHistory() {
+    setState(() {
+      _generatedPasswords.clear();
+      _generatedPassword = '';
+      _generator.clearHistory();
     });
   }
 
@@ -236,6 +286,23 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
                     ),
                     const SizedBox(height: 8),
                     _buildLanguageDemo(),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Password Generation',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildPasswordGeneration(),
                   ],
                 ),
               ),
@@ -444,6 +511,22 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         Text('Max Repeated Chars: ${_selectedRules.maxRepeatedChars}'),
         Text('Check Sequential Chars: ${_selectedRules.checkSequentialChars}'),
         Text('Max Sequential Length: ${_selectedRules.maxSequentialLength}'),
+        const SizedBox(height: 8),
+        const Text(
+          'Generation Rules:',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text('Length: ${_selectedGenerationRules.length}'),
+        Text('Include Uppercase: ${_selectedGenerationRules.includeUppercase}'),
+        Text('Include Lowercase: ${_selectedGenerationRules.includeLowercase}'),
+        Text('Include Numbers: ${_selectedGenerationRules.includeNumbers}'),
+        Text('Include Special Chars: ${_selectedGenerationRules.includeSpecialChars}'),
+        Text('Include Spaces: ${_selectedGenerationRules.includeSpaces}'),
+        Text('Avoid Similar Chars: ${_selectedGenerationRules.avoidSimilarChars}'),
+        Text('Avoid Ambiguous Chars: ${_selectedGenerationRules.avoidAmbiguousChars}'),
+        Text('Ensure Character Variety: ${_selectedGenerationRules.ensureCharacterVariety}'),
+        if (_selectedGenerationRules.customChars != null)
+          Text('Custom Chars: ${_selectedGenerationRules.customChars}'),
       ],
     );
   }
@@ -547,5 +630,185 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
       default:
         return check;
     }
+  }
+
+  Widget _buildPasswordGeneration() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Generation rules selection
+        const Text(
+          'Generation Rules:',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          children: [
+            _buildGenerationRuleChip('Basic', GenerationRules.basic()),
+            _buildGenerationRuleChip('Strong', GenerationRules.strong()),
+            _buildGenerationRuleChip('Strict', GenerationRules.strict()),
+          ],
+        ),
+        const SizedBox(height: 16),
+        
+        // Generation buttons
+        Row(
+          children: [
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: _generatePassword,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Generate Password'),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: _generateMultiplePasswords,
+                icon: const Icon(Icons.batch_prediction),
+                label: const Text('Generate 5'),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        
+        // Generated password display
+        if (_generatedPassword.isNotEmpty) ...[
+          const Text(
+            'Generated Password:',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.grey[50],
+            ),
+            child: SelectableText(
+              _generatedPassword,
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  // Copy to clipboard functionality would go here
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Password copied to clipboard!')),
+                  );
+                },
+                icon: const Icon(Icons.copy),
+                tooltip: 'Copy to clipboard',
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _passwordController.text = _generatedPassword;
+                    _validatePassword();
+                  });
+                },
+                icon: const Icon(Icons.input),
+                tooltip: 'Use in validation',
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
+        
+        // Generation history
+        if (_generatedPasswords.isNotEmpty) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Generation History (${_generatedPasswords.length}):',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _showGenerationHistory = !_showGenerationHistory;
+                      });
+                    },
+                    icon: Icon(_showGenerationHistory ? Icons.expand_less : Icons.expand_more),
+                    tooltip: _showGenerationHistory ? 'Hide history' : 'Show history',
+                  ),
+                  IconButton(
+                    onPressed: _clearGenerationHistory,
+                    icon: const Icon(Icons.clear_all),
+                    tooltip: 'Clear history',
+                  ),
+                ],
+              ),
+            ],
+          ),
+          if (_showGenerationHistory) ...[
+            const SizedBox(height: 8),
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[300]!),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ListView.builder(
+                itemCount: _generatedPasswords.length,
+                itemBuilder: (context, index) {
+                  final result = _generatedPasswords[index];
+                  return ListTile(
+                    title: Text(
+                      '${result.password.substring(0, 1)}***${result.password.substring(result.password.length - 1)}',
+                      style: const TextStyle(fontFamily: 'monospace'),
+                    ),
+                    subtitle: Text(
+                      '${result.validation.strengthLevel.displayName} (${result.validation.strengthScore}/100)',
+                    ),
+                    trailing: Text(
+                      '${result.password.length} chars',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _generatedPassword = result.password;
+                        _passwordController.text = result.password;
+                        _validatePassword();
+                      });
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ],
+      ],
+    );
+  }
+
+  Widget _buildGenerationRuleChip(String label, GenerationRules rules) {
+    final isSelected = _selectedGenerationRules == rules;
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (selected) {
+        if (selected) {
+          _changeGenerationRules(rules);
+        }
+      },
+    );
   }
 }
