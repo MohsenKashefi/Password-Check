@@ -1,3 +1,5 @@
+import 'i18n/password_messages.dart';
+
 /// Result of password validation containing detailed information.
 class PasswordValidationResult {
   /// Whether the password is valid according to all rules.
@@ -101,6 +103,24 @@ extension PasswordStrengthLevelExtension on PasswordStrengthLevel {
         return 'Strong';
       case PasswordStrengthLevel.veryStrong:
         return 'Very Strong';
+    }
+  }
+
+  /// Gets localized display name using PasswordMessages.
+  String getLocalizedDisplayName(PasswordMessages messages) {
+    switch (this) {
+      case PasswordStrengthLevel.veryWeak:
+        return messages.veryWeak;
+      case PasswordStrengthLevel.weak:
+        return messages.weak;
+      case PasswordStrengthLevel.fair:
+        return messages.fair;
+      case PasswordStrengthLevel.good:
+        return messages.good;
+      case PasswordStrengthLevel.strong:
+        return messages.strong;
+      case PasswordStrengthLevel.veryStrong:
+        return messages.veryStrong;
     }
   }
 }

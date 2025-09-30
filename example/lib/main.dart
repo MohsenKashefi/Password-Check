@@ -33,11 +33,13 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   late PasswordChecker _checker;
   PasswordValidationResult? _validationResult;
   ValidationRules _selectedRules = const ValidationRules.strong();
+  String _selectedLanguage = 'en';
+  bool _useCustomMessages = false;
 
   @override
   void initState() {
     super.initState();
-    _checker = PasswordChecker.strong();
+    _checker = PasswordChecker.strong(language: _selectedLanguage);
     _passwordController.addListener(_validatePassword);
   }
 
@@ -56,8 +58,57 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   void _changeValidationRules(ValidationRules rules) {
     setState(() {
       _selectedRules = rules;
-      _checker = PasswordChecker(rules: rules);
+      _updateChecker();
       _validatePassword();
+    });
+  }
+
+  void _changeLanguage(String language) {
+    setState(() {
+      _selectedLanguage = language;
+      _updateChecker();
+      _validatePassword();
+    });
+  }
+
+  void _toggleCustomMessages() {
+    setState(() {
+      _useCustomMessages = !_useCustomMessages;
+      _updateChecker();
+      _validatePassword();
+    });
+  }
+
+  void _updateChecker() {
+    if (_useCustomMessages) {
+      final customMessages = _getCustomMessages();
+      _checker = PasswordChecker(
+        rules: _selectedRules,
+        language: _selectedLanguage,
+        customMessages: customMessages,
+      );
+    } else {
+      _checker = PasswordChecker(
+        rules: _selectedRules,
+        language: _selectedLanguage,
+      );
+    }
+  }
+
+  CustomMessages _getCustomMessages() {
+    return CustomMessages.fromMap({
+      'minLength': '🔒 Your password needs at least {min} characters',
+      'requireUppercase': '🔤 Add an uppercase letter',
+      'requireLowercase': '🔡 Add a lowercase letter',
+      'requireNumbers': '🔢 Include some numbers',
+      'requireSpecialChars': '✨ Add special characters',
+      'notCommon': '🚫 This password is too common',
+      'veryWeak': '😰 Very Weak',
+      'weak': '😟 Weak',
+      'fair': '😐 Fair',
+      'good': '😊 Good',
+      'strong': '💪 Strong',
+      'veryStrong': '🛡️ Very Strong',
     });
   }
 
@@ -104,6 +155,53 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
+                      'Language & Messages',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButton<String>(
+                            value: _selectedLanguage,
+                            isExpanded: true,
+                            items: [
+                              DropdownMenuItem(value: 'en', child: Text('🇺🇸 English')),
+                              DropdownMenuItem(value: 'es', child: Text('🇪🇸 Español')),
+                              DropdownMenuItem(value: 'fr', child: Text('🇫🇷 Français')),
+                              DropdownMenuItem(value: 'de', child: Text('🇩🇪 Deutsch')),
+                              DropdownMenuItem(value: 'pt', child: Text('🇵🇹 Português')),
+                              DropdownMenuItem(value: 'it', child: Text('🇮🇹 Italiano')),
+                              DropdownMenuItem(value: 'fa', child: Text('🇮🇷 فارسی')),
+                            ],
+                            onChanged: (value) {
+                              if (value != null) {
+                                _changeLanguage(value);
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Switch(
+                          value: _useCustomMessages,
+                          onChanged: (value) => _toggleCustomMessages(),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text('Custom Messages'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
                       'Password Input',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -133,11 +231,28 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Current Rules',
+                      'Language Demo',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    _buildRulesInfo(),
+                    _buildLanguageDemo(),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Current Configuration',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildConfigurationInfo(),
                   ],
                 ),
               ),
@@ -206,7 +321,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Strength: ${_validationResult!.strengthLevel.displayName}'),
+            Text('Strength: ${_validationResult!.strengthLevel.getLocalizedDisplayName(_checker.messages)}'),
             Text('${_validationResult!.strengthScore}/100'),
           ],
         ),
@@ -304,11 +419,19 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     );
   }
 
-  Widget _buildRulesInfo() {
+  Widget _buildConfigurationInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+        Text('Language: ${_getLanguageName(_selectedLanguage)}'),
+        Text('Custom Messages: ${_useCustomMessages ? "Enabled" : "Disabled"}'),
+        Text('Current Language Code: $_selectedLanguage'),
+        const SizedBox(height: 8),
+        const Text(
+          'Validation Rules:',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         Text('Min Length: ${_selectedRules.minLength}'),
         Text('Max Length: ${_selectedRules.maxLength}'),
         Text('Require Uppercase: ${_selectedRules.requireUppercase}'),
@@ -323,6 +446,64 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         Text('Max Sequential Length: ${_selectedRules.maxSequentialLength}'),
       ],
     );
+  }
+
+  Widget _buildLanguageDemo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text(
+          'Try these weak passwords to see different language messages:',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        _buildLanguageExample('en', 'short', 'English'),
+        _buildLanguageExample('es', 'corto', 'Spanish'),
+        _buildLanguageExample('fr', 'court', 'French'),
+        _buildLanguageExample('de', 'kurz', 'German'),
+        _buildLanguageExample('pt', 'curto', 'Portuguese'),
+        _buildLanguageExample('it', 'corto', 'Italian'),
+        _buildLanguageExample('fa', 'کوتاه', 'Persian'),
+      ],
+    );
+  }
+
+  Widget _buildLanguageExample(String languageCode, String password, String languageName) {
+    final demoChecker = PasswordChecker(language: languageCode);
+    final result = demoChecker.validate(password);
+    final firstError = result.errors.isNotEmpty ? result.errors.first : 'Valid';
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Text('$languageName: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+          Expanded(
+            child: Text(
+              firstError,
+              style: TextStyle(
+                color: result.isValid ? Colors.green : Colors.red,
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getLanguageName(String languageCode) {
+    switch (languageCode) {
+      case 'en': return '🇺🇸 English';
+      case 'es': return '🇪🇸 Español';
+      case 'fr': return '🇫🇷 Français';
+      case 'de': return '🇩🇪 Deutsch';
+      case 'pt': return '🇵🇹 Português';
+      case 'it': return '🇮🇹 Italiano';
+      case 'fa': return '🇮🇷 فارسی';
+      default: return '🇺🇸 English';
+    }
   }
 
   Color _getStrengthColor(PasswordStrengthLevel level) {
