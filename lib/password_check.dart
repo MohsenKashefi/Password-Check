@@ -8,3 +8,10 @@ export 'src/validation_rules.dart';
 export 'src/i18n/password_messages.dart';
 export 'src/i18n/language_detector.dart';
 export 'src/i18n/custom_messages.dart';
+
+// Advanced UI Widgets
+export 'src/widgets/password_strength_indicator.dart';
+export 'src/widgets/password_requirements_checklist.dart';
+export 'src/widgets/password_strength_meter.dart';
+export 'src/widgets/password_improvement_suggestions.dart';
+export 'src/widgets/password_visualizer.dart';
