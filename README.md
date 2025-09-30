@@ -419,6 +419,75 @@ class _PasswordFormState extends State<PasswordForm> {
 }
 ```
 
+## 🎨 **Advanced UI Widgets**
+
+The package includes powerful pre-built widgets for comprehensive password visualization:
+
+### **PasswordStrengthIndicator**
+Animated strength indicator with breakdown visualization and improvement suggestions.
+
+```dart
+PasswordStrengthIndicator(
+  result: validationResult,
+  showBreakdown: true,
+  showSuggestions: true,
+  animated: true,
+)
+```
+
+### **PasswordRequirementsChecklist**
+Interactive checklist showing password requirements with progress tracking.
+
+```dart
+PasswordRequirementsChecklist(
+  result: validationResult,
+  rules: validationRules,
+  showProgress: true,
+  animated: true,
+)
+```
+
+### **PasswordStrengthMeter**
+Circular strength meter with animated progress and customizable display.
+
+```dart
+PasswordStrengthMeter(
+  result: validationResult,
+  size: 120.0,
+  animated: true,
+  showScore: true,
+  showLevel: true,
+)
+```
+
+### **PasswordImprovementSuggestions**
+Smart improvement suggestions with contextual advice and priority levels.
+
+```dart
+PasswordImprovementSuggestions(
+  result: validationResult,
+  rules: validationRules,
+  showIcons: true,
+  showPriority: true,
+)
+```
+
+### **PasswordVisualizer**
+Comprehensive visualization widget combining all indicators in a tabbed interface.
+
+```dart
+PasswordVisualizer(
+  result: validationResult,
+  rules: validationRules,
+  animated: true,
+)
+```
+
+## 📚 **Documentation**
+
+- [Advanced Widgets Guide](ADVANCED_WIDGETS.md) - Comprehensive documentation for all UI widgets
+- [Internationalization Guide](I18N_EXAMPLES.md) - Multi-language support examples
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
