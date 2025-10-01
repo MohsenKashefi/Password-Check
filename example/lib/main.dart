@@ -230,6 +230,8 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
             const SizedBox(height: 16),
             _buildStrengthIndicator(),
             const SizedBox(height: 16),
+            _buildRequirementsChecklist(),
+            const SizedBox(height: 16),
             _buildValidationChecks(),
           ],
         ),
@@ -280,12 +282,101 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     );
   }
 
+  Widget _buildRequirementsChecklist() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Password Requirements:',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+        _buildRequirementItem(
+          'At least 8 characters',
+          _validationResult!.checks['minLength'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains uppercase letter',
+          _validationResult!.checks['uppercase'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains lowercase letter',
+          _validationResult!.checks['lowercase'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains number',
+          _validationResult!.checks['numbers'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains special character',
+          _validationResult!.checks['specialChars'] ?? false,
+        ),
+        _buildRequirementItem(
+          'No spaces',
+          _validationResult!.checks['noSpaces'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Not a common password',
+          _validationResult!.checks['notCommon'] ?? false,
+        ),
+        _buildRequirementItem(
+          'No repeated characters',
+          _validationResult!.checks['noRepeatedChars'] ?? false,
+        ),
+        _buildRequirementItem(
+          'No sequential characters',
+          _validationResult!.checks['noSequentialChars'] ?? false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRequirementItem(String requirement, bool isMet) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isMet ? Colors.green : Colors.grey[300],
+              border: Border.all(
+                color: isMet ? Colors.green : Colors.grey[400]!,
+                width: 2,
+              ),
+            ),
+            child: isMet
+                ? const Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 16,
+                  )
+                : null,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              requirement,
+              style: TextStyle(
+                fontSize: 14,
+                color: isMet ? Colors.green[700] : Colors.grey[600],
+                fontWeight: isMet ? FontWeight.w600 : FontWeight.normal,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildValidationChecks() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Validation Checks:',
+          'Technical Details:',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
