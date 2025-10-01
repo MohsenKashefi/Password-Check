@@ -92,7 +92,7 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
         Icon(
           Icons.security,
           size: 24,
-          color: _getStrengthColor(widget.result.strengthLevel),
+          color: _getStrengthColor(widget.result.strengthScore),
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -123,10 +123,10 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: _getStrengthColor(widget.result.strengthLevel).withOpacity(0.1),
+        color: _getStrengthColor(widget.result.strengthScore).withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: _getStrengthColor(widget.result.strengthLevel).withOpacity(0.3),
+          color: _getStrengthColor(widget.result.strengthScore).withOpacity(0.3),
         ),
       ),
       child: Column(
@@ -135,13 +135,13 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
             '${widget.result.strengthScore}',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: _getStrengthColor(widget.result.strengthLevel),
+              color: _getStrengthColor(widget.result.strengthScore),
             ),
           ),
           Text(
             'Score',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: _getStrengthColor(widget.result.strengthLevel),
+              color: _getStrengthColor(widget.result.strengthScore),
             ),
           ),
         ],
@@ -350,21 +350,11 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
     return widget.result.checks['notCommon'] == true ? 1.0 : 0.0;
   }
 
-  Color _getStrengthColor(PasswordStrengthLevel level) {
-    switch (level) {
-      case PasswordStrengthLevel.veryWeak:
-        return Colors.red;
-      case PasswordStrengthLevel.weak:
-        return Colors.orange;
-      case PasswordStrengthLevel.fair:
-        return Colors.yellow;
-      case PasswordStrengthLevel.good:
-        return Colors.lightGreen;
-      case PasswordStrengthLevel.strong:
-        return Colors.green;
-      case PasswordStrengthLevel.veryStrong:
-        return Colors.blue;
-    }
+  Color _getStrengthColor(int strengthScore) {
+    if (strengthScore >= 80) return Colors.green;
+    if (strengthScore >= 60) return Colors.yellow;
+    if (strengthScore >= 40) return Colors.orange;
+    return Colors.red;
   }
 
   Color _getScoreColor(double score) {

@@ -10,7 +10,6 @@ class PasswordChecker {
   final ValidationRules _rules;
   final List<String> _commonPasswords;
   final PasswordMessages _messages;
-  final String _language;
 
   /// Creates a PasswordChecker with custom validation rules.
   PasswordChecker({
@@ -19,26 +18,6 @@ class PasswordChecker {
     CustomMessages? customMessages,
   }) : _rules = rules ?? const ValidationRules(),
        _commonPasswords = _getCommonPasswords(),
-       _language = language ?? LanguageDetector.detectSystemLanguage(),
-       _messages = _getMessages(language, customMessages);
-
-  /// Creates a PasswordChecker with automatic language detection.
-  PasswordChecker.auto({
-    ValidationRules? rules,
-    CustomMessages? customMessages,
-  }) : _rules = rules ?? const ValidationRules(),
-       _commonPasswords = _getCommonPasswords(),
-       _language = LanguageDetector.detectSystemLanguage(),
-       _messages = _getMessages(null, customMessages);
-
-  /// Creates a PasswordChecker with specific language.
-  PasswordChecker.localized({
-    required String language,
-    ValidationRules? rules,
-    CustomMessages? customMessages,
-  }) : _rules = rules ?? const ValidationRules(),
-       _commonPasswords = _getCommonPasswords(),
-       _language = language,
        _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with basic validation rules.
@@ -47,7 +26,6 @@ class PasswordChecker {
     CustomMessages? customMessages,
   }) : _rules = const ValidationRules.basic(),
        _commonPasswords = _getCommonPasswords(),
-       _language = language ?? LanguageDetector.detectSystemLanguage(),
        _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with strong validation rules.
@@ -56,7 +34,6 @@ class PasswordChecker {
     CustomMessages? customMessages,
   }) : _rules = const ValidationRules.strong(),
        _commonPasswords = _getCommonPasswords(),
-       _language = language ?? LanguageDetector.detectSystemLanguage(),
        _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with strict validation rules.
@@ -65,33 +42,18 @@ class PasswordChecker {
     CustomMessages? customMessages,
   }) : _rules = const ValidationRules.strict(),
        _commonPasswords = _getCommonPasswords(),
-       _language = language ?? LanguageDetector.detectSystemLanguage(),
        _messages = _getMessages(language, customMessages);
-
-  /// Gets the current language code.
-  String get language => _language;
 
   /// Gets the current messages.
   PasswordMessages get messages => _messages;
-
-  /// Helper method to get messages based on language and custom messages.
-  static PasswordMessages _getMessages(String? language, CustomMessages? customMessages) {
-    final baseMessages = language != null 
-        ? LanguageDetector.getMessagesForLanguage(language)
-        : LanguageDetector.getSystemMessages();
-    
-    if (customMessages != null) {
-      return customMessages.applyTo(baseMessages);
-    }
-    
-    return baseMessages;
-  }
 
   /// Validates a password according to the configured rules.
   PasswordValidationResult validate(String password) {
     final errors = <String>[];
     final warnings = <String>[];
     final checks = <String, bool>{};
+    final requirements = <String>[];
+    final vulnerabilities = <String>[];
 
     // Length validation
     if (password.length < _rules.minLength) {
@@ -169,118 +131,219 @@ class PasswordChecker {
       checks['noSequentialChars'] = true;
     }
 
+    // Build requirements list
+    _buildRequirementsList(requirements, checks);
+    
+    // Analyze vulnerabilities
+    _analyzeVulnerabilities(password, vulnerabilities);
+
     // Calculate strength
     final strengthScore = PasswordStrength.calculateScore(password);
     final strengthLevel = PasswordStrength.getStrengthLevel(strengthScore);
+    final strengthDescription = _getStrengthDescription(strengthLevel);
+    final complexityRating = _getComplexityRating(strengthScore);
+    final improvementTip = _getImprovementTip(password, checks, strengthScore);
 
-    // Add strength warnings
-    if (strengthLevel == PasswordStrengthLevel.veryWeak) {
-      warnings.add('Password is very weak');
-    } else if (strengthLevel == PasswordStrengthLevel.weak) {
-      warnings.add('Password is weak');
-    }
-
-    if (errors.isEmpty) {
-      return PasswordValidationResult.success(
+    if (errors.isNotEmpty) {
+      return PasswordValidationResult.failure(
+        errorMessage: errors.first,
+        strengthDescription: strengthDescription,
         strengthScore: strengthScore,
-        strengthLevel: strengthLevel,
+        complexityRating: complexityRating,
+        improvementTip: improvementTip,
+        requirements: requirements,
+        vulnerabilities: vulnerabilities,
+        warningMessage: warnings.isNotEmpty ? warnings.first : null,
+        allErrors: errors,
+        allWarnings: warnings,
         checks: checks,
-        warnings: warnings,
       );
     } else {
-      return PasswordValidationResult.failure(
-        errors: errors,
-        checks: checks,
-        warnings: warnings,
+      return PasswordValidationResult.success(
+        strengthDescription: strengthDescription,
         strengthScore: strengthScore,
-        strengthLevel: strengthLevel,
+        complexityRating: complexityRating,
+        improvementTip: improvementTip,
+        requirements: requirements,
+        vulnerabilities: vulnerabilities,
+        warningMessage: warnings.isNotEmpty ? warnings.first : null,
+        allWarnings: warnings,
+        checks: checks,
       );
     }
   }
 
-  /// Checks if password is in common passwords list.
+  /// Checks if a password is in the common passwords list.
   bool _isCommonPassword(String password) {
     return _commonPasswords.contains(password.toLowerCase());
   }
 
   /// Checks if password has too many repeated characters.
   bool _hasTooManyRepeatedChars(String password) {
-    if (password.isEmpty) return false;
+    if (_rules.maxRepeatedChars <= 0) return false;
     
-    final charCounts = <String, int>{};
+    final charCount = <String, int>{};
     for (final char in password.split('')) {
-      charCounts[char] = (charCounts[char] ?? 0) + 1;
+      charCount[char] = (charCount[char] ?? 0) + 1;
+      if (charCount[char]! > _rules.maxRepeatedChars) {
+        return true;
+      }
     }
-    
-    return charCounts.values.any((count) => count > _rules.maxRepeatedChars);
+    return false;
   }
 
   /// Checks if password has sequential characters.
   bool _hasSequentialChars(String password) {
-    if (password.length < 3) return false;
+    if (_rules.maxSequentialLength <= 0) return false;
     
-    final lower = password.toLowerCase();
+    final lowerPassword = password.toLowerCase();
     
-    // Check for sequential letters
-    for (int i = 0; i < lower.length - 2; i++) {
-      final char1 = lower.codeUnitAt(i);
-      final char2 = lower.codeUnitAt(i + 1);
-      final char3 = lower.codeUnitAt(i + 2);
-      
-      if (char2 == char1 + 1 && char3 == char2 + 1) {
+    // Check for sequential letters (abc, bcd, etc.)
+    for (int i = 0; i <= lowerPassword.length - _rules.maxSequentialLength; i++) {
+      final sequence = lowerPassword.substring(i, i + _rules.maxSequentialLength);
+      if (_isSequential(sequence)) {
         return true;
-      }
-    }
-    
-    // Check for sequential numbers
-    for (int i = 0; i < password.length - 2; i++) {
-      final char1 = password.codeUnitAt(i);
-      final char2 = password.codeUnitAt(i + 1);
-      final char3 = password.codeUnitAt(i + 2);
-      
-      if (char1 >= 48 && char1 <= 57 &&
-          char2 >= 48 && char2 <= 57 &&
-          char3 >= 48 && char3 <= 57) {
-        if (char2 == char1 + 1 && char3 == char2 + 1) {
-          return true;
-        }
       }
     }
     
     return false;
   }
 
+  /// Checks if a string is sequential (abc, 123, etc.).
+  bool _isSequential(String str) {
+    if (str.length < 2) return false;
+    
+    final chars = str.split('');
+    for (int i = 1; i < chars.length; i++) {
+      final prev = chars[i - 1].codeUnitAt(0);
+      final curr = chars[i].codeUnitAt(0);
+      
+      if (curr != prev + 1) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
   /// Gets a list of common passwords.
   static List<String> _getCommonPasswords() {
     return [
-      'password', '123456', '123456789', '12345678', '12345',
-      '1234567', '1234567890', 'qwerty', 'abc123', 'password123',
-      'admin', 'letmein', 'welcome', 'monkey', '1234567890',
-      'password1', 'qwerty123', 'dragon', 'master', 'hello',
-      'freedom', 'whatever', 'qazwsx', 'trustno1', '654321',
-      'jordan23', 'harley', 'password123', 'hunter', 'ranger',
-      'jordan', 'hannah', 'michelle', 'charlie', 'andrew',
-      'matthew', 'joshua', 'jennifer', 'amanda', 'jessica',
-      'daniel', 'christopher', 'anthony', 'mark', 'donald',
-      'steven', 'paul', 'andrew', 'joshua', 'kenneth',
-      'kevin', 'brian', 'george', 'timothy', 'ronald',
-      'jason', 'edward', 'jeffrey', 'ryan', 'jacob',
-      'gary', 'nicholas', 'eric', 'jonathan', 'stephen',
-      'larry', 'justin', 'scott', 'brandon', 'benjamin',
-      'samuel', 'frank', 'raymond', 'alexander', 'patrick',
-      'jack', 'dennis', 'jerry', 'tyler', 'aaron',
-      'jose', 'henry', 'douglas', 'adam', 'peter',
-      'nathan', 'zachary', 'walter', 'kyle', 'harold',
-      'carl', 'jeremy', 'arthur', 'gerald', 'lawrence',
-      'sean', 'christian', 'ethan', 'austin', 'joe',
-      'albert', 'jesse', 'willie', 'ralph', 'mason',
-      'roy', 'eugene', 'wayne', 'louis', 'philip',
-      'bobby', 'johnny', 'austin', 'joe', 'albert',
-      'jesse', 'willie', 'ralph', 'mason', 'roy',
-      'eugene', 'wayne', 'louis', 'philip', 'bobby',
-      'johnny', 'austin', 'joe', 'albert', 'jesse',
-      'willie', 'ralph', 'mason', 'roy', 'eugene',
-      'wayne', 'louis', 'philip', 'bobby', 'johnny',
+      'password', '123456', '123456789', 'qwerty', 'abc123',
+      'password123', 'admin', 'letmein', 'welcome', 'monkey',
+      '1234567890', 'password1', 'qwerty123', 'dragon', 'master',
+      'hello', 'freedom', 'whatever', 'qazwsx', 'trustno1',
+      'jordan', 'jennifer', 'zxcvbnm', 'asdfgh', 'hunter',
+      'buster', 'soccer', 'harley', 'batman', 'andrew',
+      'tigger', 'sunshine', 'iloveyou', '2000', 'charlie',
+      'robert', 'thomas', 'hockey', 'ranger', 'daniel',
+      'hannah', 'maggie', 'jessica', 'charlie', 'michelle',
+      'jordan', 'andrew', 'david', 'joshua', 'michael',
+      'jennifer', 'jessica', 'sarah', 'hannah', 'maggie',
+      'michelle', 'jordan', 'andrew', 'david', 'joshua',
     ];
+  }
+
+  /// Builds the requirements list based on validation checks.
+  void _buildRequirementsList(List<String> requirements, Map<String, bool> checks) {
+    if (checks['minLength'] == true) {
+      requirements.add(_messages.getMessage('minLength', params: {'min': _rules.minLength}));
+    }
+    if (checks['uppercase'] == true) {
+      requirements.add(_messages.requireUppercase);
+    }
+    if (checks['lowercase'] == true) {
+      requirements.add(_messages.requireLowercase);
+    }
+    if (checks['numbers'] == true) {
+      requirements.add(_messages.requireNumbers);
+    }
+    if (checks['specialChars'] == true) {
+      requirements.add(_messages.requireSpecialChars);
+    }
+    if (checks['notCommon'] == true) {
+      requirements.add(_messages.notCommon);
+    }
+  }
+
+  /// Analyzes password vulnerabilities.
+  void _analyzeVulnerabilities(String password, List<String> vulnerabilities) {
+    if (_isCommonPassword(password)) {
+      vulnerabilities.add(_messages.notCommon);
+    }
+    if (_hasTooManyRepeatedChars(password)) {
+      vulnerabilities.add(_messages.noRepeatedChars);
+    }
+    if (_hasSequentialChars(password)) {
+      vulnerabilities.add(_messages.noSequentialChars);
+    }
+    if (password.length < 8) {
+      vulnerabilities.add(_messages.getMessage('minLength', params: {'min': 8}));
+    }
+  }
+
+  /// Gets localized strength description.
+  String _getStrengthDescription(PasswordStrengthLevel level) {
+    switch (level) {
+      case PasswordStrengthLevel.veryWeak:
+        return _messages.veryWeak;
+      case PasswordStrengthLevel.weak:
+        return _messages.weak;
+      case PasswordStrengthLevel.fair:
+        return _messages.fair;
+      case PasswordStrengthLevel.good:
+        return _messages.good;
+      case PasswordStrengthLevel.strong:
+        return _messages.strong;
+      case PasswordStrengthLevel.veryStrong:
+        return _messages.veryStrong;
+    }
+  }
+
+  /// Gets complexity rating based on strength score.
+  String _getComplexityRating(int strengthScore) {
+    if (strengthScore >= 80) return _messages.strong;
+    if (strengthScore >= 60) return _messages.good;
+    if (strengthScore >= 40) return _messages.fair;
+    if (strengthScore >= 20) return _messages.weak;
+    return _messages.veryWeak;
+  }
+
+  /// Generates improvement tip based on password analysis.
+  String? _getImprovementTip(String password, Map<String, bool> checks, int strengthScore) {
+    if (strengthScore >= 80) return null; // No improvement needed
+    
+    if (checks['minLength'] == false) {
+      return _messages.getMessage('minLength', params: {'min': _rules.minLength});
+    }
+    if (checks['uppercase'] == false) {
+      return _messages.requireUppercase;
+    }
+    if (checks['lowercase'] == false) {
+      return _messages.requireLowercase;
+    }
+    if (checks['numbers'] == false) {
+      return _messages.requireNumbers;
+    }
+    if (checks['specialChars'] == false) {
+      return _messages.requireSpecialChars;
+    }
+    if (checks['notCommon'] == false) {
+      return _messages.notCommon;
+    }
+    
+    return null;
+  }
+
+  /// Gets messages for the specified language with optional custom overrides.
+  static PasswordMessages _getMessages(String? language, CustomMessages? customMessages) {
+    final detectedLanguage = language ?? LanguageDetector.detectSystemLanguage();
+    final baseMessages = LanguageDetector.getMessagesForLanguage(detectedLanguage);
+    
+    if (customMessages != null) {
+      return customMessages.applyTo(baseMessages);
+    }
+    
+    return baseMessages;
   }
 }
