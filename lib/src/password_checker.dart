@@ -4,12 +4,14 @@ import 'validation_rules.dart';
 import 'i18n/password_messages.dart';
 import 'i18n/language_detector.dart';
 import 'i18n/custom_messages.dart';
+import 'history/password_history.dart';
 
 /// Main class for password validation and strength checking.
 class PasswordChecker {
   final ValidationRules _rules;
   final List<String> _commonPasswords;
   final PasswordMessages _messages;
+  PasswordHistory? _history;
 
   /// Creates a PasswordChecker with custom validation rules.
   PasswordChecker({
@@ -47,6 +49,25 @@ class PasswordChecker {
   /// Gets the current messages.
   PasswordMessages get messages => _messages;
 
+  /// Gets the current password history.
+  PasswordHistory? get history => _history;
+
+  /// Enables password history tracking with the given configuration.
+  PasswordChecker withHistory(PasswordHistoryConfig config) {
+    _history = PasswordHistory(config);
+    return this;
+  }
+
+  /// Enables password history tracking with simple configuration.
+  PasswordChecker withSimpleHistory() {
+    return withHistory(PasswordHistoryConfig.simple);
+  }
+
+  /// Enables password history tracking with enterprise configuration.
+  PasswordChecker withEnterpriseHistory() {
+    return withHistory(PasswordHistoryConfig.enterprise);
+  }
+
   /// Validates a password according to the configured rules.
   PasswordValidationResult validate(String password) {
     final errors = <String>[];
@@ -54,6 +75,17 @@ class PasswordChecker {
     final checks = <String, bool>{};
     final requirements = <String>[];
     final vulnerabilities = <String>[];
+
+    // Check password history if enabled
+    if (_history != null) {
+      final historyResult = _history!.checkPassword(password);
+      if (historyResult.isRejected) {
+        errors.add(historyResult.reason ?? 'Password rejected by history check');
+        checks['historyCheck'] = false;
+      } else {
+        checks['historyCheck'] = true;
+      }
+    }
 
     // Length validation
     if (password.length < _rules.minLength) {
@@ -264,6 +296,9 @@ class PasswordChecker {
     if (checks['notCommon'] == true) {
       requirements.add(_messages.notCommon);
     }
+    if (checks['historyCheck'] == true && _history != null) {
+      requirements.add('Not previously used');
+    }
   }
 
   /// Analyzes password vulnerabilities.
@@ -345,5 +380,34 @@ class PasswordChecker {
     }
     
     return baseMessages;
+  }
+
+  /// Adds a password to the history if history tracking is enabled.
+  Future<void> addToHistory(String password, {Map<String, dynamic>? metadata}) async {
+    if (_history != null) {
+      await _history!.addPassword(password, metadata: metadata);
+    }
+  }
+
+  /// Clears the password history if history tracking is enabled.
+  void clearHistory() {
+    if (_history != null) {
+      _history!.clearHistory();
+    }
+  }
+
+  /// Validates a password and adds it to history if validation passes.
+  Future<PasswordValidationResult> validateAndAddToHistory(
+    String password, {
+    Map<String, dynamic>? metadata,
+  }) async {
+    final result = validate(password);
+    
+    // Only add to history if validation passes
+    if (result.isValid && _history != null) {
+      await addToHistory(password, metadata: metadata);
+    }
+    
+    return result;
   }
 }
