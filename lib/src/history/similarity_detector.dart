@@ -1,3 +1,5 @@
+import 'dart:math';
+
 /// Utility class for detecting password similarity
 class SimilarityDetector {
   /// Calculate similarity between two passwords using Levenshtein distance
