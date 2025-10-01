@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:crypto';
 
 /// Represents a password entry in the history
 class PasswordEntry {
@@ -206,11 +205,14 @@ class PasswordHistory {
     return history;
   }
 
-  /// Hash password using SHA-256
+  /// Hash password using simple hash function
   String _hashPassword(String password) {
-    final bytes = utf8.encode(password);
-    final digest = sha256.convert(bytes);
-    return digest.toString();
+    // Simple hash function using built-in Dart libraries
+    int hash = 0;
+    for (int i = 0; i < password.length; i++) {
+      hash = ((hash << 5) - hash + password.codeUnitAt(i)) & 0xffffffff;
+    }
+    return hash.abs().toString();
   }
 
   /// Check password similarity against history
