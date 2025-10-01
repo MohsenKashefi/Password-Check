@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:crypto/crypto.dart';
+import 'dart:crypto';
 
 /// Represents a password entry in the history
 class PasswordEntry {
