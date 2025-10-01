@@ -50,7 +50,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
     
     _colorAnimation = ColorTween(
       begin: Colors.grey,
-      end: _getStrengthColor(widget.result.strengthLevel),
+      end: _getStrengthColor(widget.result.strengthScore),
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -80,7 +80,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
     
     _colorAnimation = ColorTween(
       begin: _colorAnimation.value,
-      end: _getStrengthColor(widget.result.strengthLevel),
+      end: _getStrengthColor(widget.result.strengthScore),
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -146,7 +146,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
                 '${(_progressAnimation.value * 100).round()}/100',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: _getStrengthColor(widget.result.strengthLevel),
+                  color: _getStrengthColor(widget.result.strengthScore),
                 ),
               );
             },
@@ -155,10 +155,10 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
         if (widget.showLevel) ...[
           const SizedBox(height: 4),
           Text(
-            widget.result.strengthLevel.displayName,
+            widget.result.strengthDisplay,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: _getStrengthColor(widget.result.strengthLevel),
+              color: _getStrengthColor(widget.result.strengthScore),
             ),
           ),
         ],
@@ -166,21 +166,11 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
     );
   }
 
-  Color _getStrengthColor(PasswordStrengthLevel level) {
-    switch (level) {
-      case PasswordStrengthLevel.veryWeak:
-        return Colors.red;
-      case PasswordStrengthLevel.weak:
-        return Colors.orange;
-      case PasswordStrengthLevel.fair:
-        return Colors.yellow;
-      case PasswordStrengthLevel.good:
-        return Colors.lightGreen;
-      case PasswordStrengthLevel.strong:
-        return Colors.green;
-      case PasswordStrengthLevel.veryStrong:
-        return Colors.blue;
-    }
+  Color _getStrengthColor(int strengthScore) {
+    if (strengthScore >= 80) return Colors.green;
+    if (strengthScore >= 60) return Colors.yellow;
+    if (strengthScore >= 40) return Colors.orange;
+    return Colors.red;
   }
 }
 
