@@ -2,82 +2,127 @@ import 'i18n/password_messages.dart';
 
 /// Result of password validation containing detailed information.
 class PasswordValidationResult {
-  /// Whether the password is valid according to all rules.
+  // Core validation
   final bool isValid;
+  final String? errorMessage;        // First error only (localized)
+  final String? warningMessage;    // First warning only (localized)
   
-  /// List of validation errors.
-  final List<String> errors;
+  // Strength analysis
+  final String strengthDescription; // "Strong", "Weak" (localized)
+  final int strengthScore;          // 0-100
+  final String complexityRating;    // "High", "Medium", "Low" (localized)
   
-  /// List of validation warnings.
-  final List<String> warnings;
+  // Smart insights
+  final String? improvementTip;     // "Add 2 more characters" (localized)
+  final List<String> requirements;  // ["8+ characters", "Uppercase"] (localized)
+  final List<String> vulnerabilities; // ["Contains common words"] (localized)
   
-  /// Password strength score (0-100).
-  final int strengthScore;
-  
-  /// Password strength level.
-  final PasswordStrengthLevel strengthLevel;
-  
-  /// Detailed breakdown of validation checks.
-  final Map<String, bool> checks;
+  // Internal fields for detailed analysis
+  final List<String> _allErrors;
+  final List<String> _allWarnings;
+  final Map<String, bool> _checks;
 
   const PasswordValidationResult({
     required this.isValid,
-    required this.errors,
-    required this.warnings,
+    this.errorMessage,
+    this.warningMessage,
+    required this.strengthDescription,
     required this.strengthScore,
-    required this.strengthLevel,
-    required this.checks,
-  });
+    required this.complexityRating,
+    this.improvementTip,
+    this.requirements = const [],
+    this.vulnerabilities = const [],
+    List<String> allErrors = const [],
+    List<String> allWarnings = const [],
+    Map<String, bool> checks = const {},
+  }) : _allErrors = allErrors,
+       _allWarnings = allWarnings,
+       _checks = checks;
 
   /// Creates a successful validation result.
   factory PasswordValidationResult.success({
+    required String strengthDescription,
     required int strengthScore,
-    required PasswordStrengthLevel strengthLevel,
-    required Map<String, bool> checks,
-    List<String> warnings = const [],
+    required String complexityRating,
+    String? improvementTip,
+    List<String> requirements = const [],
+    List<String> vulnerabilities = const [],
+    String? warningMessage,
+    List<String> allWarnings = const [],
+    Map<String, bool> checks = const {},
   }) {
     return PasswordValidationResult(
       isValid: true,
-      errors: [],
-      warnings: warnings,
+      strengthDescription: strengthDescription,
       strengthScore: strengthScore,
-      strengthLevel: strengthLevel,
+      complexityRating: complexityRating,
+      improvementTip: improvementTip,
+      requirements: requirements,
+      vulnerabilities: vulnerabilities,
+      warningMessage: warningMessage,
+      allWarnings: allWarnings,
       checks: checks,
     );
   }
 
   /// Creates a failed validation result.
   factory PasswordValidationResult.failure({
-    required List<String> errors,
-    required Map<String, bool> checks,
-    List<String> warnings = const [],
-    int strengthScore = 0,
-    PasswordStrengthLevel strengthLevel = PasswordStrengthLevel.veryWeak,
+    required String errorMessage,
+    required String strengthDescription,
+    required int strengthScore,
+    required String complexityRating,
+    String? improvementTip,
+    List<String> requirements = const [],
+    List<String> vulnerabilities = const [],
+    String? warningMessage,
+    List<String> allErrors = const [],
+    List<String> allWarnings = const [],
+    Map<String, bool> checks = const {},
   }) {
     return PasswordValidationResult(
       isValid: false,
-      errors: errors,
-      warnings: warnings,
+      errorMessage: errorMessage,
+      strengthDescription: strengthDescription,
       strengthScore: strengthScore,
-      strengthLevel: strengthLevel,
+      complexityRating: complexityRating,
+      improvementTip: improvementTip,
+      requirements: requirements,
+      vulnerabilities: vulnerabilities,
+      warningMessage: warningMessage,
+      allErrors: allErrors,
+      allWarnings: allWarnings,
       checks: checks,
     );
   }
+
+  // User-friendly getters (NO hardcoded text)
+  String get strengthDisplay => strengthDescription;
+  String? get errorDisplay => errorMessage;
+  String? get warningDisplay => warningMessage;
+  String? get improvementDisplay => improvementTip;
+  bool get isSecure => strengthScore >= 80 && vulnerabilities.isEmpty;
+
+  // Additional getters for advanced usage
+  List<String> get allErrors => List.unmodifiable(_allErrors);
+  List<String> get allWarnings => List.unmodifiable(_allWarnings);
+  Map<String, bool> get checks => Map.unmodifiable(_checks);
 
   @override
   String toString() {
     return 'PasswordValidationResult{'
         'isValid: $isValid, '
-        'errors: $errors, '
-        'warnings: $warnings, '
+        'errorMessage: $errorMessage, '
+        'warningMessage: $warningMessage, '
+        'strengthDescription: $strengthDescription, '
         'strengthScore: $strengthScore, '
-        'strengthLevel: $strengthLevel, '
-        'checks: $checks'
-        '}';
+        'complexityRating: $complexityRating, '
+        'improvementTip: $improvementTip, '
+        'requirements: $requirements, '
+        'vulnerabilities: $vulnerabilities}';
   }
 }
 
-/// Password strength levels.
+/// Enum representing password strength levels.
 enum PasswordStrengthLevel {
   veryWeak,
   weak,
@@ -87,26 +132,9 @@ enum PasswordStrengthLevel {
   veryStrong,
 }
 
-/// Extension to get human-readable strength level names.
+/// Extension to provide localized display names for strength levels.
 extension PasswordStrengthLevelExtension on PasswordStrengthLevel {
-  String get displayName {
-    switch (this) {
-      case PasswordStrengthLevel.veryWeak:
-        return 'Very Weak';
-      case PasswordStrengthLevel.weak:
-        return 'Weak';
-      case PasswordStrengthLevel.fair:
-        return 'Fair';
-      case PasswordStrengthLevel.good:
-        return 'Good';
-      case PasswordStrengthLevel.strong:
-        return 'Strong';
-      case PasswordStrengthLevel.veryStrong:
-        return 'Very Strong';
-    }
-  }
-
-  /// Gets localized display name using PasswordMessages.
+  /// Gets the localized display name for this strength level.
   String getLocalizedDisplayName(PasswordMessages messages) {
     switch (this) {
       case PasswordStrengthLevel.veryWeak:
