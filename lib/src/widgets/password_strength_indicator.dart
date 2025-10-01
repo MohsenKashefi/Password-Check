@@ -48,7 +48,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
     
     _colorAnimation = ColorTween(
       begin: Colors.grey,
-      end: _getStrengthColor(widget.result.strengthLevel),
+      end: _getStrengthColor(widget.result.strengthScore),
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -78,7 +78,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
     
     _colorAnimation = ColorTween(
       begin: _colorAnimation.value,
-      end: _getStrengthColor(widget.result.strengthLevel),
+      end: _getStrengthColor(widget.result.strengthScore),
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -136,7 +136,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
               '${widget.result.strengthScore}/100',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: _getStrengthColor(widget.result.strengthLevel),
+                color: _getStrengthColor(widget.result.strengthScore),
               ),
             ),
           ],
@@ -191,16 +191,16 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
     return Row(
       children: [
         Icon(
-          _getStrengthIcon(widget.result.strengthLevel),
+          _getStrengthIcon(widget.result.strengthScore),
           size: 16,
-          color: _getStrengthColor(widget.result.strengthLevel),
+          color: _getStrengthColor(widget.result.strengthScore),
         ),
         const SizedBox(width: 8),
         Text(
-          widget.result.strengthLevel.displayName,
+          widget.result.strengthDisplay,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: _getStrengthColor(widget.result.strengthLevel),
+            color: _getStrengthColor(widget.result.strengthScore),
           ),
         ),
       ],
@@ -369,21 +369,11 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
     return suggestions;
   }
 
-  Color _getStrengthColor(PasswordStrengthLevel level) {
-    switch (level) {
-      case PasswordStrengthLevel.veryWeak:
-        return Colors.red;
-      case PasswordStrengthLevel.weak:
-        return Colors.orange;
-      case PasswordStrengthLevel.fair:
-        return Colors.yellow;
-      case PasswordStrengthLevel.good:
-        return Colors.lightGreen;
-      case PasswordStrengthLevel.strong:
-        return Colors.green;
-      case PasswordStrengthLevel.veryStrong:
-        return Colors.blue;
-    }
+  Color _getStrengthColor(int strengthScore) {
+    if (strengthScore >= 80) return Colors.green;
+    if (strengthScore >= 60) return Colors.yellow;
+    if (strengthScore >= 40) return Colors.orange;
+    return Colors.red;
   }
 
   Color _getScoreColor(double score) {
@@ -393,20 +383,11 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
     return Colors.green;
   }
 
-  IconData _getStrengthIcon(PasswordStrengthLevel level) {
-    switch (level) {
-      case PasswordStrengthLevel.veryWeak:
-        return Icons.warning;
-      case PasswordStrengthLevel.weak:
-        return Icons.warning_amber;
-      case PasswordStrengthLevel.fair:
-        return Icons.info;
-      case PasswordStrengthLevel.good:
-        return Icons.check_circle_outline;
-      case PasswordStrengthLevel.strong:
-        return Icons.security;
-      case PasswordStrengthLevel.veryStrong:
-        return Icons.verified_user;
-    }
+  IconData _getStrengthIcon(int strengthScore) {
+    if (strengthScore >= 80) return Icons.verified_user;
+    if (strengthScore >= 60) return Icons.security;
+    if (strengthScore >= 40) return Icons.check_circle_outline;
+    if (strengthScore >= 20) return Icons.info;
+    return Icons.warning;
   }
 }

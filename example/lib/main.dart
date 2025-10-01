@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:password_check/password_check.dart';
+import 'simple_language_demo.dart';
 
 void main() {
   runApp(const PasswordCheckApp());
@@ -17,7 +18,60 @@ class PasswordCheckApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const PasswordCheckDemo(),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Password Check Examples'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Choose an Example:',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PasswordCheckDemo()),
+                );
+              },
+              icon: const Icon(Icons.security),
+              label: const Text('Advanced Password Demo'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SimpleLanguageDemo()),
+                );
+              },
+              icon: const Icon(Icons.language),
+              label: const Text('Simple Language Demo'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -31,8 +85,8 @@ class PasswordCheckDemo extends StatefulWidget {
 
 class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   final _passwordController = TextEditingController();
-  final _checker = PasswordChecker.strong(language: 'fa');
-  final _generator = PasswordGenerator.strong(language: 'fa');
+  late PasswordChecker _checker;
+  late PasswordGenerator _generator;
   
   PasswordValidationResult? _validationResult;
   String _generatedPassword = '';
@@ -40,6 +94,9 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   @override
   void initState() {
     super.initState();
+    // Simple language support - just pass language to PasswordChecker
+    _checker = PasswordChecker.strong(language: 'fa');
+    _generator = PasswordGenerator.strong(); // No language needed for generator
     _passwordController.addListener(_validatePassword);
   }
 
@@ -173,6 +230,8 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
             const SizedBox(height: 16),
             _buildStrengthIndicator(),
             const SizedBox(height: 16),
+            _buildRequirementsChecklist(),
+            const SizedBox(height: 16),
             _buildValidationChecks(),
           ],
         ),
@@ -207,7 +266,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Strength: ${_validationResult!.strengthLevel.getLocalizedDisplayName(_checker.messages)}'),
+            Text('Strength: ${_validationResult!.strengthDisplay}'),
             Text('${_validationResult!.strengthScore}/100'),
           ],
         ),
@@ -216,10 +275,99 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
           value: _validationResult!.strengthScore / 100,
           backgroundColor: Colors.grey[300],
           valueColor: AlwaysStoppedAnimation<Color>(
-            _getStrengthColor(_validationResult!.strengthLevel),
+            _getStrengthColor(_validationResult!.strengthScore),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildRequirementsChecklist() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Password Requirements:',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+        _buildRequirementItem(
+          'At least 8 characters',
+          _validationResult!.checks['minLength'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains uppercase letter',
+          _validationResult!.checks['uppercase'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains lowercase letter',
+          _validationResult!.checks['lowercase'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains number',
+          _validationResult!.checks['numbers'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Contains special character',
+          _validationResult!.checks['specialChars'] ?? false,
+        ),
+        _buildRequirementItem(
+          'No spaces',
+          _validationResult!.checks['noSpaces'] ?? false,
+        ),
+        _buildRequirementItem(
+          'Not a common password',
+          _validationResult!.checks['notCommon'] ?? false,
+        ),
+        _buildRequirementItem(
+          'No repeated characters',
+          _validationResult!.checks['noRepeatedChars'] ?? false,
+        ),
+        _buildRequirementItem(
+          'No sequential characters',
+          _validationResult!.checks['noSequentialChars'] ?? false,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRequirementItem(String requirement, bool isMet) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isMet ? Colors.green : Colors.grey[300],
+              border: Border.all(
+                color: isMet ? Colors.green : Colors.grey[400]!,
+                width: 2,
+              ),
+            ),
+            child: isMet
+                ? const Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 16,
+                  )
+                : null,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              requirement,
+              style: TextStyle(
+                fontSize: 14,
+                color: isMet ? Colors.green[700] : Colors.grey[600],
+                fontWeight: isMet ? FontWeight.w600 : FontWeight.normal,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -228,7 +376,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Validation Checks:',
+          'Technical Details:',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
@@ -248,64 +396,45 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
             ),
           );
         }),
-        if (_validationResult!.errors.isNotEmpty) ...[
+        if (_validationResult!.errorDisplay != null) ...[
           const SizedBox(height: 12),
           const Text(
-            'Errors:',
+            'Error:',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
           ),
           const SizedBox(height: 4),
-          ..._validationResult!.errors.map((error) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Row(
-                children: [
-                  const Icon(Icons.error, size: 16, color: Colors.red),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(error)),
-                ],
-              ),
-            );
-          }),
+          Row(
+            children: [
+              const Icon(Icons.error, size: 16, color: Colors.red),
+              const SizedBox(width: 8),
+              Expanded(child: Text(_validationResult!.errorDisplay!)),
+            ],
+          ),
         ],
-        if (_validationResult!.warnings.isNotEmpty) ...[
+        if (_validationResult!.warningDisplay != null) ...[
           const SizedBox(height: 12),
           const Text(
-            'Warnings:',
+            'Warning:',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
           ),
           const SizedBox(height: 4),
-          ..._validationResult!.warnings.map((warning) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Row(
-                children: [
-                  const Icon(Icons.warning, size: 16, color: Colors.orange),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(warning)),
-                ],
-              ),
-            );
-          }),
+          Row(
+            children: [
+              const Icon(Icons.warning, size: 16, color: Colors.orange),
+              const SizedBox(width: 8),
+              Expanded(child: Text(_validationResult!.warningDisplay!)),
+            ],
+          ),
         ],
       ],
     );
   }
 
-  Color _getStrengthColor(PasswordStrengthLevel level) {
-    switch (level) {
-      case PasswordStrengthLevel.veryWeak:
-      case PasswordStrengthLevel.weak:
-        return Colors.red;
-      case PasswordStrengthLevel.fair:
-        return Colors.orange;
-      case PasswordStrengthLevel.good:
-        return Colors.yellow;
-      case PasswordStrengthLevel.strong:
-        return Colors.lightGreen;
-      case PasswordStrengthLevel.veryStrong:
-        return Colors.green;
-    }
+  Color _getStrengthColor(int strengthScore) {
+    if (strengthScore >= 80) return Colors.green;
+    if (strengthScore >= 60) return Colors.yellow;
+    if (strengthScore >= 40) return Colors.orange;
+    return Colors.red;
   }
 
   String _formatCheckName(String check) {
