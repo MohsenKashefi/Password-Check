@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:password_check/password_check.dart';
+import 'package:password_check/src/widgets/password_history_widget.dart';
+import 'package:password_check/src/history/password_history.dart';
 import 'simple_language_demo.dart';
 
 void main() {
@@ -90,6 +92,8 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   
   PasswordValidationResult? _validationResult;
   String _generatedPassword = '';
+  PasswordHistoryResult? _historyResult;
+  bool _historyEnabled = false;
 
   @override
   void initState() {
@@ -108,7 +112,10 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
 
   void _validatePassword() {
     setState(() {
-      _validationResult = _checker.validate(_passwordController.text );
+      _validationResult = _checker.validate(_passwordController.text);
+      if (_historyEnabled && _checker.history != null) {
+        _historyResult = _checker.history!.checkPassword(_passwordController.text);
+      }
     });
   }
 
@@ -119,6 +126,33 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
       _passwordController.text = result.password;
       _validatePassword();
     });
+  }
+
+  void _toggleHistory() {
+    setState(() {
+      _historyEnabled = !_historyEnabled;
+      if (_historyEnabled) {
+        _checker = _checker.withSimpleHistory();
+      } else {
+        _checker = PasswordChecker.strong(language: 'fa');
+      }
+      _historyResult = null;
+      _validatePassword();
+    });
+  }
+
+  Future<void> _addToHistory() async {
+    if (_historyEnabled && _validationResult?.isValid == true) {
+      await _checker.addToHistory(_passwordController.text);
+      _validatePassword();
+    }
+  }
+
+  void _clearHistory() {
+    if (_historyEnabled) {
+      _checker.clearHistory();
+      _validatePassword();
+    }
   }
 
   @override
@@ -164,6 +198,29 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
                 border: OutlineInputBorder(),
                 hintText: 'Type your password here...',
               ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Switch(
+                  value: _historyEnabled,
+                  onChanged: (_) => _toggleHistory(),
+                ),
+                const SizedBox(width: 8),
+                const Text('Enable Password History'),
+                const Spacer(),
+                if (_historyEnabled) ...[
+                  ElevatedButton.icon(
+                    onPressed: _validationResult?.isValid == true ? _addToHistory : null,
+                    icon: const Icon(Icons.add, size: 16),
+                    label: const Text('Add to History'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ],
         ),
@@ -232,6 +289,14 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
             const SizedBox(height: 16),
             _buildRequirementsChecklist(),
             const SizedBox(height: 16),
+            if (_historyEnabled) ...[
+              PasswordHistoryWidget(
+                history: _checker.history,
+                historyResult: _historyResult,
+                onClearHistory: _clearHistory,
+              ),
+              const SizedBox(height: 16),
+            ],
             _buildValidationChecks(),
           ],
         ),
