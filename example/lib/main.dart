@@ -200,23 +200,33 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
               ),
             ),
             const SizedBox(height: 12),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Switch(
-                  value: _historyEnabled,
-                  onChanged: (_) => _toggleHistory(),
+                Row(
+                  children: [
+                    Switch(
+                      value: _historyEnabled,
+                      onChanged: (_) => _toggleHistory(),
+                    ),
+                    const SizedBox(width: 8),
+                    const Expanded(
+                      child: Text('Enable Password History'),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                const Text('Enable Password History'),
-                const Spacer(),
                 if (_historyEnabled) ...[
-                  ElevatedButton.icon(
-                    onPressed: _validationResult?.isValid == true ? _addToHistory : null,
-                    icon: const Icon(Icons.add, size: 16),
-                    label: const Text('Add to History'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: _validationResult?.isValid == true ? _addToHistory : null,
+                      icon: const Icon(Icons.add, size: 16),
+                      label: const Text('Add to History'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -240,10 +250,13 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _generatePassword,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Generate Strong Password'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _generatePassword,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Generate Strong Password'),
+              ),
             ),
             if (_generatedPassword.isNotEmpty) ...[
               const SizedBox(height: 16),
