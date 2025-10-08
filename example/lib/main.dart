@@ -1,6 +1,14 @@
-
+ 
 import 'package:flutter/material.dart';
 import 'package:password_check/password_check.dart';
+import 'features/basic_validation_example.dart';
+import 'features/strength_analysis_example.dart';
+import 'features/password_generation_example.dart';
+import 'features/internationalization_example.dart';
+import 'features/password_history_example.dart';
+import 'features/advanced_widgets_example.dart';
+import 'package:password_check/src/widgets/password_history_widget.dart';
+import 'package:password_check/src/history/password_history.dart';
 import 'simple_language_demo.dart';
 
 void main() {
@@ -31,45 +39,185 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Password Check Examples'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Choose an Example:',
+              'Password Check Package Examples',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 32),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PasswordCheckDemo()),
-                );
-              },
-              icon: const Icon(Icons.security),
-              label: const Text('Advanced Password Demo'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
+            const SizedBox(height: 8),
+            const Text(
+              'Explore different features of the password validation package.',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SimpleLanguageDemo()),
-                );
-              },
-              icon: const Icon(Icons.language),
-              label: const Text('Simple Language Demo'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            const SizedBox(height: 24),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.9,
+                children: [
+                  _buildExampleCard(
+                    context,
+                    'Basic Validation',
+                    'Core password validation with different rule presets',
+                    Icons.security,
+                    Colors.blue,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const BasicValidationExample()),
+                    ),
+                  ),
+                  _buildExampleCard(
+                    context,
+                    'Strength Analysis',
+                    'Comprehensive password strength analysis and scoring',
+                    Icons.analytics,
+                    Colors.green,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const StrengthAnalysisExample()),
+                    ),
+                  ),
+                  _buildExampleCard(
+                    context,
+                    'Password Generation',
+                    'Secure password generation with customizable rules',
+                    Icons.auto_awesome,
+                    Colors.purple,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PasswordGenerationExample()),
+                    ),
+                  ),
+                  _buildExampleCard(
+                    context,
+                    'Internationalization',
+                    'Multi-language support with 7 languages including Persian',
+                    Icons.language,
+                    Colors.teal,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const InternationalizationExample()),
+                    ),
+                  ),
+                  _buildExampleCard(
+                    context,
+                    'Password History',
+                    'History tracking with similarity detection and reuse prevention',
+                    Icons.history,
+                    Colors.indigo,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PasswordHistoryExample()),
+                    ),
+                  ),
+                  _buildExampleCard(
+                    context,
+                    'Advanced Widgets',
+                    'Pre-built UI widgets for password visualization',
+                    Icons.widgets,
+                    Colors.deepPurple,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AdvancedWidgetsExample()),
+                    ),
+                  ),
+                  _buildExampleCard(
+                    context,
+                    'Complete Demo',
+                    'Full-featured demo with all package capabilities',
+                    Icons.dashboard,
+                    Colors.orange,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PasswordCheckDemo()),
+                    ),
+                  ),
+                  _buildExampleCard(
+                    context,
+                    'Simple Language',
+                    'Basic internationalization example',
+                    Icons.translate,
+                    Colors.cyan,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SimpleLanguageDemo()),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExampleCard(
+    BuildContext context,
+    String title,
+    String description,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
+    return Card(
+      elevation: 4,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  icon,
+                  size: 24,
+                  color: color,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 4),
+              Flexible(
+                child: Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey[600],
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -90,6 +238,8 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   
   PasswordValidationResult? _validationResult;
   String _generatedPassword = '';
+  PasswordHistoryResult? _historyResult;
+  bool _historyEnabled = false;
 
   @override
   void initState() {
@@ -108,7 +258,10 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
 
   void _validatePassword() {
     setState(() {
-      _validationResult = _checker.validate(_passwordController.text );
+      _validationResult = _checker.validate(_passwordController.text);
+      if (_historyEnabled && _checker.history != null) {
+        _historyResult = _checker.history!.checkPassword(_passwordController.text);
+      }
     });
   }
 
@@ -119,6 +272,33 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
       _passwordController.text = result.password;
       _validatePassword();
     });
+  }
+
+  void _toggleHistory() {
+    setState(() {
+      _historyEnabled = !_historyEnabled;
+      if (_historyEnabled) {
+        _checker = _checker.withSimpleHistory();
+      } else {
+        _checker = PasswordChecker.strong(language: 'fa');
+      }
+      _historyResult = null;
+      _validatePassword();
+    });
+  }
+
+  Future<void> _addToHistory() async {
+    if (_historyEnabled && _validationResult?.isValid == true) {
+      await _checker.addToHistory(_passwordController.text);
+      _validatePassword();
+    }
+  }
+
+  void _clearHistory() {
+    if (_historyEnabled) {
+      _checker.clearHistory();
+      _validatePassword();
+    }
   }
 
   @override
@@ -165,6 +345,39 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
                 hintText: 'Type your password here...',
               ),
             ),
+            const SizedBox(height: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Switch(
+                      value: _historyEnabled,
+                      onChanged: (_) => _toggleHistory(),
+                    ),
+                    const SizedBox(width: 8),
+                    const Expanded(
+                      child: Text('Enable Password History'),
+                    ),
+                  ],
+                ),
+                if (_historyEnabled) ...[
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: _validationResult?.isValid == true ? _addToHistory : null,
+                      icon: const Icon(Icons.add, size: 16),
+                      label: const Text('Add to History'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ],
         ),
       ),
@@ -183,10 +396,13 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _generatePassword,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Generate Strong Password'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _generatePassword,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Generate Strong Password'),
+              ),
             ),
             if (_generatedPassword.isNotEmpty) ...[
               const SizedBox(height: 16),
@@ -232,6 +448,14 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
             const SizedBox(height: 16),
             _buildRequirementsChecklist(),
             const SizedBox(height: 16),
+            if (_historyEnabled) ...[
+              PasswordHistoryWidget(
+                history: _checker.history,
+                historyResult: _historyResult,
+                onClearHistory: _clearHistory,
+              ),
+              const SizedBox(height: 16),
+            ],
             _buildValidationChecks(),
           ],
         ),
