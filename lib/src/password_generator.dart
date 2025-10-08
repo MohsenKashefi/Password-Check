@@ -162,17 +162,17 @@ class PasswordGenerator {
   /// Creates a PasswordGenerator with basic generation rules.
   PasswordGenerator.basic()
       : _rules = const GenerationRules.basic(),
-        _history = [];
+       _history = [];
 
   /// Creates a PasswordGenerator with strong generation rules.
   PasswordGenerator.strong()
       : _rules = const GenerationRules.strong(),
-        _history = [];
+       _history = [];
 
   /// Creates a PasswordGenerator with strict generation rules.
   PasswordGenerator.strict()
       : _rules = const GenerationRules.strict(),
-        _history = [];
+       _history = [];
 
   /// Gets the current generation rules.
   GenerationRules get rules => _rules;
@@ -193,7 +193,7 @@ class PasswordGenerator {
       rules: _rules,
       timestamp: DateTime.now(),
     );
-    
+
     _history.add(result);
     return result;
   }
