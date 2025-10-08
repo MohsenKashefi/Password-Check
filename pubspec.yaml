@@ -1,10 +1,10 @@
 name: password_check
 description: "A comprehensive Flutter package for password validation, strength checking, and security analysis."
 version: 1.0.0
-homepage: https://github.com/PasswordCheck/Password-Check
-repository: https://github.com/PasswordCheck/Password-Check
-issue_tracker: https://github.com/PasswordCheck/Password-Check/issues
-documentation: https://github.com/PasswordCheck/Password-Check#readme
+homepage: https://github.com/MohsenKashefi/Password-Check
+repository: https://github.com/MohsenKashefi/Password-Check
+issue_tracker: https://github.com/MohsenKashefi/Password-Check/issues
+documentation: https://github.com/MohsenKashefi/Password-Check#readme
 
 environment:
   sdk: ^3.0.0
