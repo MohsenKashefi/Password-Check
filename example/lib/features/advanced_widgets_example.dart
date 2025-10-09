@@ -3,7 +3,7 @@ import 'package:password_check/password_check.dart';
 
 /// Example demonstrating advanced UI widgets
 class AdvancedWidgetsExample extends StatefulWidget {
-  const AdvancedWidgetsExample({Key? key}) : super(key: key);
+  const AdvancedWidgetsExample({super.key});
 
   @override
   State<AdvancedWidgetsExample> createState() => _AdvancedWidgetsExampleState();
@@ -687,7 +687,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),

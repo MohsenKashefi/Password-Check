@@ -3,7 +3,7 @@ import 'package:password_check/password_check.dart';
 
 /// Example demonstrating password strength analysis features
 class StrengthAnalysisExample extends StatefulWidget {
-  const StrengthAnalysisExample({Key? key}) : super(key: key);
+  const StrengthAnalysisExample({super.key});
 
   @override
   State<StrengthAnalysisExample> createState() => _StrengthAnalysisExampleState();
@@ -263,7 +263,7 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
               ],
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -370,7 +370,7 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
               ),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -502,7 +502,7 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
                       ),
                     ],
                   );
-                }).toList(),
+                }),
               ],
             ),
           ],

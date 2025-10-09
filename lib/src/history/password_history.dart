@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:math';
 
 /// Represents a password entry in the history
 class PasswordEntry {
@@ -247,8 +245,8 @@ class PasswordHistory {
     
     // Add some common variations
     suggestions.add('${password}2024');
-    suggestions.add('${password}@123');
-    suggestions.add('Secure${password}');
+    suggestions.add('$password@123');
+    suggestions.add('Secure$password');
     
     return suggestions.take(3).toList();
   }

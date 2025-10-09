@@ -3,7 +3,7 @@ import 'package:password_check/password_check.dart';
 
 /// Example demonstrating internationalization (i18n) features
 class InternationalizationExample extends StatefulWidget {
-  const InternationalizationExample({Key? key}) : super(key: key);
+  const InternationalizationExample({super.key});
 
   @override
   State<InternationalizationExample> createState() => _InternationalizationExampleState();
@@ -158,7 +158,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
             const SizedBox(height: 16),
             
             DropdownButtonFormField<String>(
-              value: _selectedLanguage,
+              initialValue: _selectedLanguage,
               decoration: const InputDecoration(
                 labelText: 'Select Language',
                 border: OutlineInputBorder(),
@@ -478,7 +478,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
                   ),
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),

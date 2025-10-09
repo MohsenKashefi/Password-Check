@@ -1,5 +1,5 @@
 /// A comprehensive password validation and strength checking library.
-library password_check;
+library;
 
 export 'src/password_checker.dart';
 export 'src/password_strength.dart';

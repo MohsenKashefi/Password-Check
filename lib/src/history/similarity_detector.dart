@@ -58,13 +58,13 @@ class SimilarityDetector {
     
     // Add year variations
     final currentYear = DateTime.now().year;
-    suggestions.add('${password}$currentYear');
-    suggestions.add('${password}${currentYear + 1}');
+    suggestions.add('$password$currentYear');
+    suggestions.add('$password${currentYear + 1}');
     
     // Add special character variations
-    suggestions.add('${password}@123');
-    suggestions.add('${password}#456');
-    suggestions.add('${password}!789');
+    suggestions.add('$password@123');
+    suggestions.add('$password#456');
+    suggestions.add('$password!789');
     
     // Add prefix variations
     suggestions.add('Secure$password');

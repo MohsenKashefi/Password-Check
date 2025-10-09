@@ -10,13 +10,13 @@ class PasswordRequirementsChecklist extends StatefulWidget {
   final EdgeInsets padding;
 
   const PasswordRequirementsChecklist({
-    Key? key,
+    super.key,
     required this.result,
     required this.rules,
     this.showProgress = true,
     this.animated = true,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0),
-  }) : super(key: key);
+  });
 
   @override
   State<PasswordRequirementsChecklist> createState() => _PasswordRequirementsChecklistState();

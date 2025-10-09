@@ -13,7 +13,7 @@ class PasswordVisualizer extends StatefulWidget {
   final EdgeInsets padding;
 
   const PasswordVisualizer({
-    Key? key,
+    super.key,
     required this.result,
     required this.rules,
     this.showMeter = true,
@@ -22,7 +22,7 @@ class PasswordVisualizer extends StatefulWidget {
     this.showSuggestions = true,
     this.animated = true,
     this.padding = const EdgeInsets.all(16.0),
-  }) : super(key: key);
+  });
 
   @override
   State<PasswordVisualizer> createState() => _PasswordVisualizerState();

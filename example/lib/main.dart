@@ -8,7 +8,6 @@ import 'features/internationalization_example.dart';
 import 'features/password_history_example.dart';
 import 'features/advanced_widgets_example.dart';
 import 'package:password_check/src/widgets/password_history_widget.dart';
-import 'package:password_check/src/history/password_history.dart';
 import 'simple_language_demo.dart';
 
 void main() {

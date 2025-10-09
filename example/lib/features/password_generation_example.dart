@@ -4,7 +4,7 @@ import 'package:password_check/password_check.dart';
 
 /// Example demonstrating password generation features
 class PasswordGenerationExample extends StatefulWidget {
-  const PasswordGenerationExample({Key? key}) : super(key: key);
+  const PasswordGenerationExample({super.key});
 
   @override
   State<PasswordGenerationExample> createState() => _PasswordGenerationExampleState();

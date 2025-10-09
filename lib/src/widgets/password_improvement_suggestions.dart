@@ -10,13 +10,13 @@ class PasswordImprovementSuggestions extends StatelessWidget {
   final EdgeInsets padding;
 
   const PasswordImprovementSuggestions({
-    Key? key,
+    super.key,
     required this.result,
     required this.rules,
     this.showIcons = true,
     this.showPriority = true,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

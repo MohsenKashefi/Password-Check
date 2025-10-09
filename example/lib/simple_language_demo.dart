@@ -4,7 +4,7 @@ import 'package:password_check/password_check.dart';
 /// Simple demo showing the clean, user-friendly language approach.
 /// No complex LanguageManager - just simple constructor parameters!
 class SimpleLanguageDemo extends StatefulWidget {
-  const SimpleLanguageDemo({Key? key}) : super(key: key);
+  const SimpleLanguageDemo({super.key});
 
   @override
   State<SimpleLanguageDemo> createState() => _SimpleLanguageDemoState();

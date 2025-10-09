@@ -3,7 +3,7 @@ import 'package:password_check/password_check.dart';
 
 /// Example demonstrating password history tracking features
 class PasswordHistoryExample extends StatefulWidget {
-  const PasswordHistoryExample({Key? key}) : super(key: key);
+  const PasswordHistoryExample({super.key});
 
   @override
   State<PasswordHistoryExample> createState() => _PasswordHistoryExampleState();
@@ -366,7 +366,7 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
                       ],
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ] else ...[
               // Accepted
@@ -458,7 +458,7 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Password History (${history.length}/${_maxHistoryLength})',
+              'Password History (${history.length}/$_maxHistoryLength)',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),

@@ -3,7 +3,7 @@ import 'package:password_check/password_check.dart';
 
 /// Example demonstrating basic password validation functionality
 class BasicValidationExample extends StatefulWidget {
-  const BasicValidationExample({Key? key}) : super(key: key);
+  const BasicValidationExample({super.key});
 
   @override
   State<BasicValidationExample> createState() => _BasicValidationExampleState();

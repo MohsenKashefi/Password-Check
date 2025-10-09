@@ -11,14 +11,14 @@ class PasswordStrengthIndicator extends StatefulWidget {
   final EdgeInsets padding;
 
   const PasswordStrengthIndicator({
-    Key? key,
+    super.key,
     required this.result,
     this.showBreakdown = true,
     this.showSuggestions = true,
     this.animated = true,
     this.height = 8.0,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0),
-  }) : super(key: key);
+  });
 
   @override
   State<PasswordStrengthIndicator> createState() => _PasswordStrengthIndicatorState();

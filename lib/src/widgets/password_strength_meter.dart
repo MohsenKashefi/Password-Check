@@ -12,7 +12,7 @@ class PasswordStrengthMeter extends StatefulWidget {
   final EdgeInsets padding;
 
   const PasswordStrengthMeter({
-    Key? key,
+    super.key,
     required this.result,
     this.size = 120.0,
     this.animated = true,
@@ -20,7 +20,7 @@ class PasswordStrengthMeter extends StatefulWidget {
     this.showLevel = true,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(16.0),
-  }) : super(key: key);
+  });
 
   @override
   State<PasswordStrengthMeter> createState() => _PasswordStrengthMeterState();
