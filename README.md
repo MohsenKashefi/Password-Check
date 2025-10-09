@@ -672,7 +672,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by the Password Check Team**
+**Made with ❤️ by the youngDevs**
 
 [![GitHub stars](https://img.shields.io/github/stars/PasswordCheck/Password-Check.svg?style=social&label=Star)](https://github.com/PasswordCheck/Password-Check)
 [![GitHub forks](https://img.shields.io/github/forks/PasswordCheck/Password-Check.svg?style=social&label=Fork)](https://github.com/PasswordCheck/Password-Check)
