@@ -7,12 +7,14 @@
 
 A comprehensive Flutter package for password validation, strength checking, and security analysis. This package provides robust password validation with customizable rules, strength scoring, and common password detection.
 
-## ⭐ Show Your Support
+## ☕ Buy Me a Coffee
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-☕-yellow.svg)](https://buymeacoffee.com/youngdevs2e)
 
 If you find this package useful, please consider:
 
 - ⭐ **Starring** the repository
-- ☕ **Buy us a coffee** - [Support the project](https://www.buymeacoffee.com/passwordcheck)
+- ☕ **Buy us a coffee** - [Support the project](https://buymeacoffee.com/youngdevs2e)
 - 🐛 **Reporting** bugs and issues
 - 💡 **Suggesting** new features
 - 📢 **Sharing** with your network
