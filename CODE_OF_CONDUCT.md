@@ -60,7 +60,9 @@ This Code of Conduct applies to:
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.1, available at [https://www.contributor-covenant.org/version/2/1/code_of_conduct.html](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html).
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.1, 
+
+available at [https://www.contributor-covenant.org/version/2/1/code_of_conduct.html](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html).
 
 ## 🆘 Support
 
@@ -71,3 +73,11 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 ---
 
 **Thank you for helping create a welcoming and inclusive community! 🙏**
+
+---
+
+<div align="center">
+  
+**Made with ❤️ by the youngDevs**
+
+</div>
