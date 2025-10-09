@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 /// Example demonstrating internationalization (i18n) features
 class InternationalizationExample extends StatefulWidget {

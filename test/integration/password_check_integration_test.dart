@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 void main() {
   group('Password Check Integration Tests', () {

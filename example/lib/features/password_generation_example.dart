@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 /// Example demonstrating password generation features
 class PasswordGenerationExample extends StatefulWidget {

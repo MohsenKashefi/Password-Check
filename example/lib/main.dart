@@ -1,6 +1,6 @@
  
 import 'package:flutter/material.dart';
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 import 'features/basic_validation_example.dart';
 import 'features/strength_analysis_example.dart';
 import 'features/password_generation_example.dart';

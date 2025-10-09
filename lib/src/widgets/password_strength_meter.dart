@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 /// Circular password strength meter with animated progress.
 class PasswordStrengthMeter extends StatefulWidget {

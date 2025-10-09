@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 /// Simple demo showing the clean, user-friendly language approach.
 /// No complex LanguageManager - just simple constructor parameters!

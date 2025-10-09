@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 /// Interactive password requirements checklist with progress tracking.
 class PasswordRequirementsChecklist extends StatefulWidget {
