@@ -49,7 +49,7 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
       parent: _fadeController,
       curve: Curves.easeInOut,
     ));
-    
+
     if (widget.animated) {
       _fadeController.forward();
     }
@@ -102,14 +102,14 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
               Text(
                 'Password Analysis',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               Text(
                 'Comprehensive security assessment',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey[600],
-                ),
+                      color: Colors.grey[600],
+                    ),
               ),
             ],
           ),
@@ -123,10 +123,12 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: _getStrengthColor(widget.result.strengthScore).withValues(alpha: 0.1),
+        color: _getStrengthColor(widget.result.strengthScore)
+            .withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: _getStrengthColor(widget.result.strengthScore).withValues(alpha: 0.3),
+          color: _getStrengthColor(widget.result.strengthScore)
+              .withValues(alpha: 0.3),
         ),
       ),
       child: Column(
@@ -134,15 +136,15 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
           Text(
             '${widget.result.strengthScore}',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: _getStrengthColor(widget.result.strengthScore),
-            ),
+                  fontWeight: FontWeight.bold,
+                  color: _getStrengthColor(widget.result.strengthScore),
+                ),
           ),
           Text(
             'Score',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: _getStrengthColor(widget.result.strengthScore),
-            ),
+                  color: _getStrengthColor(widget.result.strengthScore),
+                ),
           ),
         ],
       ),
@@ -274,15 +276,17 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
             Text(
               'Detailed Analysis',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 16),
             _buildAnalysisItem('Length Score', _calculateLengthScore()),
             _buildAnalysisItem('Character Variety', _calculateVarietyScore()),
             _buildAnalysisItem('Pattern Security', _calculatePatternScore()),
-            _buildAnalysisItem('Common Password Check', _calculateCommonScore()),
-            _buildAnalysisItem('Overall Security', widget.result.strengthScore / 100),
+            _buildAnalysisItem(
+                'Common Password Check', _calculateCommonScore()),
+            _buildAnalysisItem(
+                'Overall Security', widget.result.strengthScore / 100),
           ],
         ),
       ),
@@ -301,15 +305,15 @@ class _PasswordVisualizerState extends State<PasswordVisualizer>
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
               Text(
                 '${(score * 100).round()}%',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: _getScoreColor(score),
-                ),
+                      fontWeight: FontWeight.bold,
+                      color: _getScoreColor(score),
+                    ),
               ),
             ],
           ),

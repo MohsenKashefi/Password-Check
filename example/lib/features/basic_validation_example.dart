@@ -50,7 +50,7 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
-            
+
             // Password Input
             TextField(
               controller: _passwordController,
@@ -61,11 +61,11 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Validation Presets Demo
             _buildPresetsDemo(),
             const SizedBox(height: 24),
-            
+
             // Validation Results
             if (_result != null) _buildValidationResults(),
           ],
@@ -86,7 +86,6 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            
             _buildPresetExample('Basic', PasswordChecker.basic()),
             const SizedBox(height: 8),
             _buildPresetExample('Strong', PasswordChecker.strong()),
@@ -99,10 +98,10 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
   }
 
   Widget _buildPresetExample(String name, PasswordChecker checker) {
-    final result = _passwordController.text.isNotEmpty 
+    final result = _passwordController.text.isNotEmpty
         ? checker.validate(_passwordController.text)
         : null;
-    
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -131,7 +130,7 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          result.isValid 
+                          result.isValid
                               ? 'Valid (${result.strengthScore}/100)'
                               : result.errorDisplay ?? 'Invalid',
                           style: TextStyle(
@@ -177,7 +176,7 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Strength Score
             Text('Strength Score: ${_result!.strengthScore}/100'),
             const SizedBox(height: 8),
@@ -197,12 +196,13 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Errors
             if (_result!.errorDisplay != null) ...[
               const Text(
                 'Errors:',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
               ),
               const SizedBox(height: 4),
               Container(
@@ -220,12 +220,13 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
               ),
               const SizedBox(height: 12),
             ],
-            
+
             // Warnings
             if (_result!.warningDisplay != null) ...[
               const Text(
                 'Warnings:',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.orange),
               ),
               const SizedBox(height: 4),
               Container(
@@ -243,12 +244,13 @@ class _BasicValidationExampleState extends State<BasicValidationExample> {
               ),
               const SizedBox(height: 12),
             ],
-            
+
             // Improvement Tip
             if (_result!.improvementDisplay != null) ...[
               const Text(
                 'Improvement Tip:',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
               ),
               const SizedBox(height: 4),
               Container(

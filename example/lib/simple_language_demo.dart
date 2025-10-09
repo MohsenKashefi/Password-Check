@@ -101,15 +101,15 @@ class _SimpleLanguageDemoState extends State<SimpleLanguageDemo> {
             Text(
               '🌍 Language Selection',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
               'Simple approach: Just pass language to PasswordChecker!',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
-              ),
+                    color: Colors.grey[600],
+                  ),
             ),
             const SizedBox(height: 12),
             DropdownButton<String>(
@@ -143,8 +143,8 @@ class _SimpleLanguageDemoState extends State<SimpleLanguageDemo> {
             Text(
               '🔐 Password Input',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             TextField(
@@ -153,9 +153,8 @@ class _SimpleLanguageDemoState extends State<SimpleLanguageDemo> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 labelText: 'Enter your password',
-                errorText: _result?.isValid == false
-                    ? _result!.errorDisplay
-                    : null,
+                errorText:
+                    _result?.isValid == false ? _result!.errorDisplay : null,
               ),
             ),
           ],
@@ -174,15 +173,15 @@ class _SimpleLanguageDemoState extends State<SimpleLanguageDemo> {
             Text(
               '🎲 Password Generator',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
               'No language needed - just generates passwords!',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
-              ),
+                    color: Colors.grey[600],
+                  ),
             ),
             const SizedBox(height: 12),
             ElevatedButton.icon(
@@ -239,8 +238,8 @@ class _SimpleLanguageDemoState extends State<SimpleLanguageDemo> {
             Text(
               '📊 Validation Result',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             Row(
@@ -329,8 +328,8 @@ class _SimpleLanguageDemoState extends State<SimpleLanguageDemo> {
             Text(
               '✨ Simple & Clean Approach',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             const Text(

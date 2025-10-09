@@ -34,7 +34,8 @@ class PasswordHistoryWidget extends StatelessWidget {
             const SizedBox(height: 12),
             if (historyResult != null) _buildHistoryResult(context),
             if (showDetails && history != null) _buildHistoryDetails(context),
-            if (showSuggestions && historyResult?.suggestions.isNotEmpty == true)
+            if (showSuggestions &&
+                historyResult?.suggestions.isNotEmpty == true)
               _buildSuggestions(context),
           ],
         ),
@@ -215,20 +216,21 @@ class PasswordHistoryWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         ...historyResult!.suggestions.map((suggestion) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2),
-          child: Row(
-            children: [
-              const Icon(Icons.lightbulb_outline, size: 16, color: Colors.orange),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  suggestion,
-                  style: const TextStyle(fontFamily: 'monospace'),
-                ),
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Row(
+                children: [
+                  const Icon(Icons.lightbulb_outline,
+                      size: 16, color: Colors.orange),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      suggestion,
+                      style: const TextStyle(fontFamily: 'monospace'),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        )),
+            )),
       ],
     );
   }
@@ -236,7 +238,7 @@ class PasswordHistoryWidget extends StatelessWidget {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date);
-    
+
     if (difference.inDays > 0) {
       return '${difference.inDays} days ago';
     } else if (difference.inHours > 0) {
@@ -316,7 +318,3 @@ class PasswordHistoryStatusWidget extends StatelessWidget {
     }
   }
 }
-
-
-
-

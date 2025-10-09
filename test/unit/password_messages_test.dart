@@ -29,11 +29,13 @@ void main() {
       expect(PasswordMessages.spanish.requireUppercase, contains('mayúscula'));
       expect(PasswordMessages.spanish.requireLowercase, contains('minúscula'));
       expect(PasswordMessages.spanish.requireNumbers, contains('número'));
-      expect(PasswordMessages.spanish.requireSpecialChars, contains('carácter especial'));
+      expect(PasswordMessages.spanish.requireSpecialChars,
+          contains('carácter especial'));
       expect(PasswordMessages.spanish.noSpaces, contains('espacios'));
       expect(PasswordMessages.spanish.notCommon, contains('común'));
       expect(PasswordMessages.spanish.noRepeatedChars, contains('repetidos'));
-      expect(PasswordMessages.spanish.noSequentialChars, contains('secuenciales'));
+      expect(
+          PasswordMessages.spanish.noSequentialChars, contains('secuenciales'));
       expect(PasswordMessages.spanish.veryWeak, contains('Débil'));
       expect(PasswordMessages.spanish.weak, contains('Débil'));
       expect(PasswordMessages.spanish.fair, contains('Regular'));
@@ -48,11 +50,13 @@ void main() {
       expect(PasswordMessages.french.requireUppercase, contains('majuscule'));
       expect(PasswordMessages.french.requireLowercase, contains('minuscule'));
       expect(PasswordMessages.french.requireNumbers, contains('chiffre'));
-      expect(PasswordMessages.french.requireSpecialChars, contains('caractère spécial'));
+      expect(PasswordMessages.french.requireSpecialChars,
+          contains('caractère spécial'));
       expect(PasswordMessages.french.noSpaces, contains('espaces'));
       expect(PasswordMessages.french.notCommon, contains('commun'));
       expect(PasswordMessages.french.noRepeatedChars, contains('répétés'));
-      expect(PasswordMessages.french.noSequentialChars, contains('séquentiels'));
+      expect(
+          PasswordMessages.french.noSequentialChars, contains('séquentiels'));
       expect(PasswordMessages.french.veryWeak, contains('Faible'));
       expect(PasswordMessages.french.weak, contains('Faible'));
       expect(PasswordMessages.french.fair, contains('Moyen'));
@@ -64,14 +68,18 @@ void main() {
     test('should provide German messages', () {
       expect(PasswordMessages.german.minLength, contains('{min}'));
       expect(PasswordMessages.german.maxLength, contains('{max}'));
-      expect(PasswordMessages.german.requireUppercase, contains('Großbuchstaben'));
-      expect(PasswordMessages.german.requireLowercase, contains('Kleinbuchstaben'));
+      expect(
+          PasswordMessages.german.requireUppercase, contains('Großbuchstaben'));
+      expect(PasswordMessages.german.requireLowercase,
+          contains('Kleinbuchstaben'));
       expect(PasswordMessages.german.requireNumbers, contains('Zahl'));
-      expect(PasswordMessages.german.requireSpecialChars, contains('Sonderzeichen'));
+      expect(PasswordMessages.german.requireSpecialChars,
+          contains('Sonderzeichen'));
       expect(PasswordMessages.german.noSpaces, contains('Leerzeichen'));
       expect(PasswordMessages.german.notCommon, contains('häufig'));
       expect(PasswordMessages.german.noRepeatedChars, contains('wiederholte'));
-      expect(PasswordMessages.german.noSequentialChars, contains('sequenzielle'));
+      expect(
+          PasswordMessages.german.noSequentialChars, contains('sequenzielle'));
       expect(PasswordMessages.german.veryWeak, contains('Schwach'));
       expect(PasswordMessages.german.weak, contains('Schwach'));
       expect(PasswordMessages.german.fair, contains('Mittel'));
@@ -83,14 +91,19 @@ void main() {
     test('should provide Portuguese messages', () {
       expect(PasswordMessages.portuguese.minLength, contains('{min}'));
       expect(PasswordMessages.portuguese.maxLength, contains('{max}'));
-      expect(PasswordMessages.portuguese.requireUppercase, contains('maiúscula'));
-      expect(PasswordMessages.portuguese.requireLowercase, contains('minúscula'));
+      expect(
+          PasswordMessages.portuguese.requireUppercase, contains('maiúscula'));
+      expect(
+          PasswordMessages.portuguese.requireLowercase, contains('minúscula'));
       expect(PasswordMessages.portuguese.requireNumbers, contains('número'));
-      expect(PasswordMessages.portuguese.requireSpecialChars, contains('caractere especial'));
+      expect(PasswordMessages.portuguese.requireSpecialChars,
+          contains('caractere especial'));
       expect(PasswordMessages.portuguese.noSpaces, contains('espaços'));
       expect(PasswordMessages.portuguese.notCommon, contains('comum'));
-      expect(PasswordMessages.portuguese.noRepeatedChars, contains('repetidos'));
-      expect(PasswordMessages.portuguese.noSequentialChars, contains('sequenciais'));
+      expect(
+          PasswordMessages.portuguese.noRepeatedChars, contains('repetidos'));
+      expect(PasswordMessages.portuguese.noSequentialChars,
+          contains('sequenciais'));
       expect(PasswordMessages.portuguese.veryWeak, contains('Fraca'));
       expect(PasswordMessages.portuguese.weak, contains('Fraca'));
       expect(PasswordMessages.portuguese.fair, contains('Regular'));
@@ -105,11 +118,13 @@ void main() {
       expect(PasswordMessages.italian.requireUppercase, contains('maiuscola'));
       expect(PasswordMessages.italian.requireLowercase, contains('minuscola'));
       expect(PasswordMessages.italian.requireNumbers, contains('numero'));
-      expect(PasswordMessages.italian.requireSpecialChars, contains('carattere speciale'));
+      expect(PasswordMessages.italian.requireSpecialChars,
+          contains('carattere speciale'));
       expect(PasswordMessages.italian.noSpaces, contains('spazi'));
       expect(PasswordMessages.italian.notCommon, contains('comune'));
       expect(PasswordMessages.italian.noRepeatedChars, contains('ripetuti'));
-      expect(PasswordMessages.italian.noSequentialChars, contains('sequenziali'));
+      expect(
+          PasswordMessages.italian.noSequentialChars, contains('sequenziali'));
       expect(PasswordMessages.italian.veryWeak, contains('Debole'));
       expect(PasswordMessages.italian.weak, contains('Debole'));
       expect(PasswordMessages.italian.fair, contains('Discreta'));
@@ -139,64 +154,80 @@ void main() {
 
     test('should handle getMessage with parameter substitution', () {
       final messages = PasswordMessages.english;
-      
+
       // Test parameter substitution
-      final minLengthMessage = messages.getMessage('minLength', params: {'min': '8'});
+      final minLengthMessage =
+          messages.getMessage('minLength', params: {'min': '8'});
       expect(minLengthMessage, contains('8'));
       expect(minLengthMessage, contains('characters long'));
-      
-      final maxLengthMessage = messages.getMessage('maxLength', params: {'max': '128'});
+
+      final maxLengthMessage =
+          messages.getMessage('maxLength', params: {'max': '128'});
       expect(maxLengthMessage, contains('128'));
       expect(maxLengthMessage, contains('characters long'));
     });
 
     test('should handle getMessage without parameters', () {
       final messages = PasswordMessages.english;
-      
+
       final message = messages.getMessage('requireUppercase');
-      expect(message, equals('Password must contain at least one uppercase letter'));
+      expect(message,
+          equals('Password must contain at least one uppercase letter'));
     });
 
     test('should handle getMessage with unknown key', () {
       final messages = PasswordMessages.english;
-      
+
       final message = messages.getMessage('unknownKey');
       expect(message, equals('unknownKey'));
     });
 
     test('should handle getMessage with multiple parameters', () {
       final messages = PasswordMessages.english;
-      
-      final message = messages.getMessage('minLength', params: {'min': '12', 'max': '50'});
+
+      final message =
+          messages.getMessage('minLength', params: {'min': '12', 'max': '50'});
       expect(message, contains('12'));
       expect(message, isNot(contains('50'))); // Only min parameter is used
     });
 
     test('should handle getMessage with null parameters', () {
       final messages = PasswordMessages.english;
-      
+
       final message = messages.getMessage('minLength', params: null);
       expect(message, contains('{min}'));
     });
 
     test('should handle getMessage with empty parameters', () {
       final messages = PasswordMessages.english;
-      
+
       final message = messages.getMessage('minLength', params: {});
       expect(message, contains('{min}'));
     });
 
     test('should handle all message keys in _getMessageByKey', () {
       final messages = PasswordMessages.english;
-      
+
       // Test all possible keys
       final keys = [
-        'minLength', 'maxLength', 'requireUppercase', 'requireLowercase',
-        'requireNumbers', 'requireSpecialChars', 'noSpaces', 'notCommon',
-        'noRepeatedChars', 'noSequentialChars', 'veryWeak', 'weak',
-        'fair', 'good', 'strong', 'veryStrong'
+        'minLength',
+        'maxLength',
+        'requireUppercase',
+        'requireLowercase',
+        'requireNumbers',
+        'requireSpecialChars',
+        'noSpaces',
+        'notCommon',
+        'noRepeatedChars',
+        'noSequentialChars',
+        'veryWeak',
+        'weak',
+        'fair',
+        'good',
+        'strong',
+        'veryStrong'
       ];
-      
+
       for (final key in keys) {
         final message = messages.getMessage(key);
         expect(message, isNotEmpty);
@@ -206,7 +237,7 @@ void main() {
 
     test('should handle strength level messages', () {
       final messages = PasswordMessages.english;
-      
+
       expect(messages.getMessage('veryWeak'), equals('Very Weak'));
       expect(messages.getMessage('weak'), equals('Weak'));
       expect(messages.getMessage('fair'), equals('Fair'));
@@ -217,13 +248,14 @@ void main() {
 
     test('should handle validation rule messages', () {
       final messages = PasswordMessages.english;
-      
+
       expect(messages.getMessage('minLength'), contains('at least'));
       expect(messages.getMessage('maxLength'), contains('no more than'));
       expect(messages.getMessage('requireUppercase'), contains('uppercase'));
       expect(messages.getMessage('requireLowercase'), contains('lowercase'));
       expect(messages.getMessage('requireNumbers'), contains('number'));
-      expect(messages.getMessage('requireSpecialChars'), contains('special character'));
+      expect(messages.getMessage('requireSpecialChars'),
+          contains('special character'));
       expect(messages.getMessage('noSpaces'), contains('spaces'));
       expect(messages.getMessage('notCommon'), contains('common'));
       expect(messages.getMessage('noRepeatedChars'), contains('repeated'));

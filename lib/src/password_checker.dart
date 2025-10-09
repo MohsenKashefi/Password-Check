@@ -18,33 +18,33 @@ class PasswordChecker {
     ValidationRules? rules,
     String? language,
     CustomMessages? customMessages,
-  }) : _rules = rules ?? const ValidationRules(),
-       _commonPasswords = _getCommonPasswords(),
-       _messages = _getMessages(language, customMessages);
+  })  : _rules = rules ?? const ValidationRules(),
+        _commonPasswords = _getCommonPasswords(),
+        _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with basic validation rules.
   PasswordChecker.basic({
     String? language,
     CustomMessages? customMessages,
-  }) : _rules = const ValidationRules.basic(),
-       _commonPasswords = _getCommonPasswords(),
-       _messages = _getMessages(language, customMessages);
+  })  : _rules = const ValidationRules.basic(),
+        _commonPasswords = _getCommonPasswords(),
+        _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with strong validation rules.
   PasswordChecker.strong({
     String? language,
     CustomMessages? customMessages,
-  }) : _rules = const ValidationRules.strong(),
-       _commonPasswords = _getCommonPasswords(),
-       _messages = _getMessages(language, customMessages);
+  })  : _rules = const ValidationRules.strong(),
+        _commonPasswords = _getCommonPasswords(),
+        _messages = _getMessages(language, customMessages);
 
   /// Creates a PasswordChecker with strict validation rules.
   PasswordChecker.strict({
     String? language,
     CustomMessages? customMessages,
-  }) : _rules = const ValidationRules.strict(),
-       _commonPasswords = _getCommonPasswords(),
-       _messages = _getMessages(language, customMessages);
+  })  : _rules = const ValidationRules.strict(),
+        _commonPasswords = _getCommonPasswords(),
+        _messages = _getMessages(language, customMessages);
 
   /// Gets the current messages.
   PasswordMessages get messages => _messages;
@@ -80,7 +80,8 @@ class PasswordChecker {
     if (_history != null) {
       final historyResult = _history!.checkPassword(password);
       if (historyResult.isRejected) {
-        errors.add(historyResult.reason ?? 'Password rejected by history check');
+        errors
+            .add(historyResult.reason ?? 'Password rejected by history check');
         checks['historyCheck'] = false;
       } else {
         checks['historyCheck'] = true;
@@ -89,14 +90,16 @@ class PasswordChecker {
 
     // Length validation
     if (password.length < _rules.minLength) {
-      errors.add(_messages.getMessage('minLength', params: {'min': _rules.minLength}));
+      errors.add(
+          _messages.getMessage('minLength', params: {'min': _rules.minLength}));
       checks['minLength'] = false;
     } else {
       checks['minLength'] = true;
     }
 
     if (password.length > _rules.maxLength) {
-      errors.add(_messages.getMessage('maxLength', params: {'max': _rules.maxLength}));
+      errors.add(
+          _messages.getMessage('maxLength', params: {'max': _rules.maxLength}));
       checks['maxLength'] = false;
     } else {
       checks['maxLength'] = true;
@@ -124,7 +127,8 @@ class PasswordChecker {
       checks['numbers'] = true;
     }
 
-    if (_rules.requireSpecialChars && !password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+    if (_rules.requireSpecialChars &&
+        !password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       errors.add(_messages.requireSpecialChars);
       checks['specialChars'] = false;
     } else {
@@ -165,7 +169,7 @@ class PasswordChecker {
 
     // Build requirements list
     _buildRequirementsList(requirements, checks);
-    
+
     // Analyze vulnerabilities
     _analyzeVulnerabilities(password, vulnerabilities);
 
@@ -213,7 +217,7 @@ class PasswordChecker {
   /// Checks if password has too many repeated characters.
   bool _hasTooManyRepeatedChars(String password) {
     if (_rules.maxRepeatedChars <= 0) return false;
-    
+
     final charCount = <String, int>{};
     for (final char in password.split('')) {
       charCount[char] = (charCount[char] ?? 0) + 1;
@@ -227,59 +231,112 @@ class PasswordChecker {
   /// Checks if password has sequential characters.
   bool _hasSequentialChars(String password) {
     if (_rules.maxSequentialLength <= 0) return false;
-    
+
     final lowerPassword = password.toLowerCase();
-    
+
     // Check for sequential letters (abc, bcd, etc.)
-    for (int i = 0; i <= lowerPassword.length - _rules.maxSequentialLength; i++) {
-      final sequence = lowerPassword.substring(i, i + _rules.maxSequentialLength);
+    for (int i = 0;
+        i <= lowerPassword.length - _rules.maxSequentialLength;
+        i++) {
+      final sequence =
+          lowerPassword.substring(i, i + _rules.maxSequentialLength);
       if (_isSequential(sequence)) {
         return true;
       }
     }
-    
+
     return false;
   }
 
   /// Checks if a string is sequential (abc, 123, etc.).
   bool _isSequential(String str) {
     if (str.length < 2) return false;
-    
+
     final chars = str.split('');
     for (int i = 1; i < chars.length; i++) {
       final prev = chars[i - 1].codeUnitAt(0);
       final curr = chars[i].codeUnitAt(0);
-      
+
       if (curr != prev + 1) {
         return false;
       }
     }
-    
+
     return true;
   }
 
   /// Gets a list of common passwords.
   static List<String> _getCommonPasswords() {
     return [
-      'password', '123456', '123456789', 'qwerty', 'abc123',
-      'password123', 'admin', 'letmein', 'welcome', 'monkey',
-      '1234567890', 'password1', 'qwerty123', 'dragon', 'master',
-      'hello', 'freedom', 'whatever', 'qazwsx', 'trustno1',
-      'jordan', 'jennifer', 'zxcvbnm', 'asdfgh', 'hunter',
-      'buster', 'soccer', 'harley', 'batman', 'andrew',
-      'tigger', 'sunshine', 'iloveyou', '2000', 'charlie',
-      'robert', 'thomas', 'hockey', 'ranger', 'daniel',
-      'hannah', 'maggie', 'jessica', 'charlie', 'michelle',
-      'jordan', 'andrew', 'david', 'joshua', 'michael',
-      'jennifer', 'jessica', 'sarah', 'hannah', 'maggie',
-      'michelle', 'jordan', 'andrew', 'david', 'joshua',
+      'password',
+      '123456',
+      '123456789',
+      'qwerty',
+      'abc123',
+      'password123',
+      'admin',
+      'letmein',
+      'welcome',
+      'monkey',
+      '1234567890',
+      'password1',
+      'qwerty123',
+      'dragon',
+      'master',
+      'hello',
+      'freedom',
+      'whatever',
+      'qazwsx',
+      'trustno1',
+      'jordan',
+      'jennifer',
+      'zxcvbnm',
+      'asdfgh',
+      'hunter',
+      'buster',
+      'soccer',
+      'harley',
+      'batman',
+      'andrew',
+      'tigger',
+      'sunshine',
+      'iloveyou',
+      '2000',
+      'charlie',
+      'robert',
+      'thomas',
+      'hockey',
+      'ranger',
+      'daniel',
+      'hannah',
+      'maggie',
+      'jessica',
+      'charlie',
+      'michelle',
+      'jordan',
+      'andrew',
+      'david',
+      'joshua',
+      'michael',
+      'jennifer',
+      'jessica',
+      'sarah',
+      'hannah',
+      'maggie',
+      'michelle',
+      'jordan',
+      'andrew',
+      'david',
+      'joshua',
     ];
   }
 
   /// Builds the requirements list based on validation checks.
-  void _buildRequirementsList(List<String> requirements, Map<String, bool> checks) {
+  void _buildRequirementsList(
+      List<String> requirements, Map<String, bool> checks) {
     if (checks['minLength'] == true) {
-      requirements.add(_messages.getMessage('minLength', params: {'min': _rules.minLength}));
+      requirements.add(
+          _messages.getMessage('minLength', params: {'min': _rules.minLength}));
     }
     if (checks['uppercase'] == true) {
       requirements.add(_messages.requireUppercase);
@@ -313,7 +370,8 @@ class PasswordChecker {
       vulnerabilities.add(_messages.noSequentialChars);
     }
     if (password.length < 8) {
-      vulnerabilities.add(_messages.getMessage('minLength', params: {'min': 8}));
+      vulnerabilities
+          .add(_messages.getMessage('minLength', params: {'min': 8}));
     }
   }
 
@@ -345,11 +403,13 @@ class PasswordChecker {
   }
 
   /// Generates improvement tip based on password analysis.
-  String? _getImprovementTip(String password, Map<String, bool> checks, int strengthScore) {
+  String? _getImprovementTip(
+      String password, Map<String, bool> checks, int strengthScore) {
     if (strengthScore >= 80) return null; // No improvement needed
-    
+
     if (checks['minLength'] == false) {
-      return _messages.getMessage('minLength', params: {'min': _rules.minLength});
+      return _messages
+          .getMessage('minLength', params: {'min': _rules.minLength});
     }
     if (checks['uppercase'] == false) {
       return _messages.requireUppercase;
@@ -366,24 +426,28 @@ class PasswordChecker {
     if (checks['notCommon'] == false) {
       return _messages.notCommon;
     }
-    
+
     return null;
   }
 
   /// Gets messages for the specified language with optional custom overrides.
-  static PasswordMessages _getMessages(String? language, CustomMessages? customMessages) {
-    final detectedLanguage = language ?? LanguageDetector.detectSystemLanguage();
-    final baseMessages = LanguageDetector.getMessagesForLanguage(detectedLanguage);
-    
+  static PasswordMessages _getMessages(
+      String? language, CustomMessages? customMessages) {
+    final detectedLanguage =
+        language ?? LanguageDetector.detectSystemLanguage();
+    final baseMessages =
+        LanguageDetector.getMessagesForLanguage(detectedLanguage);
+
     if (customMessages != null) {
       return customMessages.applyTo(baseMessages);
     }
-    
+
     return baseMessages;
   }
 
   /// Adds a password to the history if history tracking is enabled.
-  Future<void> addToHistory(String password, {Map<String, dynamic>? metadata}) async {
+  Future<void> addToHistory(String password,
+      {Map<String, dynamic>? metadata}) async {
     if (_history != null) {
       await _history!.addPassword(password, metadata: metadata);
     }
@@ -402,12 +466,12 @@ class PasswordChecker {
     Map<String, dynamic>? metadata,
   }) async {
     final result = validate(password);
-    
+
     // Only add to history if validation passes
     if (result.isValid && _history != null) {
       await addToHistory(password, metadata: metadata);
     }
-    
+
     return result;
   }
 }

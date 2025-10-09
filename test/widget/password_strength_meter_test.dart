@@ -30,7 +30,8 @@ void main() {
       );
     });
 
-    testWidgets('should display strength meter with valid result', (WidgetTester tester) async {
+    testWidgets('should display strength meter with valid result',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -49,7 +50,8 @@ void main() {
       expect(find.byType(PasswordStrengthMeter), findsOneWidget);
     });
 
-    testWidgets('should display strength meter with invalid result', (WidgetTester tester) async {
+    testWidgets('should display strength meter with invalid result',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -163,7 +165,8 @@ void main() {
       expect(find.byType(PasswordStrengthMeter), findsOneWidget);
     });
 
-    testWidgets('should handle animation properly', (WidgetTester tester) async {
+    testWidgets('should handle animation properly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -180,13 +183,14 @@ void main() {
 
       // Verify widget renders with animation
       expect(find.byType(PasswordStrengthMeter), findsOneWidget);
-      
+
       // Pump frames to test animation
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
     });
 
-    testWidgets('should handle custom background color', (WidgetTester tester) async {
+    testWidgets('should handle custom background color',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -208,7 +212,7 @@ void main() {
 
     testWidgets('should handle custom padding', (WidgetTester tester) async {
       const customPadding = EdgeInsets.all(24.0);
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -228,7 +232,8 @@ void main() {
       expect(find.byType(PasswordStrengthMeter), findsOneWidget);
     });
 
-    testWidgets('should display different strength levels', (WidgetTester tester) async {
+    testWidgets('should display different strength levels',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

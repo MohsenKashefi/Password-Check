@@ -8,31 +8,31 @@ import 'password_checker.dart';
 class GenerationRules {
   /// Length of the generated password.
   final int length;
-  
+
   /// Whether to include uppercase letters.
   final bool includeUppercase;
-  
+
   /// Whether to include lowercase letters.
   final bool includeLowercase;
-  
+
   /// Whether to include numbers.
   final bool includeNumbers;
-  
+
   /// Whether to include special characters.
   final bool includeSpecialChars;
-  
+
   /// Whether to include spaces.
   final bool includeSpaces;
-  
+
   /// Whether to avoid similar characters (0, O, l, 1, etc.).
   final bool avoidSimilarChars;
-  
+
   /// Whether to avoid ambiguous characters.
   final bool avoidAmbiguousChars;
-  
+
   /// Custom character set to include.
   final String? customChars;
-  
+
   /// Whether to ensure at least one character from each included set.
   final bool ensureCharacterVariety;
 
@@ -108,22 +108,22 @@ class GenerationRules {
 class GenerationResult {
   /// The generated password.
   final String password;
-  
+
   /// The strength score of the generated password (0-100).
   final int strengthScore;
-  
+
   /// The strength level of the generated password.
   final PasswordStrengthLevel strengthLevel;
-  
+
   /// The generation rules used.
   final GenerationRules rules;
-  
+
   /// Timestamp when the password was generated.
   final DateTime timestamp;
-  
+
   /// Whether the password meets the specified validation rules.
   final bool isValid;
-  
+
   /// Validation result if validation was performed.
   final PasswordValidationResult? validationResult;
 
@@ -156,23 +156,23 @@ class PasswordGenerator {
   /// Creates a PasswordGenerator with custom generation rules.
   PasswordGenerator({
     GenerationRules? rules,
-  }) : _rules = rules ?? const GenerationRules(),
-       _history = [];
+  })  : _rules = rules ?? const GenerationRules(),
+        _history = [];
 
   /// Creates a PasswordGenerator with basic generation rules.
   PasswordGenerator.basic()
       : _rules = const GenerationRules.basic(),
-       _history = [];
+        _history = [];
 
   /// Creates a PasswordGenerator with strong generation rules.
   PasswordGenerator.strong()
       : _rules = const GenerationRules.strong(),
-       _history = [];
+        _history = [];
 
   /// Creates a PasswordGenerator with strict generation rules.
   PasswordGenerator.strict()
       : _rules = const GenerationRules.strict(),
-       _history = [];
+        _history = [];
 
   /// Gets the current generation rules.
   GenerationRules get rules => _rules;
@@ -185,7 +185,7 @@ class PasswordGenerator {
     final password = _generatePassword();
     final strengthScore = PasswordStrength.calculateScore(password);
     final strengthLevel = PasswordStrength.getStrengthLevel(strengthScore);
-    
+
     final result = GenerationResult(
       password: password,
       strengthScore: strengthScore,
@@ -203,7 +203,7 @@ class PasswordGenerator {
     final result = generate();
     final checker = PasswordChecker(rules: validationRules);
     final validationResult = checker.validate(result.password);
-    
+
     final validatedResult = GenerationResult(
       password: result.password,
       strengthScore: result.strengthScore,
@@ -213,12 +213,12 @@ class PasswordGenerator {
       isValid: validationResult.isValid,
       validationResult: validationResult,
     );
-    
+
     // Replace the last entry in history
     if (_history.isNotEmpty) {
       _history[_history.length - 1] = validatedResult;
     }
-    
+
     return validatedResult;
   }
 
@@ -237,7 +237,8 @@ class PasswordGenerator {
   }
 
   /// Gets the last generated password.
-  String? get lastPassword => _history.isNotEmpty ? _history.last.password : null;
+  String? get lastPassword =>
+      _history.isNotEmpty ? _history.last.password : null;
 
   /// Gets the average strength score of all generated passwords.
   double get averageStrengthScore {
@@ -262,85 +263,85 @@ class PasswordGenerator {
   String _generatePassword() {
     final charSets = <String>[];
     final requiredChars = <String>[];
-    
+
     // Build character sets based on rules
     if (_rules.includeUppercase) {
-      final uppercase = _rules.avoidSimilarChars 
-          ? 'ABCDEFGHJKLMNPQRSTUVWXYZ'  // Excludes I, O
+      final uppercase = _rules.avoidSimilarChars
+          ? 'ABCDEFGHJKLMNPQRSTUVWXYZ' // Excludes I, O
           : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       charSets.add(uppercase);
       if (_rules.ensureCharacterVariety) {
         requiredChars.add(uppercase[Random().nextInt(uppercase.length)]);
       }
     }
-    
+
     if (_rules.includeLowercase) {
-      final lowercase = _rules.avoidSimilarChars 
-          ? 'abcdefghijkmnpqrstuvwxyz'  // Excludes l, o
+      final lowercase = _rules.avoidSimilarChars
+          ? 'abcdefghijkmnpqrstuvwxyz' // Excludes l, o
           : 'abcdefghijklmnopqrstuvwxyz';
       charSets.add(lowercase);
       if (_rules.ensureCharacterVariety) {
         requiredChars.add(lowercase[Random().nextInt(lowercase.length)]);
       }
     }
-    
+
     if (_rules.includeNumbers) {
-      final numbers = _rules.avoidSimilarChars 
-          ? '23456789'  // Excludes 0, 1
+      final numbers = _rules.avoidSimilarChars
+          ? '23456789' // Excludes 0, 1
           : '0123456789';
       charSets.add(numbers);
       if (_rules.ensureCharacterVariety) {
         requiredChars.add(numbers[Random().nextInt(numbers.length)]);
       }
     }
-    
+
     if (_rules.includeSpecialChars) {
       final specialChars = _rules.avoidAmbiguousChars
-          ? '!@#\$%^&*()_+-=[]{}|;:,.<>?'  // Excludes ambiguous chars
+          ? '!@#\$%^&*()_+-=[]{}|;:,.<>?' // Excludes ambiguous chars
           : '!@#\$%^&*()_+-=[]{}|;:,.<>?/\\"\'`~';
       charSets.add(specialChars);
       if (_rules.ensureCharacterVariety) {
         requiredChars.add(specialChars[Random().nextInt(specialChars.length)]);
       }
     }
-    
+
     if (_rules.includeSpaces) {
       charSets.add(' ');
       if (_rules.ensureCharacterVariety) {
         requiredChars.add(' ');
       }
     }
-    
+
     if (_rules.customChars != null && _rules.customChars!.isNotEmpty) {
       charSets.add(_rules.customChars!);
     }
-    
+
     if (charSets.isEmpty) {
       throw ArgumentError('At least one character set must be included');
     }
-    
+
     // Combine all character sets
     final allChars = charSets.join();
-    
+
     // Generate password
     final password = StringBuffer();
     final random = Random.secure();
-    
+
     // Add required characters first
     for (final char in requiredChars) {
       password.write(char);
     }
-    
+
     // Fill remaining length
     final remainingLength = _rules.length - requiredChars.length;
     for (int i = 0; i < remainingLength; i++) {
       password.write(allChars[random.nextInt(allChars.length)]);
     }
-    
+
     // Shuffle the password to randomize required character positions
     final passwordChars = password.toString().split('');
     passwordChars.shuffle(random);
-    
+
     return passwordChars.join();
   }
 }

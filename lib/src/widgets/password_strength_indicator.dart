@@ -21,7 +21,8 @@ class PasswordStrengthIndicator extends StatefulWidget {
   });
 
   @override
-  State<PasswordStrengthIndicator> createState() => _PasswordStrengthIndicatorState();
+  State<PasswordStrengthIndicator> createState() =>
+      _PasswordStrengthIndicatorState();
 }
 
 class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
@@ -37,7 +38,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     _strengthAnimation = Tween<double>(
       begin: 0.0,
       end: widget.result.strengthScore / 100,
@@ -45,7 +46,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     _colorAnimation = ColorTween(
       begin: Colors.grey,
       end: _getStrengthColor(widget.result.strengthScore),
@@ -53,7 +54,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     if (widget.animated) {
       _animationController.forward();
     }
@@ -75,7 +76,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     _colorAnimation = ColorTween(
       begin: _colorAnimation.value,
       end: _getStrengthColor(widget.result.strengthScore),
@@ -83,7 +84,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     if (widget.animated) {
       _animationController.reset();
       _animationController.forward();
@@ -129,15 +130,15 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
             Text(
               'Password Strength',
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             Text(
               '${widget.result.strengthScore}/100',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: _getStrengthColor(widget.result.strengthScore),
-              ),
+                    fontWeight: FontWeight.bold,
+                    color: _getStrengthColor(widget.result.strengthScore),
+                  ),
             ),
           ],
         ),
@@ -165,13 +166,16 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
                     builder: (context, child) {
                       return Container(
                         height: widget.height,
-                        width: MediaQuery.of(context).size.width * _strengthAnimation.value,
+                        width: MediaQuery.of(context).size.width *
+                            _strengthAnimation.value,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(widget.height / 2),
+                          borderRadius:
+                              BorderRadius.circular(widget.height / 2),
                           gradient: LinearGradient(
                             colors: [
                               _colorAnimation.value ?? Colors.grey,
-                              _colorAnimation.value?.withValues(alpha: 0.7) ?? Colors.grey,
+                              _colorAnimation.value?.withValues(alpha: 0.7) ??
+                                  Colors.grey,
                             ],
                           ),
                         ),
@@ -214,8 +218,8 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
         Text(
           'Strength Breakdown',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(height: 8),
         _buildBreakdownItem('Length', _calculateLengthScore()),
@@ -264,8 +268,8 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
           Text(
             '${(score * 100).round()}%',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ],
       ),
@@ -282,30 +286,30 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
         Text(
           'Improvement Suggestions',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(height: 8),
         ...suggestions.map((suggestion) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.lightbulb_outline,
-                size: 16,
-                color: Colors.orange,
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.lightbulb_outline,
+                    size: 16,
+                    color: Colors.orange,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      suggestion,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  suggestion,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ),
-            ],
-          ),
-        )),
+            )),
       ],
     );
   }
@@ -340,7 +344,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
 
   List<String> _getImprovementSuggestions() {
     final suggestions = <String>[];
-    
+
     if (widget.result.checks['minLength'] == false) {
       suggestions.add('Use at least 8 characters');
     }
@@ -365,7 +369,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
     if (widget.result.checks['noSequentialChars'] == false) {
       suggestions.add('Avoid sequential characters (abc, 123)');
     }
-    
+
     return suggestions;
   }
 

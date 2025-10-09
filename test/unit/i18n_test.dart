@@ -6,11 +6,16 @@ void main() {
     group('PasswordMessages', () {
       test('should provide English messages by default', () {
         const messages = PasswordMessages.english;
-        expect(messages.minLength, 'Password must be at least {min} characters long');
-        expect(messages.requireUppercase, 'Password must contain at least one uppercase letter');
-        expect(messages.requireLowercase, 'Password must contain at least one lowercase letter');
-        expect(messages.requireNumbers, 'Password must contain at least one number');
-        expect(messages.requireSpecialChars, 'Password must contain at least one special character');
+        expect(messages.minLength,
+            'Password must be at least {min} characters long');
+        expect(messages.requireUppercase,
+            'Password must contain at least one uppercase letter');
+        expect(messages.requireLowercase,
+            'Password must contain at least one lowercase letter');
+        expect(messages.requireNumbers,
+            'Password must contain at least one number');
+        expect(messages.requireSpecialChars,
+            'Password must contain at least one special character');
         expect(messages.veryWeak, 'Very Weak');
         expect(messages.weak, 'Weak');
         expect(messages.fair, 'Fair');
@@ -21,40 +26,50 @@ void main() {
 
       test('should provide Spanish messages', () {
         const messages = PasswordMessages.spanish;
-        expect(messages.minLength, 'La contraseña debe tener al menos {min} caracteres');
-        expect(messages.requireUppercase, 'La contraseña debe contener al menos una letra mayúscula');
+        expect(messages.minLength,
+            'La contraseña debe tener al menos {min} caracteres');
+        expect(messages.requireUppercase,
+            'La contraseña debe contener al menos una letra mayúscula');
         expect(messages.veryWeak, 'Muy Débil');
         expect(messages.strong, 'Fuerte');
       });
 
       test('should provide French messages', () {
         const messages = PasswordMessages.french;
-        expect(messages.minLength, 'Le mot de passe doit contenir au moins {min} caractères');
-        expect(messages.requireUppercase, 'Le mot de passe doit contenir au moins une lettre majuscule');
+        expect(messages.minLength,
+            'Le mot de passe doit contenir au moins {min} caractères');
+        expect(messages.requireUppercase,
+            'Le mot de passe doit contenir au moins une lettre majuscule');
         expect(messages.veryWeak, 'Très Faible');
         expect(messages.strong, 'Fort');
       });
 
       test('should provide German messages', () {
         const messages = PasswordMessages.german;
-        expect(messages.minLength, 'Das Passwort muss mindestens {min} Zeichen lang sein');
-        expect(messages.requireUppercase, 'Das Passwort muss mindestens einen Großbuchstaben enthalten');
+        expect(messages.minLength,
+            'Das Passwort muss mindestens {min} Zeichen lang sein');
+        expect(messages.requireUppercase,
+            'Das Passwort muss mindestens einen Großbuchstaben enthalten');
         expect(messages.veryWeak, 'Sehr Schwach');
         expect(messages.strong, 'Stark');
       });
 
       test('should provide Portuguese messages', () {
         const messages = PasswordMessages.portuguese;
-        expect(messages.minLength, 'A senha deve ter pelo menos {min} caracteres');
-        expect(messages.requireUppercase, 'A senha deve conter pelo menos uma letra maiúscula');
+        expect(
+            messages.minLength, 'A senha deve ter pelo menos {min} caracteres');
+        expect(messages.requireUppercase,
+            'A senha deve conter pelo menos uma letra maiúscula');
         expect(messages.veryWeak, 'Muito Fraca');
         expect(messages.strong, 'Forte');
       });
 
       test('should provide Italian messages', () {
         const messages = PasswordMessages.italian;
-        expect(messages.minLength, 'La password deve essere di almeno {min} caratteri');
-        expect(messages.requireUppercase, 'La password deve contenere almeno una lettera maiuscola');
+        expect(messages.minLength,
+            'La password deve essere di almeno {min} caratteri');
+        expect(messages.requireUppercase,
+            'La password deve contenere almeno una lettera maiuscola');
         expect(messages.veryWeak, 'Molto Debole');
         expect(messages.strong, 'Forte');
       });
@@ -62,7 +77,8 @@ void main() {
       test('should provide Persian messages', () {
         const messages = PasswordMessages.persian;
         expect(messages.minLength, 'رمز عبور باید حداقل {min} کاراکتر باشد');
-        expect(messages.requireUppercase, 'رمز عبور باید حداقل یک حرف بزرگ داشته باشد');
+        expect(messages.requireUppercase,
+            'رمز عبور باید حداقل یک حرف بزرگ داشته باشد');
         expect(messages.veryWeak, 'خیلی ضعیف');
         expect(messages.strong, 'قوی');
       });
@@ -99,10 +115,11 @@ void main() {
         final spanishMessages = LanguageDetector.getMessagesForLanguage('es');
         final frenchMessages = LanguageDetector.getMessagesForLanguage('fr');
         final germanMessages = LanguageDetector.getMessagesForLanguage('de');
-        final portugueseMessages = LanguageDetector.getMessagesForLanguage('pt');
+        final portugueseMessages =
+            LanguageDetector.getMessagesForLanguage('pt');
         final italianMessages = LanguageDetector.getMessagesForLanguage('it');
         final persianMessages = LanguageDetector.getMessagesForLanguage('fa');
-        
+
         expect(englishMessages.minLength, contains('Password must be'));
         expect(spanishMessages.minLength, contains('contraseña'));
         expect(frenchMessages.minLength, contains('mot de passe'));
@@ -151,8 +168,10 @@ void main() {
           'strong': 'Custom strong message',
         });
 
-        expect(customMessages.getMessage('minLength'), 'Custom minimum length message');
-        expect(customMessages.getMessage('requireUppercase'), 'Custom uppercase message');
+        expect(customMessages.getMessage('minLength'),
+            'Custom minimum length message');
+        expect(customMessages.getMessage('requireUppercase'),
+            'Custom uppercase message');
         expect(customMessages.getMessage('strong'), 'Custom strong message');
         expect(customMessages.hasMessage('minLength'), true);
         expect(customMessages.hasMessage('notCommon'), false);
@@ -164,13 +183,16 @@ void main() {
           'requireUppercase': 'JSON uppercase message',
         });
 
-        expect(customMessages.getMessage('minLength'), 'JSON minimum length message');
-        expect(customMessages.getMessage('requireUppercase'), 'JSON uppercase message');
+        expect(customMessages.getMessage('minLength'),
+            'JSON minimum length message');
+        expect(customMessages.getMessage('requireUppercase'),
+            'JSON uppercase message');
       });
 
       test('should merge custom messages', () {
         final messages1 = CustomMessages.fromMap({'minLength': 'Message 1'});
-        final messages2 = CustomMessages.fromMap({'requireUppercase': 'Message 2'});
+        final messages2 =
+            CustomMessages.fromMap({'requireUppercase': 'Message 2'});
         final merged = messages1.merge(messages2);
 
         expect(merged.getMessage('minLength'), 'Message 1');
@@ -206,49 +228,56 @@ void main() {
         final checker = PasswordChecker();
         final result = checker.validate('short');
 
-        expect(result.errorDisplay, contains('Password must be at least 8 characters long'));
+        expect(result.errorDisplay,
+            contains('Password must be at least 8 characters long'));
       });
 
       test('should use Spanish messages when specified', () {
         final checker = PasswordChecker(language: 'es');
         final result = checker.validate('short');
 
-        expect(result.errorDisplay, contains('La contraseña debe tener al menos 8 caracteres'));
+        expect(result.errorDisplay,
+            contains('La contraseña debe tener al menos 8 caracteres'));
       });
 
       test('should use French messages when specified', () {
         final checker = PasswordChecker(language: 'fr');
         final result = checker.validate('short');
 
-        expect(result.errorDisplay, contains('Le mot de passe doit contenir au moins 8 caractères'));
+        expect(result.errorDisplay,
+            contains('Le mot de passe doit contenir au moins 8 caractères'));
       });
 
       test('should use German messages when specified', () {
         final checker = PasswordChecker(language: 'de');
         final result = checker.validate('short');
 
-        expect(result.errorDisplay, contains('Das Passwort muss mindestens 8 Zeichen lang sein'));
+        expect(result.errorDisplay,
+            contains('Das Passwort muss mindestens 8 Zeichen lang sein'));
       });
 
       test('should use Portuguese messages when specified', () {
         final checker = PasswordChecker(language: 'pt');
         final result = checker.validate('short');
 
-        expect(result.errorDisplay, contains('A senha deve ter pelo menos 8 caracteres'));
+        expect(result.errorDisplay,
+            contains('A senha deve ter pelo menos 8 caracteres'));
       });
 
       test('should use Italian messages when specified', () {
         final checker = PasswordChecker(language: 'it');
         final result = checker.validate('short');
 
-        expect(result.errorDisplay, contains('La password deve essere di almeno 8 caratteri'));
+        expect(result.errorDisplay,
+            contains('La password deve essere di almeno 8 caratteri'));
       });
 
       test('should use Persian messages when specified', () {
         final checker = PasswordChecker(language: 'fa');
         final result = checker.validate('کوتاه');
 
-        expect(result.errorDisplay, contains('رمز عبور باید حداقل 8 کاراکتر باشد'));
+        expect(result.errorDisplay,
+            contains('رمز عبور باید حداقل 8 کاراکتر باشد'));
       });
 
       test('should use custom messages when provided', () {
@@ -281,36 +310,46 @@ void main() {
         final checker = PasswordChecker(language: 'es');
         final result = checker.validate('short');
 
-        expect(result.errorDisplay, contains('La contraseña debe tener al menos 8 caracteres'));
+        expect(result.errorDisplay,
+            contains('La contraseña debe tener al menos 8 caracteres'));
       });
     });
 
     group('PasswordStrengthLevel with i18n', () {
       test('should get localized display names', () {
         const messages = PasswordMessages.spanish;
-        
-        expect(PasswordStrengthLevel.veryWeak.getLocalizedDisplayName(messages), 'Muy Débil');
-        expect(PasswordStrengthLevel.weak.getLocalizedDisplayName(messages), 'Débil');
-        expect(PasswordStrengthLevel.fair.getLocalizedDisplayName(messages), 'Regular');
-        expect(PasswordStrengthLevel.good.getLocalizedDisplayName(messages), 'Buena');
-        expect(PasswordStrengthLevel.strong.getLocalizedDisplayName(messages), 'Fuerte');
-        expect(PasswordStrengthLevel.veryStrong.getLocalizedDisplayName(messages), 'Muy Fuerte');
+
+        expect(PasswordStrengthLevel.veryWeak.getLocalizedDisplayName(messages),
+            'Muy Débil');
+        expect(PasswordStrengthLevel.weak.getLocalizedDisplayName(messages),
+            'Débil');
+        expect(PasswordStrengthLevel.fair.getLocalizedDisplayName(messages),
+            'Regular');
+        expect(PasswordStrengthLevel.good.getLocalizedDisplayName(messages),
+            'Buena');
+        expect(PasswordStrengthLevel.strong.getLocalizedDisplayName(messages),
+            'Fuerte');
+        expect(
+            PasswordStrengthLevel.veryStrong.getLocalizedDisplayName(messages),
+            'Muy Fuerte');
       });
 
       test('should fallback to English display names', () {
         const messages = PasswordMessages.english;
-        
-        expect(PasswordStrengthLevel.veryWeak.getLocalizedDisplayName(messages), 'Very Weak');
-        expect(PasswordStrengthLevel.strong.getLocalizedDisplayName(messages), 'Strong');
+
+        expect(PasswordStrengthLevel.veryWeak.getLocalizedDisplayName(messages),
+            'Very Weak');
+        expect(PasswordStrengthLevel.strong.getLocalizedDisplayName(messages),
+            'Strong');
       });
 
       test('should work with all supported languages', () {
         final languages = ['en', 'es', 'fr', 'de', 'pt', 'it', 'fa'];
-        
+
         for (final lang in languages) {
           final checker = PasswordChecker(language: lang);
           final result = checker.validate('MyStrongPassword123!');
-          
+
           expect(result.strengthDescription, isNotEmpty);
         }
       });
@@ -337,7 +376,8 @@ void main() {
 
       test('should work with different languages', () {
         final spanishMessages = PasswordMessages.spanish;
-        final message = spanishMessages.getMessage('minLength', params: {'min': 10});
+        final message =
+            spanishMessages.getMessage('minLength', params: {'min': 10});
         expect(message, 'La contraseña debe tener al menos 10 caracteres');
       });
     });

@@ -6,7 +6,8 @@ class StrengthAnalysisExample extends StatefulWidget {
   const StrengthAnalysisExample({super.key});
 
   @override
-  State<StrengthAnalysisExample> createState() => _StrengthAnalysisExampleState();
+  State<StrengthAnalysisExample> createState() =>
+      _StrengthAnalysisExampleState();
 }
 
 class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
@@ -60,7 +61,7 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
-            
+
             // Password Input
             TextField(
               controller: _passwordController,
@@ -71,15 +72,15 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Quick Test Buttons
             _buildQuickTestButtons(),
             const SizedBox(height: 24),
-            
+
             // Strength Analysis Results
             if (_result != null) _buildStrengthAnalysis(),
             const SizedBox(height: 24),
-            
+
             // Comparison Table
             _buildComparisonTable(),
           ],
@@ -113,7 +114,9 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
                     foregroundColor: Colors.blue.shade700,
                   ),
                   child: Text(
-                    password.length > 15 ? '${password.substring(0, 15)}...' : password,
+                    password.length > 15
+                        ? '${password.substring(0, 15)}...'
+                        : password,
                     style: const TextStyle(fontSize: 12),
                   ),
                 );
@@ -137,19 +140,19 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Overall Score
             _buildScoreSection(),
             const SizedBox(height: 20),
-            
+
             // Requirements Breakdown
             _buildRequirementsBreakdown(),
             const SizedBox(height: 20),
-            
+
             // Vulnerabilities Analysis
             _buildVulnerabilitiesAnalysis(),
             const SizedBox(height: 20),
-            
+
             // Complexity Rating
             _buildComplexityRating(),
           ],
@@ -161,7 +164,7 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
   Widget _buildScoreSection() {
     final score = _result!.strengthScore;
     final color = _getStrengthColor(score);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -246,7 +249,8 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
                 ),
                 if (isMet)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       color: Colors.green.shade100,
                       borderRadius: BorderRadius.circular(12),
@@ -319,7 +323,8 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _getSeverityColor(severity).withOpacity(0.1),
-                border: Border.all(color: _getSeverityColor(severity).withOpacity(0.3)),
+                border: Border.all(
+                    color: _getSeverityColor(severity).withOpacity(0.3)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -352,7 +357,8 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       color: _getSeverityColor(severity),
                       borderRadius: BorderRadius.circular(12),
@@ -457,15 +463,18 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
                   children: const [
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('Password', style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text('Password',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('Score', style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text('Score',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('Level', style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text('Level',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -476,7 +485,9 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          password.length > 20 ? '${password.substring(0, 20)}...' : password,
+                          password.length > 20
+                              ? '${password.substring(0, 20)}...'
+                              : password,
                           style: const TextStyle(fontFamily: 'monospace'),
                         ),
                       ),
@@ -529,19 +540,27 @@ class _StrengthAnalysisExampleState extends State<StrengthAnalysisExample> {
 
   Color _getSeverityColor(String severity) {
     switch (severity.toLowerCase()) {
-      case 'high': return Colors.red;
-      case 'medium': return Colors.orange;
-      case 'low': return Colors.yellow.shade700;
-      default: return Colors.grey;
+      case 'high':
+        return Colors.red;
+      case 'medium':
+        return Colors.orange;
+      case 'low':
+        return Colors.yellow.shade700;
+      default:
+        return Colors.grey;
     }
   }
 
   IconData _getSeverityIcon(String severity) {
     switch (severity.toLowerCase()) {
-      case 'high': return Icons.error;
-      case 'medium': return Icons.warning;
-      case 'low': return Icons.info;
-      default: return Icons.help;
+      case 'high':
+        return Icons.error;
+      case 'medium':
+        return Icons.warning;
+      case 'low':
+        return Icons.info;
+      default:
+        return Icons.help;
     }
   }
 

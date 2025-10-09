@@ -10,12 +10,18 @@ void main() {
 
     setUp(() {
       rules = const ValidationRules.strong();
-      
+
       validResult = PasswordValidationResult.success(
         strengthDescription: 'Strong',
         strengthScore: 85,
         complexityRating: 'High',
-        requirements: ['8+ characters', 'Uppercase', 'Lowercase', 'Numbers', 'Special chars'],
+        requirements: [
+          '8+ characters',
+          'Uppercase',
+          'Lowercase',
+          'Numbers',
+          'Special chars'
+        ],
         checks: {
           'minLength': true,
           'uppercase': true,
@@ -41,7 +47,8 @@ void main() {
       );
     });
 
-    testWidgets('should display requirements checklist with valid result', (WidgetTester tester) async {
+    testWidgets('should display requirements checklist with valid result',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -59,7 +66,8 @@ void main() {
       expect(find.byType(PasswordRequirementsChecklist), findsOneWidget);
     });
 
-    testWidgets('should display requirements checklist with invalid result', (WidgetTester tester) async {
+    testWidgets('should display requirements checklist with invalid result',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -77,7 +85,8 @@ void main() {
       expect(find.byType(PasswordRequirementsChecklist), findsOneWidget);
     });
 
-    testWidgets('should show progress when enabled', (WidgetTester tester) async {
+    testWidgets('should show progress when enabled',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -95,7 +104,8 @@ void main() {
       expect(find.byType(PasswordRequirementsChecklist), findsOneWidget);
     });
 
-    testWidgets('should hide progress when disabled', (WidgetTester tester) async {
+    testWidgets('should hide progress when disabled',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -113,7 +123,8 @@ void main() {
       expect(find.byType(PasswordRequirementsChecklist), findsOneWidget);
     });
 
-    testWidgets('should handle animation properly', (WidgetTester tester) async {
+    testWidgets('should handle animation properly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -129,7 +140,7 @@ void main() {
 
       // Verify widget renders with animation
       expect(find.byType(PasswordRequirementsChecklist), findsOneWidget);
-      
+
       // Pump frames to test animation
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
@@ -137,7 +148,7 @@ void main() {
 
     testWidgets('should handle custom padding', (WidgetTester tester) async {
       const customPadding = EdgeInsets.all(16.0);
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -156,9 +167,10 @@ void main() {
       expect(find.byType(PasswordRequirementsChecklist), findsOneWidget);
     });
 
-    testWidgets('should handle different rule types', (WidgetTester tester) async {
+    testWidgets('should handle different rule types',
+        (WidgetTester tester) async {
       const basicRules = ValidationRules.basic();
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

@@ -7,7 +7,8 @@ class PasswordGenerationExample extends StatefulWidget {
   const PasswordGenerationExample({super.key});
 
   @override
-  State<PasswordGenerationExample> createState() => _PasswordGenerationExampleState();
+  State<PasswordGenerationExample> createState() =>
+      _PasswordGenerationExampleState();
 }
 
 class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
@@ -15,7 +16,7 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
   late PasswordChecker _checker;
   String _generatedPassword = '';
   PasswordValidationResult? _validationResult;
-  
+
   // Custom generation settings
   int _length = 16;
   bool _includeUppercase = true;
@@ -43,10 +44,10 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
       avoidSimilarChars: _avoidSimilarChars,
       ensureCharacterVariety: _ensureVariety,
     );
-    
+
     final customGenerator = PasswordGenerator(rules: rules);
     final result = customGenerator.generate();
-    
+
     setState(() {
       _generatedPassword = result.password;
       _validationResult = _checker.validate(_generatedPassword);
@@ -76,23 +77,23 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
-            
+
             // Generated Password Display
             _buildGeneratedPasswordCard(),
             const SizedBox(height: 24),
-            
+
             // Generation Presets
             _buildPresetsSection(),
             const SizedBox(height: 24),
-            
+
             // Custom Generation Settings
             _buildCustomSettingsSection(),
             const SizedBox(height: 24),
-            
+
             // Batch Generation
             _buildBatchGenerationSection(),
             const SizedBox(height: 24),
-            
+
             // Generation History
             _buildHistorySection(),
           ],
@@ -124,7 +125,7 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               ],
             ),
             const SizedBox(height: 12),
-            
+
             // Password Display
             Container(
               width: double.infinity,
@@ -148,9 +149,11 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
                   ),
                   IconButton(
                     onPressed: () {
-                      Clipboard.setData(ClipboardData(text: _generatedPassword));
+                      Clipboard.setData(
+                          ClipboardData(text: _generatedPassword));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Password copied to clipboard!')),
+                        const SnackBar(
+                            content: Text('Password copied to clipboard!')),
                       );
                     },
                     icon: const Icon(Icons.copy),
@@ -160,21 +163,26 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Password Analysis
             if (_validationResult != null) ...[
               Row(
                 children: [
                   Icon(
-                    _validationResult!.isValid ? Icons.check_circle : Icons.warning,
-                    color: _validationResult!.isValid ? Colors.green : Colors.orange,
+                    _validationResult!.isValid
+                        ? Icons.check_circle
+                        : Icons.warning,
+                    color: _validationResult!.isValid
+                        ? Colors.green
+                        : Colors.orange,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     'Strength: ${_validationResult!.strengthDisplay} (${_validationResult!.strengthScore}/100)',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: _getStrengthColor(_validationResult!.strengthScore),
+                      color:
+                          _getStrengthColor(_validationResult!.strengthScore),
                     ),
                   ),
                 ],
@@ -206,7 +214,6 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             Row(
               children: [
                 Expanded(
@@ -243,7 +250,8 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
     );
   }
 
-  Widget _buildPresetButton(String title, String description, Color color, VoidCallback onPressed) {
+  Widget _buildPresetButton(
+      String title, String description, Color color, VoidCallback onPressed) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -284,11 +292,12 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Length Slider
             Row(
               children: [
-                const Text('Length:', style: TextStyle(fontWeight: FontWeight.w500)),
+                const Text('Length:',
+                    style: TextStyle(fontWeight: FontWeight.w500)),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Slider(
@@ -314,28 +323,35 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Character Type Switches
-            _buildSwitchRow('Include Uppercase (A-Z)', _includeUppercase, (value) {
+            _buildSwitchRow('Include Uppercase (A-Z)', _includeUppercase,
+                (value) {
               setState(() => _includeUppercase = value);
             }),
-            _buildSwitchRow('Include Lowercase (a-z)', _includeLowercase, (value) {
+            _buildSwitchRow('Include Lowercase (a-z)', _includeLowercase,
+                (value) {
               setState(() => _includeLowercase = value);
             }),
             _buildSwitchRow('Include Numbers (0-9)', _includeNumbers, (value) {
               setState(() => _includeNumbers = value);
             }),
-            _buildSwitchRow('Include Special Characters (!@#\$)', _includeSpecialChars, (value) {
+            _buildSwitchRow(
+                'Include Special Characters (!@#\$)', _includeSpecialChars,
+                (value) {
               setState(() => _includeSpecialChars = value);
             }),
-            _buildSwitchRow('Avoid Similar Characters (0,O,l,1)', _avoidSimilarChars, (value) {
+            _buildSwitchRow(
+                'Avoid Similar Characters (0,O,l,1)', _avoidSimilarChars,
+                (value) {
               setState(() => _avoidSimilarChars = value);
             }),
-            _buildSwitchRow('Ensure Character Variety', _ensureVariety, (value) {
+            _buildSwitchRow('Ensure Character Variety', _ensureVariety,
+                (value) {
               setState(() => _ensureVariety = value);
             }),
             const SizedBox(height: 16),
-            
+
             // Generate Button
             SizedBox(
               width: double.infinity,
@@ -356,7 +372,8 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
     );
   }
 
-  Widget _buildSwitchRow(String title, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchRow(
+      String title, bool value, ValueChanged<bool> onChanged) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -385,7 +402,6 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             Row(
               children: [
                 Expanded(
@@ -413,7 +429,7 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
 
   Widget _buildHistorySection() {
     final history = _generator.history;
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -425,7 +441,8 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               children: [
                 Text(
                   'Generation History (${history.length})',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 if (history.isNotEmpty)
                   TextButton.icon(
@@ -440,7 +457,6 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
               ],
             ),
             const SizedBox(height: 16),
-            
             if (history.isEmpty)
               const Text(
                 'No passwords generated yet. Generate some passwords to see history.',
@@ -476,9 +492,11 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
                           ),
                           IconButton(
                             onPressed: () {
-                              Clipboard.setData(ClipboardData(text: result.password));
+                              Clipboard.setData(
+                                  ClipboardData(text: result.password));
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Password copied!')),
+                                const SnackBar(
+                                    content: Text('Password copied!')),
                               );
                             },
                             icon: const Icon(Icons.copy, size: 16),
@@ -489,7 +507,6 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
                   );
                 }).toList(),
               ),
-            
             if (history.length > 5)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
@@ -517,7 +534,7 @@ class _PasswordGenerationExampleState extends State<PasswordGenerationExample> {
 
   void _showBatchGeneration(int count) {
     final passwords = _generator.generateMultiple(count);
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

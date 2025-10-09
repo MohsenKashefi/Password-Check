@@ -2,37 +2,37 @@
 class ValidationRules {
   /// Minimum password length.
   final int minLength;
-  
+
   /// Maximum password length.
   final int maxLength;
-  
+
   /// Whether to require uppercase letters.
   final bool requireUppercase;
-  
+
   /// Whether to require lowercase letters.
   final bool requireLowercase;
-  
+
   /// Whether to require numbers.
   final bool requireNumbers;
-  
+
   /// Whether to require special characters.
   final bool requireSpecialChars;
-  
+
   /// Whether to allow spaces.
   final bool allowSpaces;
-  
+
   /// Whether to check against common passwords.
   final bool checkCommonPasswords;
-  
+
   /// Whether to check for repeated characters.
   final bool checkRepeatedChars;
-  
+
   /// Maximum number of repeated characters allowed.
   final int maxRepeatedChars;
-  
+
   /// Whether to check for sequential characters.
   final bool checkSequentialChars;
-  
+
   /// Maximum length of sequential characters allowed.
   final int maxSequentialLength;
 

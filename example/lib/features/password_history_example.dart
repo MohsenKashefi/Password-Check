@@ -14,7 +14,7 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
   late PasswordChecker _checker;
   PasswordValidationResult? _validationResult;
   PasswordHistoryResult? _historyResult;
-  
+
   // History configuration
   int _maxHistoryLength = 5;
   double _similarityThreshold = 0.8;
@@ -35,7 +35,7 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
       enableSuggestions: true,
       enableMetadata: true,
     );
-    
+
     _checker = PasswordChecker.strong().withHistory(config);
   }
 
@@ -44,7 +44,8 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
       setState(() {
         _validationResult = _checker.validate(_passwordController.text);
         if (_checker.history != null) {
-          _historyResult = _checker.history!.checkPassword(_passwordController.text);
+          _historyResult =
+              _checker.history!.checkPassword(_passwordController.text);
         }
       });
     }
@@ -73,31 +74,31 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
-            
+
             // History Configuration
             _buildHistoryConfiguration(),
             const SizedBox(height: 24),
-            
+
             // Password Input
             _buildPasswordInput(),
             const SizedBox(height: 24),
-            
+
             // History Status
             if (_historyResult != null) _buildHistoryStatus(),
             const SizedBox(height: 24),
-            
+
             // Add to History Button
             _buildHistoryActions(),
             const SizedBox(height: 24),
-            
+
             // Current History Display
             _buildHistoryDisplay(),
             const SizedBox(height: 24),
-            
+
             // History Features
             _buildHistoryFeatures(),
             const SizedBox(height: 24),
-            
+
             // Demo Scenarios
             _buildDemoScenarios(),
           ],
@@ -118,11 +119,12 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Max History Length
             Row(
               children: [
-                const Text('Max History Length:', style: TextStyle(fontWeight: FontWeight.w500)),
+                const Text('Max History Length:',
+                    style: TextStyle(fontWeight: FontWeight.w500)),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Slider(
@@ -149,11 +151,12 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Similarity Threshold
             Row(
               children: [
-                const Text('Similarity Threshold:', style: TextStyle(fontWeight: FontWeight.w500)),
+                const Text('Similarity Threshold:',
+                    style: TextStyle(fontWeight: FontWeight.w500)),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Slider(
@@ -180,11 +183,12 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Comparison Method
             Row(
               children: [
-                const Text('Comparison Method:', style: TextStyle(fontWeight: FontWeight.w500)),
+                const Text('Comparison Method:',
+                    style: TextStyle(fontWeight: FontWeight.w500)),
                 const SizedBox(width: 16),
                 Expanded(
                   child: DropdownButton<ComparisonMethod>(
@@ -226,7 +230,6 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(
@@ -236,19 +239,22 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               ),
             ),
             const SizedBox(height: 12),
-            
             if (_validationResult != null) ...[
               Row(
                 children: [
                   Icon(
-                    _validationResult!.isValid ? Icons.check_circle : Icons.error,
-                    color: _validationResult!.isValid ? Colors.green : Colors.red,
+                    _validationResult!.isValid
+                        ? Icons.check_circle
+                        : Icons.error,
+                    color:
+                        _validationResult!.isValid ? Colors.green : Colors.red,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     'Strength: ${_validationResult!.strengthDisplay} (${_validationResult!.strengthScore}/100)',
                     style: TextStyle(
-                      color: _getStrengthColor(_validationResult!.strengthScore),
+                      color:
+                          _getStrengthColor(_validationResult!.strengthScore),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -273,7 +279,6 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             if (_historyResult!.isRejected) ...[
               // Rejected
               Container(
@@ -302,20 +307,21 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      _historyResult!.reason ?? 'Password conflicts with history',
+                      _historyResult!.reason ??
+                          'Password conflicts with history',
                       style: const TextStyle(color: Colors.red),
                     ),
-                    
                     if (_historyResult!.similarityScore != null) ...[
                       const SizedBox(height: 12),
-                      Text('Similarity Score: ${(_historyResult!.similarityScore! * 100).round()}%'),
+                      Text(
+                          'Similarity Score: ${(_historyResult!.similarityScore! * 100).round()}%'),
                       LinearProgressIndicator(
                         value: _historyResult!.similarityScore!,
                         backgroundColor: Colors.grey[300],
-                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.red),
+                        valueColor:
+                            const AlwaysStoppedAnimation<Color>(Colors.red),
                       ),
                     ],
-                    
                     if (_historyResult!.mostSimilarPassword != null) ...[
                       const SizedBox(height: 12),
                       Text(
@@ -323,7 +329,6 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
                         style: const TextStyle(fontFamily: 'monospace'),
                       ),
                     ],
-                    
                     if (_historyResult!.lastUsed != null) ...[
                       const SizedBox(height: 8),
                       Text(
@@ -334,7 +339,7 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
                   ],
                 ),
               ),
-              
+
               // Suggestions
               if (_historyResult!.suggestions.isNotEmpty) ...[
                 const SizedBox(height: 16),
@@ -348,7 +353,8 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Row(
                       children: [
-                        const Icon(Icons.lightbulb, size: 16, color: Colors.orange),
+                        const Icon(Icons.lightbulb,
+                            size: 16, color: Colors.orange),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -411,13 +417,12 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: _validationResult?.isValid == true && 
-                               _historyResult?.isRejected == false
+                    onPressed: _validationResult?.isValid == true &&
+                            _historyResult?.isRejected == false
                         ? _addToHistory
                         : null,
                     icon: const Icon(Icons.add),
@@ -450,7 +455,7 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
 
   Widget _buildHistoryDisplay() {
     final history = _checker.history?.history ?? [];
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -462,7 +467,6 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             if (history.isEmpty)
               Container(
                 width: double.infinity,
@@ -482,7 +486,7 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
                 children: history.asMap().entries.map((entry) {
                   final index = entry.key;
                   final historyEntry = entry.value;
-                  
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Container(
@@ -564,7 +568,6 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             _buildFeatureItem(
               '🔒 Secure Storage',
               'Passwords are hashed before storage - originals never saved',
@@ -607,7 +610,6 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             _buildScenarioButton(
               'Scenario 1: Exact Reuse',
               'Add "MyPassword123!" then try it again',
@@ -684,7 +686,8 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
     );
   }
 
-  Widget _buildScenarioButton(String title, String description, VoidCallback onPressed) {
+  Widget _buildScenarioButton(
+      String title, String description, VoidCallback onPressed) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -737,14 +740,15 @@ class _PasswordHistoryExampleState extends State<PasswordHistoryExample> {
 
   void _runScenario(List<String> passwords) async {
     _clearHistory();
-    
+
     for (int i = 0; i < passwords.length; i++) {
       await Future.delayed(const Duration(milliseconds: 500));
       _passwordController.text = passwords[i];
-      
+
       if (i < passwords.length - 1) {
         // Add to history (except for the last one to show the check)
-        if (_validationResult?.isValid == true && _historyResult?.isRejected == false) {
+        if (_validationResult?.isValid == true &&
+            _historyResult?.isRejected == false) {
           _addToHistory();
         }
       }

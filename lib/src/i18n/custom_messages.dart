@@ -57,14 +57,20 @@ class CustomMessages {
     return PasswordMessages(
       minLength: _customMessages['minLength'] ?? baseMessages.minLength,
       maxLength: _customMessages['maxLength'] ?? baseMessages.maxLength,
-      requireUppercase: _customMessages['requireUppercase'] ?? baseMessages.requireUppercase,
-      requireLowercase: _customMessages['requireLowercase'] ?? baseMessages.requireLowercase,
-      requireNumbers: _customMessages['requireNumbers'] ?? baseMessages.requireNumbers,
-      requireSpecialChars: _customMessages['requireSpecialChars'] ?? baseMessages.requireSpecialChars,
+      requireUppercase:
+          _customMessages['requireUppercase'] ?? baseMessages.requireUppercase,
+      requireLowercase:
+          _customMessages['requireLowercase'] ?? baseMessages.requireLowercase,
+      requireNumbers:
+          _customMessages['requireNumbers'] ?? baseMessages.requireNumbers,
+      requireSpecialChars: _customMessages['requireSpecialChars'] ??
+          baseMessages.requireSpecialChars,
       noSpaces: _customMessages['noSpaces'] ?? baseMessages.noSpaces,
       notCommon: _customMessages['notCommon'] ?? baseMessages.notCommon,
-      noRepeatedChars: _customMessages['noRepeatedChars'] ?? baseMessages.noRepeatedChars,
-      noSequentialChars: _customMessages['noSequentialChars'] ?? baseMessages.noSequentialChars,
+      noRepeatedChars:
+          _customMessages['noRepeatedChars'] ?? baseMessages.noRepeatedChars,
+      noSequentialChars: _customMessages['noSequentialChars'] ??
+          baseMessages.noSequentialChars,
       veryWeak: _customMessages['veryWeak'] ?? baseMessages.veryWeak,
       weak: _customMessages['weak'] ?? baseMessages.weak,
       fair: _customMessages['fair'] ?? baseMessages.fair,
@@ -74,4 +80,3 @@ class CustomMessages {
     );
   }
 }
-

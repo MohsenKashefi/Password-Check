@@ -440,21 +440,22 @@ void main() {
       test('should maintain max length', () async {
         const config = PasswordHistoryConfig(maxLength: 3);
         final limitedHistory = PasswordHistory(config);
-        
+
         await limitedHistory.addPassword('password1');
         await limitedHistory.addPassword('password2');
         await limitedHistory.addPassword('password3');
         await limitedHistory.addPassword('password4');
-        
+
         expect(limitedHistory.length, 3);
-        expect(limitedHistory.history.first.hash, isNot('password1')); // First should be removed
+        expect(limitedHistory.history.first.hash,
+            isNot('password1')); // First should be removed
       });
 
       test('should clear history', () async {
         await history.addPassword('password1');
         await history.addPassword('password2');
         expect(history.length, 2);
-        
+
         history.clearHistory();
         expect(history.length, 0);
         expect(history.history, isEmpty);
@@ -463,7 +464,7 @@ void main() {
       test('should serialize to JSON', () async {
         await history.addPassword('password1');
         await history.addPassword('password2');
-        
+
         final json = history.toJson();
         expect(json['config'], isNotNull);
         expect(json['history'], hasLength(2));
@@ -500,7 +501,7 @@ void main() {
       test('should handle zero max length', () async {
         const config = PasswordHistoryConfig(maxLength: 0);
         final zeroHistory = PasswordHistory(config);
-        
+
         await zeroHistory.addPassword('password1');
         expect(zeroHistory.length, 0);
         expect(zeroHistory.history, isEmpty);
@@ -509,23 +510,24 @@ void main() {
       test('should handle single max length', () async {
         const config = PasswordHistoryConfig(maxLength: 1);
         final singleHistory = PasswordHistory(config);
-        
+
         await singleHistory.addPassword('password1');
         await singleHistory.addPassword('password2');
-        
+
         expect(singleHistory.length, 1);
         expect(singleHistory.history, hasLength(1));
-        expect(singleHistory.history.first.hash, isNot('password1')); // First should be removed
+        expect(singleHistory.history.first.hash,
+            isNot('password1')); // First should be removed
       });
 
       test('should handle large max length', () async {
         const config = PasswordHistoryConfig(maxLength: 100);
         final largeHistory = PasswordHistory(config);
-        
+
         for (int i = 0; i < 50; i++) {
           await largeHistory.addPassword('password$i');
         }
-        
+
         expect(largeHistory.length, 50);
         expect(largeHistory.history, hasLength(50));
       });
@@ -536,7 +538,7 @@ void main() {
           maxLength: 5,
         );
         final exactHistory = PasswordHistory(config);
-        
+
         await exactHistory.addPassword('exact_password');
         final result = exactHistory.checkPassword('exact_password');
         expect(result.isRejected, true);
@@ -548,7 +550,7 @@ void main() {
           maxLength: 5,
         );
         final fuzzyHistory = PasswordHistory(config);
-        
+
         await fuzzyHistory.addPassword('fuzzy_password');
         final result = fuzzyHistory.checkPassword('fuzzy_password');
         expect(result.isRejected, true);
@@ -560,7 +562,7 @@ void main() {
           maxLength: 5,
         );
         final similarityHistory = PasswordHistory(config);
-        
+
         await similarityHistory.addPassword('similarity_password');
         final result = similarityHistory.checkPassword('similarity_password');
         expect(result.isRejected, true);
@@ -572,7 +574,7 @@ void main() {
           maxLength: 5,
         );
         final lowThresholdHistory = PasswordHistory(config);
-        
+
         await lowThresholdHistory.addPassword('threshold_password');
         final result = lowThresholdHistory.checkPassword('different_password');
         // With very low threshold, even different passwords might be considered similar
@@ -586,10 +588,11 @@ void main() {
           maxLength: 5,
         );
         final highThresholdHistory = PasswordHistory(config);
-        
+
         await highThresholdHistory.addPassword('high_threshold_password');
         final result = highThresholdHistory.checkPassword('different_password');
-        expect(result.isRejected, false); // Should not be rejected with high threshold
+        expect(result.isRejected,
+            false); // Should not be rejected with high threshold
       });
 
       test('should handle metadata collection', () async {
@@ -598,7 +601,7 @@ void main() {
           maxLength: 5,
         );
         final metadataHistory = PasswordHistory(config);
-        
+
         await metadataHistory.addPassword('metadata_password');
         expect(metadataHistory.history.first.metadata, isNotNull);
       });
@@ -609,7 +612,7 @@ void main() {
           maxLength: 5,
         );
         final noMetadataHistory = PasswordHistory(config);
-        
+
         await noMetadataHistory.addPassword('no_metadata_password');
         expect(noMetadataHistory.history.first.metadata, isEmpty);
       });
@@ -620,7 +623,7 @@ void main() {
           maxLength: 5,
         );
         final suggestionsHistory = PasswordHistory(config);
-        
+
         await suggestionsHistory.addPassword('suggestions_password');
         final result = suggestionsHistory.checkPassword('suggestions_password');
         if (result.isRejected) {
@@ -634,9 +637,10 @@ void main() {
           maxLength: 5,
         );
         final noSuggestionsHistory = PasswordHistory(config);
-        
+
         await noSuggestionsHistory.addPassword('no_suggestions_password');
-        final result = noSuggestionsHistory.checkPassword('no_suggestions_password');
+        final result =
+            noSuggestionsHistory.checkPassword('no_suggestions_password');
         if (result.isRejected) {
           expect(result.suggestions, isEmpty);
         }
@@ -650,11 +654,11 @@ void main() {
           'password4',
           'password5',
         ];
-        
+
         for (final password in passwords) {
           await history.addPassword(password);
         }
-        
+
         expect(history.length, 5);
         expect(history.history, hasLength(5));
       });
@@ -663,7 +667,7 @@ void main() {
         for (int i = 0; i < 10; i++) {
           await history.addPassword('rapid_password_$i');
         }
-        
+
         expect(history.length, 5); // Should be limited by maxLength
         expect(history.history, hasLength(5));
       });
@@ -698,7 +702,7 @@ void main() {
       test('should handle JSON serialization with complex data', () async {
         await history.addPassword('complex_password');
         await history.addPassword('another_password');
-        
+
         final json = history.toJson();
         expect(json['config'], isNotNull);
         expect(json['history'], hasLength(2));
@@ -747,7 +751,7 @@ void main() {
       test('should detect similar passwords in history', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('password123');
-        
+
         final result = history.checkPassword('password456');
         // Similarity detection might not always trigger, so just check if it's rejected
         if (result.isRejected) {
@@ -758,7 +762,7 @@ void main() {
       test('should accept dissimilar passwords', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('password123');
-        
+
         final result = history.checkPassword('qwerty456');
         expect(result.isRejected, false);
       });
@@ -766,7 +770,7 @@ void main() {
       test('should provide similarity score', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('password123');
-        
+
         final result = history.checkPassword('password456');
         if (result.isRejected) {
           expect(result.similarityScore, greaterThan(0.0));
@@ -777,7 +781,7 @@ void main() {
       test('should detect very similar passwords', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('very_similar_password');
-        
+
         final result = history.checkPassword('very_similar_passw0rd');
         if (result.isRejected) {
           expect(result.similarityScore, greaterThan(0.8));
@@ -787,7 +791,7 @@ void main() {
       test('should detect slightly similar passwords', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('slightly_similar_password');
-        
+
         final result = history.checkPassword('slightly_different_password');
         if (result.isRejected) {
           expect(result.similarityScore, lessThan(0.8));
@@ -797,7 +801,7 @@ void main() {
       test('should handle case sensitivity in similarity', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('CaseSensitivePassword');
-        
+
         final result = history.checkPassword('casesensitivepassword');
         if (result.isRejected) {
           expect(result.similarityScore, greaterThan(0.0));
@@ -807,7 +811,7 @@ void main() {
       test('should handle special characters in similarity', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('special@password!');
-        
+
         final result = history.checkPassword('special#password\$');
         if (result.isRejected) {
           expect(result.similarityScore, greaterThan(0.0));
@@ -817,7 +821,7 @@ void main() {
       test('should handle unicode characters in similarity', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('密码123');
-        
+
         final result = history.checkPassword('密码456');
         if (result.isRejected) {
           expect(result.similarityScore, greaterThan(0.0));
@@ -827,7 +831,7 @@ void main() {
       test('should handle empty password similarity', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('');
-        
+
         final result = history.checkPassword('');
         expect(result.isRejected, true);
       });
@@ -835,7 +839,7 @@ void main() {
       test('should handle single character similarity', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         await history.addPassword('a');
-        
+
         final result = history.checkPassword('b');
         if (result.isRejected) {
           expect(result.similarityScore, greaterThan(0.0));
@@ -846,7 +850,7 @@ void main() {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
         final longPassword = 'a' * 100;
         await history.addPassword(longPassword);
-        
+
         final result = history.checkPassword('b' * 100);
         if (result.isRejected) {
           expect(result.similarityScore, greaterThan(0.0));
@@ -886,7 +890,7 @@ void main() {
       test('should validate password with history check', () async {
         final checker = PasswordChecker.strong().withSimpleHistory();
         await checker.addToHistory('old_password');
-        
+
         final result = checker.validate('old_password');
         expect(result.isValid, false);
         expect(result.errorDisplay, contains('used before'));
@@ -895,7 +899,7 @@ void main() {
       test('should add valid password to history', () async {
         final checker = PasswordChecker.strong().withSimpleHistory();
         final result = checker.validate('MyNewPassword123!');
-        
+
         if (result.isValid) {
           await checker.addToHistory('MyNewPassword123!');
           expect(checker.history!.length, 1);
@@ -906,15 +910,16 @@ void main() {
         final checker = PasswordChecker.strong().withSimpleHistory();
         await checker.addToHistory('password1');
         await checker.addToHistory('password2');
-        
+
         checker.clearHistory();
         expect(checker.history!.length, 0);
       });
 
       test('should validate and add to history', () async {
         final checker = PasswordChecker.strong().withSimpleHistory();
-        final result = await checker.validateAndAddToHistory('MyNewPassword123!');
-        
+        final result =
+            await checker.validateAndAddToHistory('MyNewPassword123!');
+
         if (result.isValid) {
           expect(checker.history!.length, 1);
         }
@@ -923,7 +928,7 @@ void main() {
       test('should handle invalid password with history', () async {
         final checker = PasswordChecker.strong().withSimpleHistory();
         final result = await checker.validateAndAddToHistory('weak');
-        
+
         expect(result.isValid, false);
         expect(checker.history!.length, 0); // Should not add invalid password
       });
@@ -935,7 +940,7 @@ void main() {
           'AnotherPassword456@',
           'ThirdPassword789#',
         ];
-        
+
         for (final password in passwords) {
           final result = await checker.validateAndAddToHistory(password);
           if (result.isValid) {
@@ -964,12 +969,14 @@ void main() {
         expect(fuzzyResult.isValid, false);
       });
 
-      test('should handle history with different similarity thresholds', () async {
+      test('should handle history with different similarity thresholds',
+          () async {
         const lowThresholdConfig = PasswordHistoryConfig(
           similarityThreshold: 0.1,
           maxLength: 5,
         );
-        final lowThresholdChecker = PasswordChecker.strong().withHistory(lowThresholdConfig);
+        final lowThresholdChecker =
+            PasswordChecker.strong().withHistory(lowThresholdConfig);
         await lowThresholdChecker.addToHistory('threshold_password');
         final lowResult = lowThresholdChecker.validate('different_password');
         // With very low threshold, even different passwords might be considered similar
@@ -979,7 +986,8 @@ void main() {
           similarityThreshold: 0.99,
           maxLength: 5,
         );
-        final highThresholdChecker = PasswordChecker.strong().withHistory(highThresholdConfig);
+        final highThresholdChecker =
+            PasswordChecker.strong().withHistory(highThresholdConfig);
         await highThresholdChecker.addToHistory('high_threshold_password');
         final highResult = highThresholdChecker.validate('different_password');
         // With high threshold, the password should not be rejected due to similarity
@@ -992,7 +1000,8 @@ void main() {
           enableMetadata: true,
           maxLength: 5,
         );
-        final metadataChecker = PasswordChecker.strong().withHistory(metadataConfig);
+        final metadataChecker =
+            PasswordChecker.strong().withHistory(metadataConfig);
         await metadataChecker.addToHistory('metadata_password');
         expect(metadataChecker.history!.history.first.metadata, isNotNull);
       });
@@ -1002,7 +1011,8 @@ void main() {
           enableMetadata: false,
           maxLength: 5,
         );
-        final noMetadataChecker = PasswordChecker.strong().withHistory(noMetadataConfig);
+        final noMetadataChecker =
+            PasswordChecker.strong().withHistory(noMetadataConfig);
         await noMetadataChecker.addToHistory('no_metadata_password');
         expect(noMetadataChecker.history!.history.first.metadata, isEmpty);
       });
@@ -1012,7 +1022,8 @@ void main() {
           enableSuggestions: true,
           maxLength: 5,
         );
-        final suggestionsChecker = PasswordChecker.strong().withHistory(suggestionsConfig);
+        final suggestionsChecker =
+            PasswordChecker.strong().withHistory(suggestionsConfig);
         await suggestionsChecker.addToHistory('suggestions_password');
         final result = suggestionsChecker.validate('suggestions_password');
         if (!result.isValid) {
@@ -1025,7 +1036,8 @@ void main() {
           enableSuggestions: false,
           maxLength: 5,
         );
-        final noSuggestionsChecker = PasswordChecker.strong().withHistory(noSuggestionsConfig);
+        final noSuggestionsChecker =
+            PasswordChecker.strong().withHistory(noSuggestionsConfig);
         await noSuggestionsChecker.addToHistory('no_suggestions_password');
         final result = noSuggestionsChecker.validate('no_suggestions_password');
         if (!result.isValid) {
@@ -1046,7 +1058,8 @@ void main() {
         const singleConfig = PasswordHistoryConfig(
           maxLength: 1,
         );
-        final singleChecker = PasswordChecker.strong().withHistory(singleConfig);
+        final singleChecker =
+            PasswordChecker.strong().withHistory(singleConfig);
         await singleChecker.addToHistory('single_password1');
         await singleChecker.addToHistory('single_password2');
         expect(singleChecker.history!.length, 1);
@@ -1131,36 +1144,49 @@ void main() {
       });
 
       test('should support enum comparison', () {
-        expect(ComparisonMethod.exactHash == ComparisonMethod.exactHash, isTrue);
-        expect(ComparisonMethod.exactHash == ComparisonMethod.similarity, isFalse);
-        expect(ComparisonMethod.similarity == ComparisonMethod.fuzzyMatch, isFalse);
-        expect(ComparisonMethod.fuzzyMatch == ComparisonMethod.fuzzyMatch, isTrue);
+        expect(
+            ComparisonMethod.exactHash == ComparisonMethod.exactHash, isTrue);
+        expect(
+            ComparisonMethod.exactHash == ComparisonMethod.similarity, isFalse);
+        expect(ComparisonMethod.similarity == ComparisonMethod.fuzzyMatch,
+            isFalse);
+        expect(
+            ComparisonMethod.fuzzyMatch == ComparisonMethod.fuzzyMatch, isTrue);
       });
 
       test('should support enum toString', () {
-        expect(ComparisonMethod.exactHash.toString(), 'ComparisonMethod.exactHash');
-        expect(ComparisonMethod.similarity.toString(), 'ComparisonMethod.similarity');
-        expect(ComparisonMethod.fuzzyMatch.toString(), 'ComparisonMethod.fuzzyMatch');
+        expect(ComparisonMethod.exactHash.toString(),
+            'ComparisonMethod.exactHash');
+        expect(ComparisonMethod.similarity.toString(),
+            'ComparisonMethod.similarity');
+        expect(ComparisonMethod.fuzzyMatch.toString(),
+            'ComparisonMethod.fuzzyMatch');
       });
 
       test('should support enum hashCode', () {
         expect(ComparisonMethod.exactHash.hashCode, isA<int>());
         expect(ComparisonMethod.similarity.hashCode, isA<int>());
         expect(ComparisonMethod.fuzzyMatch.hashCode, isA<int>());
-        
-        expect(ComparisonMethod.exactHash.hashCode, equals(ComparisonMethod.exactHash.hashCode));
-        expect(ComparisonMethod.similarity.hashCode, equals(ComparisonMethod.similarity.hashCode));
-        expect(ComparisonMethod.fuzzyMatch.hashCode, equals(ComparisonMethod.fuzzyMatch.hashCode));
+
+        expect(ComparisonMethod.exactHash.hashCode,
+            equals(ComparisonMethod.exactHash.hashCode));
+        expect(ComparisonMethod.similarity.hashCode,
+            equals(ComparisonMethod.similarity.hashCode));
+        expect(ComparisonMethod.fuzzyMatch.hashCode,
+            equals(ComparisonMethod.fuzzyMatch.hashCode));
       });
 
       test('should support enum comparison operators', () {
         expect(ComparisonMethod.exactHash.index, 0);
         expect(ComparisonMethod.similarity.index, 1);
         expect(ComparisonMethod.fuzzyMatch.index, 2);
-        
-        expect(ComparisonMethod.exactHash.index, lessThan(ComparisonMethod.similarity.index));
-        expect(ComparisonMethod.similarity.index, lessThan(ComparisonMethod.fuzzyMatch.index));
-        expect(ComparisonMethod.fuzzyMatch.index, greaterThan(ComparisonMethod.similarity.index));
+
+        expect(ComparisonMethod.exactHash.index,
+            lessThan(ComparisonMethod.similarity.index));
+        expect(ComparisonMethod.similarity.index,
+            lessThan(ComparisonMethod.fuzzyMatch.index));
+        expect(ComparisonMethod.fuzzyMatch.index,
+            greaterThan(ComparisonMethod.similarity.index));
       });
 
       test('should support enum serialization', () {
@@ -1170,15 +1196,20 @@ void main() {
       });
 
       test('should support enum deserialization', () {
-        expect(ComparisonMethod.values.byName('exactHash'), ComparisonMethod.exactHash);
-        expect(ComparisonMethod.values.byName('similarity'), ComparisonMethod.similarity);
-        expect(ComparisonMethod.values.byName('fuzzyMatch'), ComparisonMethod.fuzzyMatch);
+        expect(ComparisonMethod.values.byName('exactHash'),
+            ComparisonMethod.exactHash);
+        expect(ComparisonMethod.values.byName('similarity'),
+            ComparisonMethod.similarity);
+        expect(ComparisonMethod.values.byName('fuzzyMatch'),
+            ComparisonMethod.fuzzyMatch);
       });
 
       test('should handle enum deserialization errors', () {
-        expect(() => ComparisonMethod.values.byName('invalid'), throwsArgumentError);
+        expect(() => ComparisonMethod.values.byName('invalid'),
+            throwsArgumentError);
         expect(() => ComparisonMethod.values.byName(''), throwsArgumentError);
-        expect(() => ComparisonMethod.values.byName('EXACTHASH'), throwsArgumentError);
+        expect(() => ComparisonMethod.values.byName('EXACTHASH'),
+            throwsArgumentError);
       });
     });
 
@@ -1200,36 +1231,40 @@ void main() {
         expect(loadedHistory.config.method, ComparisonMethod.similarity);
       });
 
-      test('should handle similarity check with hashed passwords limitation', () async {
+      test('should handle similarity check with hashed passwords limitation',
+          () async {
         const config = PasswordHistoryConfig(
           method: ComparisonMethod.similarity,
           similarityThreshold: 0.1, // Very low threshold
           maxLength: 5,
         );
         final history = PasswordHistory(config);
-        
+
         // Add a password to history
         await history.addPassword('test_password');
-        
+
         // Check a similar password - should be accepted due to limitation
         final result = history.checkPassword('test_password_similar');
-        expect(result.isRejected, false); // Should be accepted due to hashing limitation
+        expect(result.isRejected,
+            false); // Should be accepted due to hashing limitation
       });
 
-      test('should handle fuzzy match method with hashed passwords limitation', () async {
+      test('should handle fuzzy match method with hashed passwords limitation',
+          () async {
         const config = PasswordHistoryConfig(
           method: ComparisonMethod.fuzzyMatch,
           similarityThreshold: 0.1, // Very low threshold
           maxLength: 5,
         );
         final history = PasswordHistory(config);
-        
+
         // Add a password to history
         await history.addPassword('fuzzy_password');
-        
+
         // Check a similar password - should be accepted due to limitation
         final result = history.checkPassword('fuzzy_password_similar');
-        expect(result.isRejected, false); // Should be accepted due to hashing limitation
+        expect(result.isRejected,
+            false); // Should be accepted due to hashing limitation
       });
 
       test('should handle similarity threshold edge case', () async {
@@ -1239,10 +1274,10 @@ void main() {
           maxLength: 5,
         );
         final history = PasswordHistory(config);
-        
+
         // Add a password to history
         await history.addPassword('threshold_password');
-        
+
         // Check a different password - should be accepted due to limitation
         final result = history.checkPassword('completely_different');
         // Due to the hashing limitation, similarity checking doesn't work properly
@@ -1256,10 +1291,10 @@ void main() {
           maxLength: 5,
         );
         final history = PasswordHistory(config);
-        
+
         // Add a password to history
         await history.addPassword('suggestion_test');
-        
+
         // The suggestions are generated internally but not directly testable
         // due to the hashing limitation in similarity checking
         expect(history.config.enableSuggestions, true);
@@ -1271,10 +1306,10 @@ void main() {
           maxLength: 5,
         );
         final history = PasswordHistory(config);
-        
+
         // Add a password to history
         await history.addPassword('no_suggestions_test');
-        
+
         expect(history.config.enableSuggestions, false);
       });
 
@@ -1284,10 +1319,10 @@ void main() {
           maxLength: 5,
         );
         final history = PasswordHistory(config);
-        
+
         final customMetadata = {'source': 'test', 'device': 'mobile'};
         await history.addPassword('metadata_test', metadata: customMetadata);
-        
+
         expect(history.history.first.metadata, equals(customMetadata));
       });
 
@@ -1297,10 +1332,10 @@ void main() {
           maxLength: 5,
         );
         final history = PasswordHistory(config);
-        
+
         final customMetadata = {'source': 'test', 'device': 'mobile'};
         await history.addPassword('no_metadata_test', metadata: customMetadata);
-        
+
         // Metadata should still be stored as passed, but config indicates it's disabled
         expect(history.history.first.metadata, equals(customMetadata));
         expect(history.config.enableMetadata, false);
@@ -1308,16 +1343,16 @@ void main() {
 
       test('should handle hash function edge cases', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
-        
+
         // Test empty string
         await history.addPassword('');
         expect(history.length, 1);
-        
+
         // Test very long string
         final longPassword = 'a' * 10000;
         await history.addPassword(longPassword);
         expect(history.length, 2);
-        
+
         // Test special characters
         const specialPassword = '!@#\$%^&*()_+-=[]{}|;:,.<>?';
         await history.addPassword(specialPassword);
@@ -1326,12 +1361,12 @@ void main() {
 
       test('should handle hash collision edge case', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
-        
+
         // Add a password
         await history.addPassword('password1');
         final result1 = history.checkPassword('password1');
         expect(result1.isRejected, true);
-        
+
         // Add another password that might have same hash (unlikely but possible)
         await history.addPassword('password2');
         final result2 = history.checkPassword('password2');
@@ -1340,7 +1375,7 @@ void main() {
 
       test('should handle JSON serialization with complex metadata', () async {
         final history = PasswordHistory(PasswordHistoryConfig.simple);
-        
+
         final complexMetadata = {
           'source': 'user_input',
           'timestamp': DateTime.now().millisecondsSinceEpoch,
@@ -1348,9 +1383,10 @@ void main() {
           'browser': 'Chrome',
           'location': 'US',
         };
-        
-        await history.addPassword('complex_metadata_test', metadata: complexMetadata);
-        
+
+        await history.addPassword('complex_metadata_test',
+            metadata: complexMetadata);
+
         final json = history.toJson();
         expect(json['history'], hasLength(1));
         expect(json['history'][0]['metadata'], equals(complexMetadata));

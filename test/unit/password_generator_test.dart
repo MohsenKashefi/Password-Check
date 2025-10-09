@@ -98,12 +98,13 @@ void main() {
         );
         final result = customGenerator.generate();
         final password = result.password;
-        
+
         expect(password.length, 10);
         expect(password.contains(RegExp(r'[A-Z]')), true);
         expect(password.contains(RegExp(r'[a-z]')), false);
         expect(password.contains(RegExp(r'[0-9]')), false);
-        expect(password.contains(RegExp(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]')), false);
+        expect(password.contains(RegExp(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]')),
+            false);
       });
     });
 
@@ -121,13 +122,13 @@ void main() {
         );
         final result = customGenerator.generate();
         final password = result.password;
-        
+
         expect(password.contains(RegExp(r'[A-Z]')), true);
         expect(password.contains(RegExp(r'[a-z]')), true);
         expect(password.contains(RegExp(r'[0-9]')), true);
-        expect(password.contains(RegExp(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]')), true);
+        expect(password.contains(RegExp(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]')),
+            true);
       });
-
     });
 
     group('Custom Character Sets', () {
@@ -144,24 +145,23 @@ void main() {
         );
         final result = customGenerator.generate();
         final password = result.password;
-        
+
         expect(password.length, 10);
         expect(password.contains(RegExp(r'[ABC123]')), true);
         expect(password.contains(RegExp(r'[^ABC123]')), false);
       });
-
     });
 
     group('Multiple Generation', () {
       test('should generate multiple passwords', () {
         final results = generator.generateMultiple(5);
         expect(results.length, 5);
-        
+
         for (final result in results) {
           expect(result.password.length, 12);
           expect(result.isValid, true);
         }
-        
+
         // All passwords should be different
         final passwords = results.map((r) => r.password).toList();
         final uniquePasswords = passwords.toSet();
@@ -172,7 +172,7 @@ void main() {
         // Test with count 0 - should return empty list
         final emptyResults = generator.generateMultiple(0);
         expect(emptyResults, isEmpty);
-        
+
         // Test with negative count - should return empty list
         final negativeResults = generator.generateMultiple(-1);
         expect(negativeResults, isEmpty);
@@ -181,13 +181,15 @@ void main() {
 
     group('Valid Password Generation', () {
       test('should generate and validate password', () {
-        final result = generator.generateAndValidate(const ValidationRules.strong());
+        final result =
+            generator.generateAndValidate(const ValidationRules.strong());
         expect(result.isValid, true);
         expect(result.validationResult, isNotNull);
         expect(result.validationResult!.isValid, true);
       });
 
-      test('should generate and validate password with custom validation rules', () {
+      test('should generate and validate password with custom validation rules',
+          () {
         final customGenerator = PasswordGenerator(
           rules: const GenerationRules(
             length: 20,
@@ -198,7 +200,8 @@ void main() {
             ensureCharacterVariety: true,
           ),
         );
-        final result = customGenerator.generateAndValidate(const ValidationRules.strong());
+        final result =
+            customGenerator.generateAndValidate(const ValidationRules.strong());
         expect(result.isValid, true);
         expect(result.validationResult, isNotNull);
         expect(result.validationResult!.isValid, true);
@@ -208,11 +211,11 @@ void main() {
     group('History Tracking', () {
       test('should track generation history', () {
         expect(generator.history.length, 0);
-        
+
         final result1 = generator.generate();
         expect(generator.history.length, 1);
         expect(generator.history, contains(result1));
-        
+
         final result2 = generator.generate();
         expect(generator.history.length, 2);
         expect(generator.history, contains(result2));
@@ -222,7 +225,7 @@ void main() {
         generator.generate();
         generator.generate();
         expect(generator.history.length, 2);
-        
+
         generator.clearHistory();
         expect(generator.history.length, 0);
       });
@@ -230,7 +233,7 @@ void main() {
       test('should provide last password', () {
         final result1 = generator.generate();
         expect(generator.lastPassword, equals(result1.password));
-        
+
         final result2 = generator.generate();
         expect(generator.lastPassword, equals(result2.password));
       });
@@ -288,7 +291,7 @@ void main() {
         checks: {'minLength': true},
       );
       final timestamp = DateTime.now();
-      
+
       final result = GenerationResult(
         password: 'test123',
         strengthScore: 85,
@@ -298,7 +301,7 @@ void main() {
         isValid: true,
         validationResult: validation,
       );
-      
+
       expect(result.password, 'test123');
       expect(result.strengthScore, 85);
       expect(result.strengthLevel, PasswordStrengthLevel.strong);
@@ -308,31 +311,31 @@ void main() {
       expect(result.isValid, true);
     });
 
-      test('should format toString correctly', () {
-        final rules = const GenerationRules.basic();
-        final validation = PasswordValidationResult.success(
-          strengthDescription: 'Strong',
-          strengthScore: 85,
-          complexityRating: 'High',
-          checks: {'minLength': true},
-        );
-        final timestamp = DateTime.now();
-        
-        final result = GenerationResult(
-          password: 'test123',
-          strengthScore: 85,
-          strengthLevel: PasswordStrengthLevel.strong,
-          rules: rules,
-          timestamp: timestamp,
-          isValid: true,
-          validationResult: validation,
-        );
-        
-        final str = result.toString();
-        expect(str, contains('test123'));
-        expect(str, contains('isValid: true'));
-        expect(str, contains('PasswordStrengthLevel.strong'));
-        expect(str, contains('timestamp'));
-      });
+    test('should format toString correctly', () {
+      final rules = const GenerationRules.basic();
+      final validation = PasswordValidationResult.success(
+        strengthDescription: 'Strong',
+        strengthScore: 85,
+        complexityRating: 'High',
+        checks: {'minLength': true},
+      );
+      final timestamp = DateTime.now();
+
+      final result = GenerationResult(
+        password: 'test123',
+        strengthScore: 85,
+        strengthLevel: PasswordStrengthLevel.strong,
+        rules: rules,
+        timestamp: timestamp,
+        isValid: true,
+        validationResult: validation,
+      );
+
+      final str = result.toString();
+      expect(str, contains('test123'));
+      expect(str, contains('isValid: true'));
+      expect(str, contains('PasswordStrengthLevel.strong'));
+      expect(str, contains('timestamp'));
+    });
   });
 }
