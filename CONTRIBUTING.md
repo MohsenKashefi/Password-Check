@@ -76,3 +76,11 @@ For new features, please:
 ---
 
 **Thank you for contributing to Password Check! 🙏**
+
+---
+
+<div align="center">
+  
+**Made with ❤️ by the youngDevs**
+
+</div>
