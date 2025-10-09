@@ -27,49 +27,35 @@ If you find this package useful, please consider:
 
 <table>
 <tr>
-<td width="33%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/basic_validation.png" alt="Basic Validation" />
-<p align="center"><b>Basic Validation</b></p>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/1.png" alt="Screenshot 1" />
 </td>
-<td width="33%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/strength_analysis.png" alt="Strength Analysis" />
-<p align="center"><b>Strength Analysis</b></p>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/2.png" alt="Screenshot 2" />
 </td>
-<td width="33%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/password_generation.png" alt="Password Generation" />
-<p align="center"><b>Password Generation</b></p>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/3.png" alt="Screenshot 3" />
+</td>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/4.png" alt="Screenshot 4" />
 </td>
 </tr>
 <tr>
-<td width="33%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/internationalization.png" alt="Internationalization" />
-<p align="center"><b>Internationalization</b></p>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/5.png" alt="Screenshot 5" />
 </td>
-<td width="33%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/advanced_widgets.png" alt="Advanced Widgets" />
-<p align="center"><b>Advanced Widgets</b></p>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/6.png" alt="Screenshot 6" />
 </td>
-<td width="33%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/password_history.png" alt="Password History" />
-<p align="center"><b>Password History</b></p>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/7.png" alt="Screenshot 7" />
+</td>
+<td width="25%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/8.png" alt="Screenshot 8" />
 </td>
 </tr>
 </table>
 
-### Test Coverage Screenshots
-
-<table>
-<tr>
-<td width="50%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/coverage_overview.png" alt="Coverage Overview" />
-<p align="center"><b>Test Coverage Overview</b><br/>323 tests • 92.1% coverage</p>
-</td>
-<td width="50%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/coverage_details.png" alt="Coverage Details" />
-<p align="center"><b>Detailed Coverage Report</b><br/>All files thoroughly tested</p>
-</td>
-</tr>
-</table>
 
 ## ✨ Features
 
@@ -89,6 +75,10 @@ If you find this package useful, please consider:
 
 ## 📊 Package Statistics
 
+<table>
+<tr>
+<td width="50%">
+
 | Metric | Value |
 |--------|-------|
 | **Tests** | 323 tests passing |
@@ -98,6 +88,13 @@ If you find this package useful, please consider:
 | **Widgets** | 6 pre-built Flutter widgets |
 | **Platforms** | iOS, Android, Web, Desktop |
 | **License** | MIT License |
+
+</td>
+<td width="50%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/Password-Check-Test-Coverage.png" alt="Test Coverage Report" />
+</td>
+</tr>
+</table>
 
 ## 🚀 Quick Start
 
