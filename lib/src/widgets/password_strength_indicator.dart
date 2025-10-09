@@ -171,7 +171,7 @@ class _PasswordStrengthIndicatorState extends State<PasswordStrengthIndicator>
                           gradient: LinearGradient(
                             colors: [
                               _colorAnimation.value ?? Colors.grey,
-                              _colorAnimation.value?.withOpacity(0.7) ?? Colors.grey,
+                              _colorAnimation.value?.withValues(alpha: 0.7) ?? Colors.grey,
                             ],
                           ),
                         ),

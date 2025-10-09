@@ -1,0 +1,4 @@
+# Exclude build files from pub.dev publishing
+example/build/
+**/build/
+**/coverage/

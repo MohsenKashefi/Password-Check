@@ -215,27 +215,11 @@ class PasswordHistory {
 
   /// Check password similarity against history
   PasswordHistoryResult _checkSimilarity(String password) {
-    double maxSimilarity = 0.0;
-    String? mostSimilarPassword;
-    PasswordEntry? mostSimilarEntry;
-
-    for (final entry in _history) {
-      // We can't compare against hashed passwords for similarity
-      // This is a limitation - we'd need to store original passwords
-      // For now, we'll skip similarity check with hashed passwords
-      continue;
-    }
-
-    if (maxSimilarity >= config.similarityThreshold) {
-      return PasswordHistoryResult.rejected(
-        reason: 'Password is too similar to a previous password',
-        similarityScore: maxSimilarity,
-        mostSimilarPassword: mostSimilarPassword,
-        suggestions: config.enableSuggestions ? _generateSuggestions(password) : [],
-        lastUsed: mostSimilarEntry?.createdAt,
-      );
-    }
-
+    // We can't compare against hashed passwords for similarity
+    // This is a limitation - we'd need to store original passwords
+    // For now, we'll skip similarity check with hashed passwords
+    // Always return accepted since we can't perform similarity checks on hashed passwords
+    
     return PasswordHistoryResult.accepted();
   }
 

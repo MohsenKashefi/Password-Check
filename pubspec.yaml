@@ -6,9 +6,6 @@ repository: https://github.com/PasswordCheck/Password-Check
 issue_tracker: https://github.com/PasswordCheck/Password-Check/issues
 documentation: https://github.com/PasswordCheck/Password-Check#readme
 
-authors:
-  - Mohsen Kashefi <mohsenkashefi2016@yahoo.com>
-  - Mohammad Amin Rezaei Sepehr <mohammadaminrez@gmail.com>
 
 environment:
   sdk: ^3.0.0
