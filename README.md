@@ -7,6 +7,18 @@
 
 A comprehensive Flutter package for password validation, strength checking, and security analysis. This package provides robust password validation with customizable rules, strength scoring, and common password detection.
 
+## ⭐ Show Your Support
+
+If you find this package useful, please consider:
+
+- ⭐ **Starring** the repository
+- ☕ **Buy us a coffee** - [Support the project](https://www.buymeacoffee.com/passwordcheck)
+- 🐛 **Reporting** bugs and issues
+- 💡 **Suggesting** new features
+- 📢 **Sharing** with your network
+
+---
+
 ## 📸 Screenshots
 
 ### Example App Screenshots
@@ -597,11 +609,6 @@ PasswordVisualizer(
 )
 ```
 
-## 📚 **Documentation**
-
-- [Advanced Widgets Guide](ADVANCED_WIDGETS.md) - Comprehensive documentation for all UI widgets
-- [Internationalization Guide](I18N_EXAMPLES.md) - Multi-language support examples
-
 ## 📦 Installation
 
 ### From pub.dev (Recommended)
@@ -658,19 +665,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- 📧 **Email**: [mohsenkashefi2016@yahoo.com](mailto:mohsenkashefi2016@yahoo.com)
 - 🐛 **Issues**: [GitHub Issues](https://github.com/PasswordCheck/Password-Check/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/PasswordCheck/Password-Check/discussions)
 - 📖 **Documentation**: [Full Documentation](https://github.com/PasswordCheck/Password-Check#readme)
-
-## ⭐ Show Your Support
-
-If you find this package useful, please consider:
-
-- ⭐ **Starring** the repository
-- 🐛 **Reporting** bugs and issues
-- 💡 **Suggesting** new features
-- 📢 **Sharing** with your network
 
 ---
 
