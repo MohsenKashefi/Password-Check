@@ -1,6 +1,6 @@
 # Password Check
 
-[![pub package](https://img.shields.io/pub/v/password_check.svg)](https://pub.dev/packages/password_check)
+[![pub package](https://img.shields.io/pub/v/password_checker_pro.svg)](https://pub.dev/packages/password_checker_pro)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/PasswordCheck/Password-Check.svg)](https://github.com/PasswordCheck/Password-Check)
 [![GitHub forks](https://img.shields.io/github/forks/PasswordCheck/Password-Check.svg)](https://github.com/PasswordCheck/Password-Check)
