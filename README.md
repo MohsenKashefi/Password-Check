@@ -28,30 +28,30 @@ If you find this package useful, please consider:
 <table>
 <tr>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/1.png" alt="Screenshot 1" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/1.png" alt="Screenshot 1" />
 </td>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/2.png" alt="Screenshot 2" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/2.png" alt="Screenshot 2" />
 </td>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/3.png" alt="Screenshot 3" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/3.png" alt="Screenshot 3" />
 </td>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/4.png" alt="Screenshot 4" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/4.png" alt="Screenshot 4" />
 </td>
 </tr>
 <tr>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/5.png" alt="Screenshot 5" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/5.png" alt="Screenshot 5" />
 </td>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/6.png" alt="Screenshot 6" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/6.png" alt="Screenshot 6" />
 </td>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/7.png" alt="Screenshot 7" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/7.png" alt="Screenshot 7" />
 </td>
 <td width="25%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/8.png" alt="Screenshot 8" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/8.png" alt="Screenshot 8" />
 </td>
 </tr>
 </table>
@@ -91,7 +91,7 @@ If you find this package useful, please consider:
 
 </td>
 <td width="50%">
-<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/19-deployment-final-changes/example/screenshots/Password-Check-Test-Coverage.png" alt="Test Coverage Report" />
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/example/screenshots/Password-Check-Test-Coverage.png" alt="Test Coverage Report" />
 </td>
 </tr>
 </table>
