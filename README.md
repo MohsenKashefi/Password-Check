@@ -5,7 +5,9 @@
 [![GitHub stars](https://img.shields.io/github/stars/PasswordCheck/Password-Check.svg)](https://github.com/PasswordCheck/Password-Check)
 [![GitHub forks](https://img.shields.io/github/forks/PasswordCheck/Password-Check.svg)](https://github.com/PasswordCheck/Password-Check)
 
-A comprehensive Flutter package for password validation, strength checking, and security analysis. This package provides robust password validation with customizable rules, strength scoring, and common password detection.
+A Flutter package for password validation, strength checking, and security analysis
+
+This package provides robust password validation with customizable rules, strength scoring, and common password detection.
 
 ## ☕ Buy Me a Coffee
 
@@ -102,7 +104,7 @@ Add this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  password_check: ^1.0.0
+  password_check: ^1.0.1
 ```
 
 Then run:
