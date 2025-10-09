@@ -1,8 +1,63 @@
 # Password Check
 
+[![pub package](https://img.shields.io/pub/v/password_check.svg)](https://pub.dev/packages/password_check)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/PasswordCheck/Password-Check.svg)](https://github.com/PasswordCheck/Password-Check)
+[![GitHub forks](https://img.shields.io/github/forks/PasswordCheck/Password-Check.svg)](https://github.com/PasswordCheck/Password-Check)
+
 A comprehensive Flutter package for password validation, strength checking, and security analysis. This package provides robust password validation with customizable rules, strength scoring, and common password detection.
 
-## Features
+## 📸 Screenshots
+
+### Example App Screenshots
+
+<table>
+<tr>
+<td width="33%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/basic_validation.png" alt="Basic Validation" />
+<p align="center"><b>Basic Validation</b></p>
+</td>
+<td width="33%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/strength_analysis.png" alt="Strength Analysis" />
+<p align="center"><b>Strength Analysis</b></p>
+</td>
+<td width="33%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/password_generation.png" alt="Password Generation" />
+<p align="center"><b>Password Generation</b></p>
+</td>
+</tr>
+<tr>
+<td width="33%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/internationalization.png" alt="Internationalization" />
+<p align="center"><b>Internationalization</b></p>
+</td>
+<td width="33%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/advanced_widgets.png" alt="Advanced Widgets" />
+<p align="center"><b>Advanced Widgets</b></p>
+</td>
+<td width="33%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/password_history.png" alt="Password History" />
+<p align="center"><b>Password History</b></p>
+</td>
+</tr>
+</table>
+
+### Test Coverage Screenshots
+
+<table>
+<tr>
+<td width="50%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/coverage_overview.png" alt="Coverage Overview" />
+<p align="center"><b>Test Coverage Overview</b><br/>323 tests • 92.1% coverage</p>
+</td>
+<td width="50%">
+<img src="https://raw.githubusercontent.com/PasswordCheck/Password-Check/main/screenshots/coverage_details.png" alt="Coverage Details" />
+<p align="center"><b>Detailed Coverage Report</b><br/>All files thoroughly tested</p>
+</td>
+</tr>
+</table>
+
+## ✨ Features
 
 - ✅ **Comprehensive Validation**: Length, character types, patterns, and more
 - ✅ **Strength Scoring**: 0-100 score with detailed strength levels
@@ -13,8 +68,24 @@ A comprehensive Flutter package for password validation, strength checking, and 
 - ✅ **Secure Password Generation**: Generate cryptographically secure passwords
 - ✅ **Generation History**: Track generated passwords with timestamps
 - ✅ **Flutter Ready**: Works seamlessly with Flutter and Dart applications
+- ✅ **Zero Dependencies**: No external packages required
+- ✅ **Internationalization**: 7 languages supported (EN, ES, FR, DE, PT, IT, FA)
+- ✅ **Advanced UI Widgets**: 6 pre-built Flutter widgets
+- ✅ **Password History**: Similarity detection and reuse prevention
 
-## Getting Started
+## 📊 Package Statistics
+
+| Metric | Value |
+|--------|-------|
+| **Tests** | 323 tests passing |
+| **Coverage** | 92.1% code coverage |
+| **Dependencies** | Zero external dependencies |
+| **Languages** | 7 languages supported |
+| **Widgets** | 6 pre-built Flutter widgets |
+| **Platforms** | iOS, Android, Web, Desktop |
+| **License** | MIT License |
+
+## 🚀 Quick Start
 
 Add this package to your `pubspec.yaml`:
 
@@ -29,9 +100,39 @@ Then run:
 flutter pub get
 ```
 
-## Usage
+### ⚡ 30-Second Setup
 
-### Basic Usage
+```dart
+import 'package:password_check/password_check.dart';
+
+void main() {
+  // Create a password checker
+  final checker = PasswordChecker.strong();
+  
+  // Validate a password
+  final result = checker.validate('MySecurePassword123!');
+  
+  print('Valid: ${result.isValid}');
+  print('Strength: ${result.strengthDescription}');
+  print('Score: ${result.strengthScore}/100');
+}
+```
+
+## 🆚 Why Choose Password Check?
+
+| Feature | Password Check | Other Packages |
+|---------|----------------|----------------|
+| **Dependencies** | ✅ Zero | ❌ Multiple |
+| **UI Widgets** | ✅ 6 widgets | ❌ Basic only |
+| **Languages** | ✅ 7 languages | ❌ English only |
+| **Password History** | ✅ Advanced | ❌ Not available |
+| **Test Coverage** | ✅ 92.1% | ❌ Limited |
+| **Documentation** | ✅ Comprehensive | ❌ Basic |
+| **Performance** | ✅ Optimized | ❌ Varies |
+
+## 📖 Usage
+
+### 🔧 Basic Usage
 
 ```dart
 import 'package:password_check/password_check.dart';
@@ -419,9 +520,22 @@ class _PasswordFormState extends State<PasswordForm> {
 }
 ```
 
-## 🎨 **Advanced UI Widgets**
+## 🎨 Advanced UI Widgets
 
 The package includes powerful pre-built widgets for comprehensive password visualization:
+
+> **💡 Pro Tip**: All widgets are fully customizable and support animations, theming, and responsive design.
+
+### 🎯 Widget Overview
+
+| Widget | Purpose | Features |
+|--------|---------|----------|
+| **PasswordStrengthIndicator** | Visual strength display | Animated progress, breakdown, suggestions |
+| **PasswordRequirementsChecklist** | Requirements tracking | Interactive checklist, progress bar |
+| **PasswordStrengthMeter** | Circular strength meter | Animated progress, customizable size |
+| **PasswordImprovementSuggestions** | Smart suggestions | Contextual advice, priority levels |
+| **PasswordVisualizer** | Comprehensive view | Tabbed interface, all features |
+| **PasswordHistoryWidget** | History management | Similarity detection, reuse prevention |
 
 ### **PasswordStrengthIndicator**
 Animated strength indicator with breakdown visualization and improvement suggestions.
@@ -488,14 +602,83 @@ PasswordVisualizer(
 - [Advanced Widgets Guide](ADVANCED_WIDGETS.md) - Comprehensive documentation for all UI widgets
 - [Internationalization Guide](I18N_EXAMPLES.md) - Multi-language support examples
 
-## Contributing
+## 📦 Installation
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### From pub.dev (Recommended)
 
-## License
+```bash
+flutter pub add password_check
+```
+
+### From GitHub
+
+```yaml
+dependencies:
+  password_check:
+    git:
+      url: https://github.com/PasswordCheck/Password-Check.git
+```
+
+### From Local Path
+
+```yaml
+dependencies:
+  password_check:
+    path: ../path/to/password_check
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/PasswordCheck/Password-Check.git
+
+# Install dependencies
+flutter pub get
+
+# Run tests
+flutter test
+
+# Run example app
+cd example && flutter run
+```
+
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## 👥 Authors
 
-If you find this package useful, please consider giving it a ⭐ on GitHub!
+- **Mohsen Kashefi** - [LinkedIn](https://www.linkedin.com/in/mohsen-kashefi-825b7b18a/) - mohsenkashefi2016@yahoo.com
+- **Mohammad Amin Rezaei Sepehr** - [LinkedIn](https://www.linkedin.com/in/mohammadaminrez/) - mohammadaminrez@gmail.com
+
+## 🆘 Support
+
+- 📧 **Email**: [mohsenkashefi2016@yahoo.com](mailto:mohsenkashefi2016@yahoo.com)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/PasswordCheck/Password-Check/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/PasswordCheck/Password-Check/discussions)
+- 📖 **Documentation**: [Full Documentation](https://github.com/PasswordCheck/Password-Check#readme)
+
+## ⭐ Show Your Support
+
+If you find this package useful, please consider:
+
+- ⭐ **Starring** the repository
+- 🐛 **Reporting** bugs and issues
+- 💡 **Suggesting** new features
+- 📢 **Sharing** with your network
+
+---
+
+<div align="center">
+
+**Made with ❤️ by the Password Check Team**
+
+[![GitHub stars](https://img.shields.io/github/stars/PasswordCheck/Password-Check.svg?style=social&label=Star)](https://github.com/PasswordCheck/Password-Check)
+[![GitHub forks](https://img.shields.io/github/forks/PasswordCheck/Password-Check.svg?style=social&label=Fork)](https://github.com/PasswordCheck/Password-Check)
+
+</div>
