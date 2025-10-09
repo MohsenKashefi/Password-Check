@@ -39,7 +39,16 @@ class LanguageDetector {
 
   /// Checks if a language is supported.
   static bool isLanguageSupported(String languageCode) {
-    const supportedLanguages = ['en', 'es', 'fr', 'de', 'pt', 'it', 'fa', 'per'];
+    const supportedLanguages = [
+      'en',
+      'es',
+      'fr',
+      'de',
+      'pt',
+      'it',
+      'fa',
+      'per'
+    ];
     return supportedLanguages.contains(languageCode.toLowerCase());
   }
 

@@ -64,7 +64,7 @@ void main() {
       test('should calculate strength score correctly', () {
         final weakResult = checker.validate('weak');
         final strongResult = checker.validate('MyVeryStrongPassword123!@#');
-        
+
         expect(weakResult.strengthScore, lessThan(strongResult.strengthScore));
         expect(strongResult.strengthScore, greaterThanOrEqualTo(80));
       });
@@ -101,7 +101,6 @@ void main() {
         expect(result.isValid, true);
       });
 
-
       test('should reject weak passwords with strict rules', () {
         final strictChecker = PasswordChecker.strict();
         final result = strictChecker.validate('MyPassword123!');
@@ -122,7 +121,6 @@ void main() {
         expect(result.isValid, false);
         expect(result.errorDisplay, contains('128'));
       });
-
     });
 
     group('Validation Results', () {
@@ -163,17 +161,21 @@ void main() {
     });
 
     test('should calculate score for strong password', () {
-      final score = PasswordStrength.calculateScore('MyVeryStrongPassword123!@#');
+      final score =
+          PasswordStrength.calculateScore('MyVeryStrongPassword123!@#');
       expect(score, greaterThan(70));
     });
 
     test('should determine strength level correctly', () {
-      expect(PasswordStrength.getStrengthLevel(95), PasswordStrengthLevel.veryStrong);
-      expect(PasswordStrength.getStrengthLevel(80), PasswordStrengthLevel.strong);
+      expect(PasswordStrength.getStrengthLevel(95),
+          PasswordStrengthLevel.veryStrong);
+      expect(
+          PasswordStrength.getStrengthLevel(80), PasswordStrengthLevel.strong);
       expect(PasswordStrength.getStrengthLevel(65), PasswordStrengthLevel.good);
       expect(PasswordStrength.getStrengthLevel(45), PasswordStrengthLevel.fair);
       expect(PasswordStrength.getStrengthLevel(25), PasswordStrengthLevel.weak);
-      expect(PasswordStrength.getStrengthLevel(5), PasswordStrengthLevel.veryWeak);
+      expect(
+          PasswordStrength.getStrengthLevel(5), PasswordStrengthLevel.veryWeak);
     });
   });
 
@@ -223,7 +225,7 @@ void main() {
         complexityRating: 'High',
         checks: {'minLength': true, 'uppercase': true},
       );
-      
+
       expect(result.isValid, true);
       expect(result.strengthScore, 85);
       expect(result.strengthDisplay, 'Strong');
@@ -238,7 +240,7 @@ void main() {
         allErrors: ['Password too short'],
         checks: {'minLength': false},
       );
-      
+
       expect(result.isValid, false);
       expect(result.errorDisplay, 'Password too short');
       expect(result.strengthScore, 20);
@@ -250,7 +252,7 @@ void main() {
         strengthScore: 85,
         complexityRating: 'High',
       );
-      
+
       expect(result.strengthDisplay, 'Strong');
       expect(result.errorDisplay, isNull);
       expect(result.warningDisplay, isNull);
@@ -262,12 +264,18 @@ void main() {
   group('PasswordStrengthLevel', () {
     test('should have correct enum values', () {
       expect(PasswordStrengthLevel.values, hasLength(6));
-      expect(PasswordStrengthLevel.values, contains(PasswordStrengthLevel.veryWeak));
-      expect(PasswordStrengthLevel.values, contains(PasswordStrengthLevel.weak));
-      expect(PasswordStrengthLevel.values, contains(PasswordStrengthLevel.fair));
-      expect(PasswordStrengthLevel.values, contains(PasswordStrengthLevel.good));
-      expect(PasswordStrengthLevel.values, contains(PasswordStrengthLevel.strong));
-      expect(PasswordStrengthLevel.values, contains(PasswordStrengthLevel.veryStrong));
+      expect(PasswordStrengthLevel.values,
+          contains(PasswordStrengthLevel.veryWeak));
+      expect(
+          PasswordStrengthLevel.values, contains(PasswordStrengthLevel.weak));
+      expect(
+          PasswordStrengthLevel.values, contains(PasswordStrengthLevel.fair));
+      expect(
+          PasswordStrengthLevel.values, contains(PasswordStrengthLevel.good));
+      expect(
+          PasswordStrengthLevel.values, contains(PasswordStrengthLevel.strong));
+      expect(PasswordStrengthLevel.values,
+          contains(PasswordStrengthLevel.veryStrong));
     });
   });
 }

@@ -8,12 +8,12 @@ import '../password_validation_result.dart';
 class LanguageManager {
   static LanguageManager? _instance;
   static LanguageManager get instance => _instance ??= LanguageManager._();
-  
+
   String _currentLanguage;
   PasswordMessages _messages;
   CustomMessages? _customMessages;
 
-  LanguageManager._() 
+  LanguageManager._()
       : _currentLanguage = LanguageDetector.detectSystemLanguage(),
         _messages = LanguageDetector.getSystemMessages();
 
@@ -33,7 +33,7 @@ class LanguageManager {
   /// This will automatically update all components that use this manager.
   void setLanguage(String languageCode) {
     if (_currentLanguage == languageCode) return;
-    
+
     _currentLanguage = languageCode;
     _updateMessages();
   }
@@ -50,17 +50,17 @@ class LanguageManager {
     CustomMessages? customMessages,
   }) {
     bool needsUpdate = false;
-    
+
     if (language != null && _currentLanguage != language) {
       _currentLanguage = language;
       needsUpdate = true;
     }
-    
+
     if (_customMessages != customMessages) {
       _customMessages = customMessages;
       needsUpdate = true;
     }
-    
+
     if (needsUpdate) {
       _updateMessages();
     }
@@ -113,8 +113,9 @@ class LanguageManager {
 
   /// Updates the messages based on current language and custom messages.
   void _updateMessages() {
-    final baseMessages = LanguageDetector.getMessagesForLanguage(_currentLanguage);
-    
+    final baseMessages =
+        LanguageDetector.getMessagesForLanguage(_currentLanguage);
+
     if (_customMessages != null) {
       _messages = _customMessages!.applyTo(baseMessages);
     } else {
@@ -126,6 +127,6 @@ class LanguageManager {
 /// Extension to make PasswordStrengthLevel work with LanguageManager.
 extension PasswordStrengthLevelLanguageExtension on PasswordStrengthLevel {
   /// Gets localized display name using the current language manager.
-  String get localizedDisplayName => LanguageManager.current.getStrengthLevelName(this);
+  String get localizedDisplayName =>
+      LanguageManager.current.getStrengthLevelName(this);
 }
-

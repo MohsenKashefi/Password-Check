@@ -19,11 +19,12 @@ class PasswordRequirementsChecklist extends StatefulWidget {
   });
 
   @override
-  State<PasswordRequirementsChecklist> createState() => _PasswordRequirementsChecklistState();
+  State<PasswordRequirementsChecklist> createState() =>
+      _PasswordRequirementsChecklistState();
 }
 
-class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChecklist>
-    with TickerProviderStateMixin {
+class _PasswordRequirementsChecklistState
+    extends State<PasswordRequirementsChecklist> with TickerProviderStateMixin {
   late AnimationController _progressController;
   late Animation<double> _progressAnimation;
 
@@ -34,7 +35,7 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-    
+
     _progressAnimation = Tween<double>(
       begin: 0.0,
       end: _calculateProgress(),
@@ -42,7 +43,7 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
       parent: _progressController,
       curve: Curves.easeInOut,
     ));
-    
+
     if (widget.animated) {
       _progressController.forward();
     }
@@ -64,7 +65,7 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
       parent: _progressController,
       curve: Curves.easeInOut,
     ));
-    
+
     if (widget.animated) {
       _progressController.reset();
       _progressController.forward();
@@ -154,8 +155,8 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
             Text(
               'Password Requirements',
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             AnimatedBuilder(
               animation: _progressAnimation,
@@ -163,9 +164,9 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
                 return Text(
                   '${(_progressAnimation.value * 100).round()}% Complete',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: _getProgressColor(_progressAnimation.value),
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: _getProgressColor(_progressAnimation.value),
+                      ),
                 );
               },
             ),
@@ -190,11 +191,11 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
 
   Widget _buildRequirementsList() {
     final requirements = _getRequirements();
-    
+
     return Column(
-      children: requirements.map((requirement) => 
-        _buildRequirementItem(requirement)
-      ).toList(),
+      children: requirements
+          .map((requirement) => _buildRequirementItem(requirement))
+          .toList(),
     );
   }
 
@@ -209,9 +210,7 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
             height: 20,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: requirement.isMet 
-                  ? Colors.green 
-                  : Colors.grey[300],
+              color: requirement.isMet ? Colors.green : Colors.grey[300],
             ),
             child: Icon(
               requirement.isMet ? Icons.check : Icons.close,
@@ -227,11 +226,10 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
                 Text(
                   requirement.title,
                   style: TextStyle(
-                    fontWeight: requirement.isMet 
-                        ? FontWeight.bold 
-                        : FontWeight.normal,
-                    color: requirement.isMet 
-                        ? Colors.green[700] 
+                    fontWeight:
+                        requirement.isMet ? FontWeight.bold : FontWeight.normal,
+                    color: requirement.isMet
+                        ? Colors.green[700]
                         : Colors.grey[700],
                   ),
                 ),
@@ -240,8 +238,8 @@ class _PasswordRequirementsChecklistState extends State<PasswordRequirementsChec
                   Text(
                     requirement.description!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                    ),
+                          color: Colors.grey[600],
+                        ),
                   ),
                 ],
               ],

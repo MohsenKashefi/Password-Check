@@ -39,7 +39,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
       duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
-    
+
     _progressAnimation = Tween<double>(
       begin: 0.0,
       end: widget.result.strengthScore / 100,
@@ -47,7 +47,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     _colorAnimation = ColorTween(
       begin: Colors.grey,
       end: _getStrengthColor(widget.result.strengthScore),
@@ -55,7 +55,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     if (widget.animated) {
       _animationController.forward();
     }
@@ -77,7 +77,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     _colorAnimation = ColorTween(
       begin: _colorAnimation.value,
       end: _getStrengthColor(widget.result.strengthScore),
@@ -85,7 +85,7 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    
+
     if (widget.animated) {
       _animationController.reset();
       _animationController.forward();
@@ -145,9 +145,9 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
               return Text(
                 '${(_progressAnimation.value * 100).round()}/100',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: _getStrengthColor(widget.result.strengthScore),
-                ),
+                      fontWeight: FontWeight.bold,
+                      color: _getStrengthColor(widget.result.strengthScore),
+                    ),
               );
             },
           ),
@@ -157,9 +157,9 @@ class _PasswordStrengthMeterState extends State<PasswordStrengthMeter>
           Text(
             widget.result.strengthDisplay,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: _getStrengthColor(widget.result.strengthScore),
-            ),
+                  fontWeight: FontWeight.bold,
+                  color: _getStrengthColor(widget.result.strengthScore),
+                ),
           ),
         ],
       ],
@@ -246,7 +246,8 @@ class StrengthMeterPainter extends CustomPainter {
     }
   }
 
-  void _drawWarningIcon(Canvas canvas, Offset center, double size, Paint paint) {
+  void _drawWarningIcon(
+      Canvas canvas, Offset center, double size, Paint paint) {
     final path = Path();
     path.moveTo(center.dx, center.dy - size / 2);
     path.lineTo(center.dx - size / 2, center.dy + size / 2);
@@ -275,7 +276,8 @@ class StrengthMeterPainter extends CustomPainter {
     canvas.drawPath(path, paint);
   }
 
-  void _drawSecurityIcon(Canvas canvas, Offset center, double size, Paint paint) {
+  void _drawSecurityIcon(
+      Canvas canvas, Offset center, double size, Paint paint) {
     final path = Path();
     path.moveTo(center.dx, center.dy - size / 2);
     path.lineTo(center.dx - size / 2, center.dy - size / 4);
@@ -291,20 +293,28 @@ class StrengthMeterPainter extends CustomPainter {
     final path = Path();
     path.moveTo(center.dx, center.dy - size / 2);
     path.quadraticBezierTo(
-      center.dx - size / 2, center.dy - size / 4,
-      center.dx - size / 2, center.dy + size / 4,
+      center.dx - size / 2,
+      center.dy - size / 4,
+      center.dx - size / 2,
+      center.dy + size / 4,
     );
     path.quadraticBezierTo(
-      center.dx - size / 2, center.dy + size / 2,
-      center.dx, center.dy + size / 2,
+      center.dx - size / 2,
+      center.dy + size / 2,
+      center.dx,
+      center.dy + size / 2,
     );
     path.quadraticBezierTo(
-      center.dx + size / 2, center.dy + size / 2,
-      center.dx + size / 2, center.dy + size / 4,
+      center.dx + size / 2,
+      center.dy + size / 2,
+      center.dx + size / 2,
+      center.dy + size / 4,
     );
     path.quadraticBezierTo(
-      center.dx + size / 2, center.dy - size / 4,
-      center.dx, center.dy - size / 2,
+      center.dx + size / 2,
+      center.dy - size / 4,
+      center.dx,
+      center.dy - size / 2,
     );
     canvas.drawPath(path, paint);
   }
@@ -312,8 +322,8 @@ class StrengthMeterPainter extends CustomPainter {
   @override
   bool shouldRepaint(StrengthMeterPainter oldDelegate) {
     return progress != oldDelegate.progress ||
-           color != oldDelegate.color ||
-           backgroundColor != oldDelegate.backgroundColor ||
-           strokeWidth != oldDelegate.strokeWidth;
+        color != oldDelegate.color ||
+        backgroundColor != oldDelegate.backgroundColor ||
+        strokeWidth != oldDelegate.strokeWidth;
   }
 }

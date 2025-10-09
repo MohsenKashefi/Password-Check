@@ -60,10 +60,13 @@ class PasswordMessages {
   static const PasswordMessages spanish = PasswordMessages(
     minLength: 'La contraseña debe tener al menos {min} caracteres',
     maxLength: 'La contraseña no debe tener más de {max} caracteres',
-    requireUppercase: 'La contraseña debe contener al menos una letra mayúscula',
-    requireLowercase: 'La contraseña debe contener al menos una letra minúscula',
+    requireUppercase:
+        'La contraseña debe contener al menos una letra mayúscula',
+    requireLowercase:
+        'La contraseña debe contener al menos una letra minúscula',
     requireNumbers: 'La contraseña debe contener al menos un número',
-    requireSpecialChars: 'La contraseña debe contener al menos un carácter especial',
+    requireSpecialChars:
+        'La contraseña debe contener al menos un carácter especial',
     noSpaces: 'La contraseña no puede contener espacios',
     notCommon: 'La contraseña es muy común y fácil de adivinar',
     noRepeatedChars: 'La contraseña contiene demasiados caracteres repetidos',
@@ -80,10 +83,13 @@ class PasswordMessages {
   static const PasswordMessages french = PasswordMessages(
     minLength: 'Le mot de passe doit contenir au moins {min} caractères',
     maxLength: 'Le mot de passe ne doit pas dépasser {max} caractères',
-    requireUppercase: 'Le mot de passe doit contenir au moins une lettre majuscule',
-    requireLowercase: 'Le mot de passe doit contenir au moins une lettre minuscule',
+    requireUppercase:
+        'Le mot de passe doit contenir au moins une lettre majuscule',
+    requireLowercase:
+        'Le mot de passe doit contenir au moins une lettre minuscule',
     requireNumbers: 'Le mot de passe doit contenir au moins un chiffre',
-    requireSpecialChars: 'Le mot de passe doit contenir au moins un caractère spécial',
+    requireSpecialChars:
+        'Le mot de passe doit contenir au moins un caractère spécial',
     noSpaces: 'Le mot de passe ne peut pas contenir d\'espaces',
     notCommon: 'Le mot de passe est trop commun et facile à deviner',
     noRepeatedChars: 'Le mot de passe contient trop de caractères répétés',
@@ -100,10 +106,13 @@ class PasswordMessages {
   static const PasswordMessages german = PasswordMessages(
     minLength: 'Das Passwort muss mindestens {min} Zeichen lang sein',
     maxLength: 'Das Passwort darf nicht mehr als {max} Zeichen haben',
-    requireUppercase: 'Das Passwort muss mindestens einen Großbuchstaben enthalten',
-    requireLowercase: 'Das Passwort muss mindestens einen Kleinbuchstaben enthalten',
+    requireUppercase:
+        'Das Passwort muss mindestens einen Großbuchstaben enthalten',
+    requireLowercase:
+        'Das Passwort muss mindestens einen Kleinbuchstaben enthalten',
     requireNumbers: 'Das Passwort muss mindestens eine Zahl enthalten',
-    requireSpecialChars: 'Das Passwort muss mindestens ein Sonderzeichen enthalten',
+    requireSpecialChars:
+        'Das Passwort muss mindestens ein Sonderzeichen enthalten',
     noSpaces: 'Das Passwort darf keine Leerzeichen enthalten',
     notCommon: 'Das Passwort ist zu häufig und leicht zu erraten',
     noRepeatedChars: 'Das Passwort enthält zu viele wiederholte Zeichen',
@@ -143,7 +152,8 @@ class PasswordMessages {
     requireUppercase: 'La password deve contenere almeno una lettera maiuscola',
     requireLowercase: 'La password deve contenere almeno una lettera minuscola',
     requireNumbers: 'La password deve contenere almeno un numero',
-    requireSpecialChars: 'La password deve contenere almeno un carattere speciale',
+    requireSpecialChars:
+        'La password deve contenere almeno un carattere speciale',
     noSpaces: 'La password non può contenere spazi',
     notCommon: 'La password è troppo comune e facile da indovinare',
     noRepeatedChars: 'La password contiene troppi caratteri ripetuti',
@@ -179,13 +189,13 @@ class PasswordMessages {
   /// Get message with parameter substitution
   String getMessage(String key, {Map<String, dynamic>? params}) {
     String message = _getMessageByKey(key);
-    
+
     if (params != null) {
       params.forEach((key, value) {
         message = message.replaceAll('{$key}', value.toString());
       });
     }
-    
+
     return message;
   }
 

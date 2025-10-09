@@ -1,4 +1,3 @@
-
 /// Represents a password entry in the history
 class PasswordEntry {
   final String hash;
@@ -12,16 +11,16 @@ class PasswordEntry {
   });
 
   Map<String, dynamic> toJson() => {
-    'hash': hash,
-    'createdAt': createdAt.millisecondsSinceEpoch,
-    'metadata': metadata,
-  };
+        'hash': hash,
+        'createdAt': createdAt.millisecondsSinceEpoch,
+        'metadata': metadata,
+      };
 
   factory PasswordEntry.fromJson(Map<String, dynamic> json) => PasswordEntry(
-    hash: json['hash'],
-    createdAt: DateTime.fromMillisecondsSinceEpoch(json['createdAt']),
-    metadata: Map<String, dynamic>.from(json['metadata'] ?? {}),
-  );
+        hash: json['hash'],
+        createdAt: DateTime.fromMillisecondsSinceEpoch(json['createdAt']),
+        metadata: Map<String, dynamic>.from(json['metadata'] ?? {}),
+      );
 }
 
 /// Configuration for password history
@@ -84,8 +83,8 @@ class PasswordHistoryResult {
 
   /// Create a result for accepted password
   factory PasswordHistoryResult.accepted() => const PasswordHistoryResult(
-    isRejected: false,
-  );
+        isRejected: false,
+      );
 
   /// Create a result for rejected password
   factory PasswordHistoryResult.rejected({
@@ -94,14 +93,15 @@ class PasswordHistoryResult {
     String? mostSimilarPassword,
     List<String> suggestions = const [],
     DateTime? lastUsed,
-  }) => PasswordHistoryResult(
-    isRejected: true,
-    reason: reason,
-    similarityScore: similarityScore,
-    mostSimilarPassword: mostSimilarPassword,
-    suggestions: suggestions,
-    lastUsed: lastUsed,
-  );
+  }) =>
+      PasswordHistoryResult(
+        isRejected: true,
+        reason: reason,
+        similarityScore: similarityScore,
+        mostSimilarPassword: mostSimilarPassword,
+        suggestions: suggestions,
+        lastUsed: lastUsed,
+      );
 }
 
 /// Main password history management class
@@ -124,7 +124,7 @@ class PasswordHistory {
     }
 
     final passwordHash = _hashPassword(password);
-    
+
     // Check for exact hash match
     for (final entry in _history) {
       if (entry.hash == passwordHash) {
@@ -147,7 +147,8 @@ class PasswordHistory {
   }
 
   /// Add password to history
-  Future<void> addPassword(String password, {Map<String, dynamic>? metadata}) async {
+  Future<void> addPassword(String password,
+      {Map<String, dynamic>? metadata}) async {
     final entry = PasswordEntry(
       hash: _hashPassword(password),
       createdAt: DateTime.now(),
@@ -169,15 +170,15 @@ class PasswordHistory {
 
   /// Get history as JSON for persistence
   Map<String, dynamic> toJson() => {
-    'config': {
-      'maxLength': config.maxLength,
-      'similarityThreshold': config.similarityThreshold,
-      'method': config.method.name,
-      'enableSuggestions': config.enableSuggestions,
-      'enableMetadata': config.enableMetadata,
-    },
-    'history': _history.map((entry) => entry.toJson()).toList(),
-  };
+        'config': {
+          'maxLength': config.maxLength,
+          'similarityThreshold': config.similarityThreshold,
+          'method': config.method.name,
+          'enableSuggestions': config.enableSuggestions,
+          'enableMetadata': config.enableMetadata,
+        },
+        'history': _history.map((entry) => entry.toJson()).toList(),
+      };
 
   /// Load history from JSON
   factory PasswordHistory.fromJson(Map<String, dynamic> json) {
@@ -195,7 +196,7 @@ class PasswordHistory {
 
     final history = PasswordHistory(config);
     final historyJson = json['history'] as List<dynamic>;
-    
+
     for (final entryJson in historyJson) {
       history._history.add(PasswordEntry.fromJson(entryJson));
     }
@@ -219,8 +220,7 @@ class PasswordHistory {
     // This is a limitation - we'd need to store original passwords
     // For now, we'll skip similarity check with hashed passwords
     // Always return accepted since we can't perform similarity checks on hashed passwords
-    
+
     return PasswordHistoryResult.accepted();
   }
-
 }

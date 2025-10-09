@@ -15,9 +15,9 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
   final _checker = PasswordChecker.strong();
   final _rules = ValidationRules.strong();
   PasswordValidationResult? _result;
-  
+
   late TabController _tabController;
-  
+
   final List<String> _demoPasswords = [
     'weak',
     'password123',
@@ -74,11 +74,12 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
                   decoration: const InputDecoration(
                     labelText: 'Enter Password',
                     border: OutlineInputBorder(),
-                    hintText: 'Try different passwords to see widgets in action',
+                    hintText:
+                        'Try different passwords to see widgets in action',
                   ),
                 ),
                 const SizedBox(height: 12),
-                
+
                 // Quick Test Buttons
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -103,7 +104,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               ],
             ),
           ),
-          
+
           // Tab Content
           Expanded(
             child: TabBarView(
@@ -143,7 +144,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 24),
-          
+
           // Strength Indicator
           _buildWidgetSection(
             'Password Strength Indicator',
@@ -155,7 +156,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Requirements Checklist
           _buildWidgetSection(
             'Password Requirements Checklist',
@@ -167,7 +168,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Strength Meter
           _buildWidgetSection(
             'Password Strength Meter',
@@ -182,7 +183,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               ),
             ),
           ),
-          
+
           // Improvement Suggestions
           _buildWidgetSection(
             'Password Improvement Suggestions',
@@ -201,7 +202,8 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
 
   Widget _buildStrengthIndicatorTab() {
     if (_result == null) {
-      return const Center(child: Text('Enter a password to see the strength indicator'));
+      return const Center(
+          child: Text('Enter a password to see the strength indicator'));
     }
 
     return SingleChildScrollView(
@@ -219,7 +221,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 24),
-          
+
           // Default Indicator
           _buildVariantCard(
             'Default Configuration',
@@ -231,7 +233,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Minimal Indicator
           _buildVariantCard(
             'Minimal Configuration',
@@ -243,7 +245,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Custom Height
           _buildVariantCard(
             'Custom Height',
@@ -256,7 +258,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Features List
           _buildFeaturesCard([
             '📈 Animated progress transitions',
@@ -290,7 +292,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 24),
-          
+
           // With Progress
           _buildVariantCard(
             'With Progress Indicator',
@@ -302,7 +304,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Without Progress
           _buildVariantCard(
             'Without Progress Indicator',
@@ -314,19 +316,20 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Different Rules
           _buildVariantCard(
             'Basic Rules Checklist',
             'Checklist for basic validation rules',
             PasswordRequirementsChecklist(
-              result: PasswordChecker.basic().validate(_passwordController.text),
+              result:
+                  PasswordChecker.basic().validate(_passwordController.text),
               rules: ValidationRules.basic(),
               showProgress: true,
               animated: true,
             ),
           ),
-          
+
           // Features List
           _buildFeaturesCard([
             '✅ Real-time requirement checking',
@@ -342,7 +345,8 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
 
   Widget _buildStrengthMeterTab() {
     if (_result == null) {
-      return const Center(child: Text('Enter a password to see the strength meter'));
+      return const Center(
+          child: Text('Enter a password to see the strength meter'));
     }
 
     return SingleChildScrollView(
@@ -360,14 +364,15 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 24),
-          
+
           // Different Sizes
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 children: [
-                  const Text('Small (80px)', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Small (80px)',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   PasswordStrengthMeter(
                     result: _result!,
@@ -380,7 +385,8 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               ),
               Column(
                 children: [
-                  const Text('Medium (120px)', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Medium (120px)',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   PasswordStrengthMeter(
                     result: _result!,
@@ -393,7 +399,8 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               ),
               Column(
                 children: [
-                  const Text('Large (160px)', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Large (160px)',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   PasswordStrengthMeter(
                     result: _result!,
@@ -407,7 +414,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
             ],
           ),
           const SizedBox(height: 32),
-          
+
           // Configuration Options
           _buildVariantCard(
             'Score Only',
@@ -422,7 +429,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               ),
             ),
           ),
-          
+
           _buildVariantCard(
             'Level Only',
             'Display strength level without numerical score',
@@ -436,7 +443,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               ),
             ),
           ),
-          
+
           // Features List
           _buildFeaturesCard([
             '⭕ Circular progress indicator',
@@ -471,7 +478,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 24),
-          
+
           // Full Features
           _buildVariantCard(
             'Full Features',
@@ -483,7 +490,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               showPriority: true,
             ),
           ),
-          
+
           // No Icons
           _buildVariantCard(
             'Without Icons',
@@ -495,7 +502,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               showPriority: true,
             ),
           ),
-          
+
           // No Priority
           _buildVariantCard(
             'Without Priority Badges',
@@ -507,7 +514,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               showPriority: false,
             ),
           ),
-          
+
           // Test with weak password
           if (_result!.strengthScore > 60) ...[
             const SizedBox(height: 16),
@@ -524,7 +531,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               ),
             ),
           ],
-          
+
           // Features List
           _buildFeaturesCard([
             '🎯 Contextual advice based on validation results',
@@ -540,7 +547,8 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
 
   Widget _buildVisualizerTab() {
     if (_result == null) {
-      return const Center(child: Text('Enter a password to see the visualizer'));
+      return const Center(
+          child: Text('Enter a password to see the visualizer'));
     }
 
     return SingleChildScrollView(
@@ -558,7 +566,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 24),
-          
+
           // Full Visualizer
           _buildVariantCard(
             'Complete Visualizer',
@@ -569,7 +577,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Custom Configuration
           _buildVariantCard(
             'Custom Configuration',
@@ -584,7 +592,7 @@ class _AdvancedWidgetsExampleState extends State<AdvancedWidgetsExample>
               animated: true,
             ),
           ),
-          
+
           // Features List
           _buildFeaturesCard([
             '📑 Tabbed interface for organized display',

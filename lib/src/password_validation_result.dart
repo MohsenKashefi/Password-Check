@@ -4,19 +4,19 @@ import 'i18n/password_messages.dart';
 class PasswordValidationResult {
   // Core validation
   final bool isValid;
-  final String? errorMessage;        // First error only (localized)
-  final String? warningMessage;    // First warning only (localized)
-  
+  final String? errorMessage; // First error only (localized)
+  final String? warningMessage; // First warning only (localized)
+
   // Strength analysis
   final String strengthDescription; // "Strong", "Weak" (localized)
-  final int strengthScore;          // 0-100
-  final String complexityRating;    // "High", "Medium", "Low" (localized)
-  
+  final int strengthScore; // 0-100
+  final String complexityRating; // "High", "Medium", "Low" (localized)
+
   // Smart insights
-  final String? improvementTip;     // "Add 2 more characters" (localized)
-  final List<String> requirements;  // ["8+ characters", "Uppercase"] (localized)
+  final String? improvementTip; // "Add 2 more characters" (localized)
+  final List<String> requirements; // ["8+ characters", "Uppercase"] (localized)
   final List<String> vulnerabilities; // ["Contains common words"] (localized)
-  
+
   // Internal fields for detailed analysis
   final List<String> _allErrors;
   final List<String> _allWarnings;
@@ -35,9 +35,9 @@ class PasswordValidationResult {
     List<String> allErrors = const [],
     List<String> allWarnings = const [],
     Map<String, bool> checks = const {},
-  }) : _allErrors = allErrors,
-       _allWarnings = allWarnings,
-       _checks = checks;
+  })  : _allErrors = allErrors,
+        _allWarnings = allWarnings,
+        _checks = checks;
 
   /// Creates a successful validation result.
   factory PasswordValidationResult.success({

@@ -21,7 +21,7 @@ class PasswordImprovementSuggestions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final suggestions = _getSuggestions();
-    
+
     if (suggestions.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -33,9 +33,8 @@ class PasswordImprovementSuggestions extends StatelessWidget {
         children: [
           _buildHeader(context),
           const SizedBox(height: 8),
-          ...suggestions.map((suggestion) => 
-            _buildSuggestionItem(context, suggestion)
-          ),
+          ...suggestions
+              .map((suggestion) => _buildSuggestionItem(context, suggestion)),
         ],
       ),
     );
@@ -53,9 +52,9 @@ class PasswordImprovementSuggestions extends StatelessWidget {
         Text(
           'Improvement Suggestions',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.orange[700],
-          ),
+                fontWeight: FontWeight.bold,
+                color: Colors.orange[700],
+              ),
         ),
       ],
     );
@@ -71,10 +70,10 @@ class PasswordImprovementSuggestions extends StatelessWidget {
             Icon(
               suggestion.icon,
               size: 16,
-              color: suggestion.priority == SuggestionPriority.high 
-                  ? Colors.red 
-                  : suggestion.priority == SuggestionPriority.medium 
-                      ? Colors.orange 
+              color: suggestion.priority == SuggestionPriority.high
+                  ? Colors.red
+                  : suggestion.priority == SuggestionPriority.medium
+                      ? Colors.orange
                       : Colors.blue,
             ),
             const SizedBox(width: 8),
@@ -90,10 +89,10 @@ class PasswordImprovementSuggestions extends StatelessWidget {
                         suggestion.title,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: suggestion.priority == SuggestionPriority.high 
-                              ? Colors.red[700] 
-                              : suggestion.priority == SuggestionPriority.medium 
-                                  ? Colors.orange[700] 
+                          color: suggestion.priority == SuggestionPriority.high
+                              ? Colors.red[700]
+                              : suggestion.priority == SuggestionPriority.medium
+                                  ? Colors.orange[700]
                                   : Colors.blue[700],
                         ),
                       ),
@@ -109,8 +108,8 @@ class PasswordImprovementSuggestions extends StatelessWidget {
                   Text(
                     suggestion.description!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                    ),
+                          color: Colors.grey[600],
+                        ),
                   ),
                 ],
                 if (suggestion.examples != null) ...[
@@ -128,7 +127,7 @@ class PasswordImprovementSuggestions extends StatelessWidget {
   Widget _buildPriorityBadge(SuggestionPriority priority) {
     Color color;
     String text;
-    
+
     switch (priority) {
       case SuggestionPriority.high:
         color = Colors.red;
@@ -143,7 +142,7 @@ class PasswordImprovementSuggestions extends StatelessWidget {
         text = 'Low';
         break;
     }
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
@@ -166,21 +165,23 @@ class PasswordImprovementSuggestions extends StatelessWidget {
     return Wrap(
       spacing: 8,
       runSpacing: 4,
-      children: examples.map((example) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: Colors.grey[300]!),
-        ),
-        child: Text(
-          example,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            fontFamily: 'monospace',
-            color: Colors.grey[700],
-          ),
-        ),
-      )).toList(),
+      children: examples
+          .map((example) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: Colors.grey[300]!),
+                ),
+                child: Text(
+                  example,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontFamily: 'monospace',
+                        color: Colors.grey[700],
+                      ),
+                ),
+              ))
+          .toList(),
     );
   }
 
@@ -192,7 +193,8 @@ class PasswordImprovementSuggestions extends StatelessWidget {
     if (checks['minLength'] == false) {
       suggestions.add(SuggestionItem(
         title: 'Increase password length',
-        description: 'Use at least ${rules.minLength} characters for better security',
+        description:
+            'Use at least ${rules.minLength} characters for better security',
         priority: SuggestionPriority.high,
         icon: Icons.straighten,
         examples: ['MyPassword123!', 'SecurePass2024!', 'StrongP@ssw0rd!'],
@@ -244,7 +246,8 @@ class PasswordImprovementSuggestions extends StatelessWidget {
     if (checks['notCommon'] == false) {
       suggestions.add(SuggestionItem(
         title: 'Avoid common passwords',
-        description: 'Don\'t use easily guessable passwords like "password" or "123456"',
+        description:
+            'Don\'t use easily guessable passwords like "password" or "123456"',
         priority: SuggestionPriority.high,
         icon: Icons.warning,
         examples: ['MyUniquePass!', 'Secure2024!', 'StrongP@ss!'],
@@ -254,7 +257,8 @@ class PasswordImprovementSuggestions extends StatelessWidget {
     if (checks['noRepeatedChars'] == false) {
       suggestions.add(SuggestionItem(
         title: 'Reduce repeated characters',
-        description: 'Avoid patterns like "aaa" or "111" which are easy to guess',
+        description:
+            'Avoid patterns like "aaa" or "111" which are easy to guess',
         priority: SuggestionPriority.medium,
         icon: Icons.repeat,
         examples: ['MyPassword!', 'SecurePass!', 'StrongPass!'],
@@ -264,7 +268,8 @@ class PasswordImprovementSuggestions extends StatelessWidget {
     if (checks['noSequentialChars'] == false) {
       suggestions.add(SuggestionItem(
         title: 'Avoid sequential characters',
-        description: 'Don\'t use patterns like "abc" or "123" which are predictable',
+        description:
+            'Don\'t use patterns like "abc" or "123" which are predictable',
         priority: SuggestionPriority.medium,
         icon: Icons.trending_up,
         examples: ['MyPassword!', 'SecurePass!', 'StrongPass!'],
@@ -286,7 +291,8 @@ class PasswordImprovementSuggestions extends StatelessWidget {
     if (result.strengthScore < 50) {
       suggestions.add(SuggestionItem(
         title: 'Use a passphrase',
-        description: 'Consider using a memorable phrase with numbers and symbols',
+        description:
+            'Consider using a memorable phrase with numbers and symbols',
         priority: SuggestionPriority.medium,
         icon: Icons.psychology,
         examples: ['MyDogLoves2024!', 'Coffee@Home!', 'SunnyDay#2024'],

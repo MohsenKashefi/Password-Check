@@ -1,4 +1,3 @@
- 
 import 'package:flutter/material.dart';
 import 'package:password_checker_pro/password_checker_pro.dart';
 import 'features/basic_validation_example.dart';
@@ -71,7 +70,8 @@ class HomePage extends StatelessWidget {
                     Colors.blue,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const BasicValidationExample()),
+                      MaterialPageRoute(
+                          builder: (context) => const BasicValidationExample()),
                     ),
                   ),
                   _buildExampleCard(
@@ -82,7 +82,9 @@ class HomePage extends StatelessWidget {
                     Colors.green,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const StrengthAnalysisExample()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const StrengthAnalysisExample()),
                     ),
                   ),
                   _buildExampleCard(
@@ -93,7 +95,9 @@ class HomePage extends StatelessWidget {
                     Colors.purple,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const PasswordGenerationExample()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const PasswordGenerationExample()),
                     ),
                   ),
                   _buildExampleCard(
@@ -104,7 +108,9 @@ class HomePage extends StatelessWidget {
                     Colors.teal,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const InternationalizationExample()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const InternationalizationExample()),
                     ),
                   ),
                   _buildExampleCard(
@@ -115,7 +121,8 @@ class HomePage extends StatelessWidget {
                     Colors.indigo,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const PasswordHistoryExample()),
+                      MaterialPageRoute(
+                          builder: (context) => const PasswordHistoryExample()),
                     ),
                   ),
                   _buildExampleCard(
@@ -126,7 +133,8 @@ class HomePage extends StatelessWidget {
                     Colors.deepPurple,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AdvancedWidgetsExample()),
+                      MaterialPageRoute(
+                          builder: (context) => const AdvancedWidgetsExample()),
                     ),
                   ),
                   _buildExampleCard(
@@ -137,7 +145,8 @@ class HomePage extends StatelessWidget {
                     Colors.orange,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const PasswordCheckDemo()),
+                      MaterialPageRoute(
+                          builder: (context) => const PasswordCheckDemo()),
                     ),
                   ),
                   _buildExampleCard(
@@ -148,7 +157,8 @@ class HomePage extends StatelessWidget {
                     Colors.cyan,
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const SimpleLanguageDemo()),
+                      MaterialPageRoute(
+                          builder: (context) => const SimpleLanguageDemo()),
                     ),
                   ),
                 ],
@@ -234,7 +244,7 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
   final _passwordController = TextEditingController();
   late PasswordChecker _checker;
   late PasswordGenerator _generator;
-  
+
   PasswordValidationResult? _validationResult;
   String _generatedPassword = '';
   PasswordHistoryResult? _historyResult;
@@ -259,7 +269,8 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     setState(() {
       _validationResult = _checker.validate(_passwordController.text);
       if (_historyEnabled && _checker.history != null) {
-        _historyResult = _checker.history!.checkPassword(_passwordController.text);
+        _historyResult =
+            _checker.history!.checkPassword(_passwordController.text);
       }
     });
   }
@@ -365,7 +376,9 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
-                      onPressed: _validationResult?.isValid == true ? _addToHistory : null,
+                      onPressed: _validationResult?.isValid == true
+                          ? _addToHistory
+                          : null,
                       icon: const Icon(Icons.add, size: 16),
                       label: const Text('Add to History'),
                       style: ElevatedButton.styleFrom(
@@ -687,4 +700,3 @@ class _PasswordCheckDemoState extends State<PasswordCheckDemo> {
     }
   }
 }
-

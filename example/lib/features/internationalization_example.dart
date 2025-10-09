@@ -6,10 +6,12 @@ class InternationalizationExample extends StatefulWidget {
   const InternationalizationExample({super.key});
 
   @override
-  State<InternationalizationExample> createState() => _InternationalizationExampleState();
+  State<InternationalizationExample> createState() =>
+      _InternationalizationExampleState();
 }
 
-class _InternationalizationExampleState extends State<InternationalizationExample> {
+class _InternationalizationExampleState
+    extends State<InternationalizationExample> {
   final _passwordController = TextEditingController();
   late PasswordChecker _checker;
   late PasswordGenerator _generator;
@@ -111,31 +113,31 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
-            
+
             // Language Selection
             _buildLanguageSelection(),
             const SizedBox(height: 24),
-            
+
             // Custom Messages Toggle
             _buildCustomMessagesToggle(),
             const SizedBox(height: 24),
-            
+
             // Password Input
             _buildPasswordInput(),
             const SizedBox(height: 24),
-            
+
             // Quick Test Buttons
             _buildQuickTestButtons(),
             const SizedBox(height: 24),
-            
+
             // Validation Results
             if (_result != null) _buildValidationResults(),
             const SizedBox(height: 24),
-            
+
             // Language Comparison
             _buildLanguageComparison(),
             const SizedBox(height: 24),
-            
+
             // Language Features
             _buildLanguageFeatures(),
           ],
@@ -156,7 +158,6 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             DropdownButtonFormField<String>(
               initialValue: _selectedLanguage,
               decoration: const InputDecoration(
@@ -179,7 +180,6 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               },
             ),
             const SizedBox(height: 12),
-            
             Text(
               'Current Language: ${_languageNames[_selectedLanguage]}',
               style: TextStyle(
@@ -205,10 +205,10 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            
             SwitchListTile(
               title: const Text('Use Custom Messages'),
-              subtitle: const Text('Override default translations with custom messages'),
+              subtitle: const Text(
+                  'Override default translations with custom messages'),
               value: _useCustomMessages,
               onChanged: (value) {
                 setState(() {
@@ -217,7 +217,6 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
                 _updateLanguage();
               },
             ),
-            
             if (_useCustomMessages) ...[
               const SizedBox(height: 12),
               Container(
@@ -252,7 +251,6 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(
@@ -268,8 +266,9 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
   }
 
   Widget _buildQuickTestButtons() {
-    final testPasswords = _testPasswords[_selectedLanguage] ?? _testPasswords['en']!;
-    
+    final testPasswords =
+        _testPasswords[_selectedLanguage] ?? _testPasswords['en']!;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -286,7 +285,6 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 12),
-            
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -321,7 +319,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Status
             Row(
               children: [
@@ -341,7 +339,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Strength
             Text('Strength: ${_result!.strengthDisplay}'),
             const SizedBox(height: 8),
@@ -353,7 +351,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Messages
             if (_result!.errorDisplay != null) ...[
               _buildMessageBox(
@@ -364,7 +362,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               ),
               const SizedBox(height: 12),
             ],
-            
+
             if (_result!.warningDisplay != null) ...[
               _buildMessageBox(
                 'Warning',
@@ -374,7 +372,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               ),
               const SizedBox(height: 12),
             ],
-            
+
             if (_result!.improvementDisplay != null) ...[
               _buildMessageBox(
                 'Improvement Tip',
@@ -389,7 +387,8 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
     );
   }
 
-  Widget _buildMessageBox(String title, String message, Color color, IconData icon) {
+  Widget _buildMessageBox(
+      String title, String message, Color color, IconData icon) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -429,7 +428,7 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
 
   Widget _buildLanguageComparison() {
     const testPassword = 'short';
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -446,11 +445,10 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 16),
-            
             ..._languageNames.entries.map((entry) {
               final checker = PasswordChecker.strong(language: entry.key);
               final result = checker.validate(testPassword);
-              
+
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Container(
@@ -471,7 +469,9 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
                       Text(
                         result.errorDisplay ?? 'No error',
                         style: TextStyle(
-                          color: result.errorDisplay != null ? Colors.red : Colors.green,
+                          color: result.errorDisplay != null
+                              ? Colors.red
+                              : Colors.green,
                         ),
                       ),
                     ],
@@ -497,7 +497,6 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
             _buildFeatureItem(
               '🌍 7 Supported Languages',
               'English, Spanish, French, German, Portuguese, Italian, Persian',
@@ -570,13 +569,20 @@ class _InternationalizationExampleState extends State<InternationalizationExampl
 
   String _getHintText() {
     switch (_selectedLanguage) {
-      case 'es': return 'Ingrese su contraseña';
-      case 'fr': return 'Entrez votre mot de passe';
-      case 'de': return 'Geben Sie Ihr Passwort ein';
-      case 'pt': return 'Digite sua senha';
-      case 'it': return 'Inserisci la tua password';
-      case 'fa': return 'رمز عبور خود را وارد کنید';
-      default: return 'Enter your password';
+      case 'es':
+        return 'Ingrese su contraseña';
+      case 'fr':
+        return 'Entrez votre mot de passe';
+      case 'de':
+        return 'Geben Sie Ihr Passwort ein';
+      case 'pt':
+        return 'Digite sua senha';
+      case 'it':
+        return 'Inserisci la tua password';
+      case 'fa':
+        return 'رمز عبور خود را وارد کنید';
+      default:
+        return 'Enter your password';
     }
   }
 
