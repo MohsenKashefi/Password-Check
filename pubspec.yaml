@@ -1,6 +1,6 @@
 name: password_checker_pro
 description: "A comprehensive Flutter package for password validation, strength checking, and security analysis."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/PasswordCheck/Password-Check
 repository: https://github.com/PasswordCheck/Password-Check
 issue_tracker: https://github.com/PasswordCheck/Password-Check/issues
