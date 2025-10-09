@@ -104,7 +104,7 @@ Add this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  password_check: ^1.0.2
+  password_checker_pro: ^1.0.2
 ```
 
 Then run:
@@ -116,7 +116,7 @@ flutter pub get
 ### ⚡ 30-Second Setup
 
 ```dart
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 void main() {
   // Create a password checker
@@ -148,7 +148,7 @@ void main() {
 ### 🔧 Basic Usage
 
 ```dart
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 void main() {
   // Create a password checker with default rules
@@ -245,7 +245,7 @@ final checker = PasswordChecker(rules: customRules);
 ### Password Generation
 
 ```dart
-import 'package:password_check/password_check.dart';
+import 'package:password_checker_pro/password_checker_pro.dart';
 
 void main() {
   // Create a password generator with default rules
@@ -615,14 +615,14 @@ PasswordVisualizer(
 ### From pub.dev (Recommended)
 
 ```bash
-flutter pub add password_check
+flutter pub add password_checker_pro
 ```
 
 ### From GitHub
 
 ```yaml
 dependencies:
-  password_check:
+  password_checker_pro:
     git:
       url: https://github.com/PasswordCheck/Password-Check.git
 ```
@@ -631,8 +631,8 @@ dependencies:
 
 ```yaml
 dependencies:
-  password_check:
-    path: ../path/to/password_check
+  password_checker_pro:
+    path: ../path/to/password_checker_pro
 ```
 
 ## 🤝 Contributing
