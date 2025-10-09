@@ -104,7 +104,7 @@ Add this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  password_check: ^1.0.1
+  password_check: ^1.0.2
 ```
 
 Then run:
